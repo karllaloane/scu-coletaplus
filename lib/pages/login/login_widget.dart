@@ -526,12 +526,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                             0.0, 16.0, 0.0, 0.0),
                                         child: FFButtonWidget(
                                           onPressed: () async {
-                                            if (_model.formKey.currentState ==
-                                                    null ||
-                                                !_model.formKey.currentState!
-                                                    .validate()) {
-                                              return;
-                                            }
+                                            context.pushNamed('RotaColeta');
                                           },
                                           text: 'Entrar',
                                           options: FFButtonOptions(

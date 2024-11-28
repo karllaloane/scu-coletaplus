@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '/backend/backend.dart';
+import '/backend/schema/structs/index.dart';
 
 import '/index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -40,6 +42,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'Login',
           path: '/login',
           builder: (context, params) => const LoginWidget(),
+        ),
+        FFRoute(
+          name: 'RotaColeta',
+          path: '/rotaColeta',
+          builder: (context, params) => const RotaColetaWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
@@ -111,6 +118,8 @@ class FFParameters {
     String paramName,
     ParamType type, {
     bool isList = false,
+    List<String>? collectionNamePath,
+    StructBuilder<T>? structBuilder,
   }) {
     if (futureParamValues.containsKey(paramName)) {
       return futureParamValues[paramName];
@@ -128,6 +137,8 @@ class FFParameters {
       param,
       type,
       isList,
+      collectionNamePath: collectionNamePath,
+      structBuilder: structBuilder,
     );
   }
 }
