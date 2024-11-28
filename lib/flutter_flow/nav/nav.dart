@@ -47,6 +47,16 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'RotaColeta',
           path: '/rotaColeta',
           builder: (context, params) => const RotaColetaWidget(),
+        ),
+        FFRoute(
+          name: 'ResumoRotaPage',
+          path: '/resumoRotaPage',
+          builder: (context, params) => const ResumoRotaPageWidget(),
+        ),
+        FFRoute(
+          name: 'IniciarRotaPage',
+          path: '/iniciarRotaPage',
+          builder: (context, params) => const IniciarRotaPageWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

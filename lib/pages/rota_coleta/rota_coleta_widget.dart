@@ -121,60 +121,25 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                     color: FlutterFlowTheme.of(context)
                                         .secondaryBackground,
                                   ),
-                                  child: Builder(builder: (context) {
-                                    final googleMapMarker =
-                                        currentUserLocationValue;
-                                    return FlutterFlowGoogleMap(
-                                      controller: _model.googleMapsController,
-                                      onCameraIdle: (latLng) => safeSetState(
-                                          () =>
-                                              _model.googleMapsCenter = latLng),
-                                      initialLocation:
-                                          _model.googleMapsCenter ??=
-                                              currentUserLocationValue!,
-                                      markers: [
-                                        if (googleMapMarker != null)
-                                          FlutterFlowMarker(
-                                            googleMapMarker.serialize(),
-                                            googleMapMarker,
-                                            () async {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                SnackBar(
-                                                  content: Text(
-                                                    'Localizacao',
-                                                    style: TextStyle(
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .primaryText,
-                                                    ),
-                                                  ),
-                                                  duration: const Duration(
-                                                      milliseconds: 4000),
-                                                  backgroundColor:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .secondary,
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                      ],
-                                      markerColor: GoogleMarkerColor.violet,
-                                      mapType: MapType.normal,
-                                      style: GoogleMapStyle.standard,
-                                      initialZoom: 16.0,
-                                      allowInteraction: true,
-                                      allowZoom: true,
-                                      showZoomControls: true,
-                                      showLocation: true,
-                                      showCompass: true,
-                                      showMapToolbar: true,
-                                      showTraffic: false,
-                                      centerMapOnMarkerTap: true,
-                                    );
-                                  }),
+                                  child: FlutterFlowGoogleMap(
+                                    controller: _model.googleMapsController,
+                                    onCameraIdle: (latLng) => safeSetState(
+                                        () => _model.googleMapsCenter = latLng),
+                                    initialLocation: _model.googleMapsCenter ??=
+                                        currentUserLocationValue!,
+                                    markerColor: GoogleMarkerColor.violet,
+                                    mapType: MapType.normal,
+                                    style: GoogleMapStyle.standard,
+                                    initialZoom: 16.0,
+                                    allowInteraction: true,
+                                    allowZoom: true,
+                                    showZoomControls: false,
+                                    showLocation: true,
+                                    showCompass: true,
+                                    showMapToolbar: false,
+                                    showTraffic: false,
+                                    centerMapOnMarkerTap: true,
+                                  ),
                                 ),
                               ),
                               Align(
@@ -196,7 +161,7 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                     child: Container(
                                       width: MediaQuery.sizeOf(context).width *
                                           0.916,
-                                      height: 185.0,
+                                      height: 200.0,
                                       decoration: BoxDecoration(
                                         color: FlutterFlowTheme.of(context)
                                             .secondaryBackground,
@@ -223,6 +188,9 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                                   child: Row(
                                                     mainAxisSize:
                                                         MainAxisSize.max,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
                                                     children: [
                                                       Padding(
                                                         padding:
@@ -236,7 +204,7 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                                           'Próxima coleta em ',
                                                           style: FlutterFlowTheme
                                                                   .of(context)
-                                                              .bodyLarge
+                                                              .titleMedium
                                                               .override(
                                                                 fontFamily:
                                                                     'Plus Jakarta Sans',
@@ -250,7 +218,7 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
-                                                                .bodyLarge
+                                                                .titleMedium
                                                                 .override(
                                                                   fontFamily:
                                                                       'Plus Jakarta Sans',
@@ -373,12 +341,7 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                                         .override(
                                                           fontFamily:
                                                               'Plus Jakarta Sans',
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .info,
                                                           letterSpacing: 0.0,
-                                                          fontWeight:
-                                                              FontWeight.normal,
                                                         ),
                                                     elevation: 0.0,
                                                     borderRadius:

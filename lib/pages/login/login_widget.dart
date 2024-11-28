@@ -526,7 +526,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                                             0.0, 16.0, 0.0, 0.0),
                                         child: FFButtonWidget(
                                           onPressed: () async {
-                                            context.pushNamed('RotaColeta');
+                                            context
+                                                .pushNamed('IniciarRotaPage');
                                           },
                                           text: 'Entrar',
                                           options: FFButtonOptions(
