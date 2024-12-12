@@ -21,7 +21,7 @@ class LoginAPICall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'Login API',
-      apiUrl: 'http://127.0.0.1:8088/publico/login',
+      apiUrl: 'http://10.0.2.2:8088/publico/login',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',

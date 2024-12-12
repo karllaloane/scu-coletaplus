@@ -4,6 +4,7 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/custom_code/widgets/index.dart' as custom_widgets;
 import 'package:flutter/material.dart';
 import 'rota_coleta_model.dart';
 export 'rota_coleta_model.dart';
@@ -116,6 +117,80 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                           decoration: const BoxDecoration(),
                           child: Stack(
                             children: [
+                              if (responsiveVisibility(
+                                context: context,
+                                phone: false,
+                                tablet: false,
+                                tabletLandscape: false,
+                                desktop: false,
+                              ))
+                                Align(
+                                  alignment: const AlignmentDirectional(0.0, -0.86),
+                                  child: Container(
+                                    width: 695.0,
+                                    height: 1328.0,
+                                    decoration: BoxDecoration(
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondaryBackground,
+                                    ),
+                                    child: FlutterFlowGoogleMap(
+                                      controller: _model.googleMapsController,
+                                      onCameraIdle: (latLng) => safeSetState(
+                                          () =>
+                                              _model.googleMapsCenter = latLng),
+                                      initialLocation:
+                                          _model.googleMapsCenter ??=
+                                              currentUserLocationValue!,
+                                      markerColor: GoogleMarkerColor.violet,
+                                      markerImage: const MarkerImage(
+                                        imagePath: 'assets/images/3143497.png',
+                                        isAssetImage: true,
+                                        size: 25.0 ?? 20,
+                                      ),
+                                      mapType: MapType.normal,
+                                      style: GoogleMapStyle.standard,
+                                      initialZoom: 16.0,
+                                      allowInteraction: true,
+                                      allowZoom: true,
+                                      showZoomControls: false,
+                                      showLocation: true,
+                                      showCompass: true,
+                                      showMapToolbar: false,
+                                      showTraffic: false,
+                                      centerMapOnMarkerTap: true,
+                                    ),
+                                  ),
+                                ),
+                              Align(
+                                alignment: const AlignmentDirectional(0.0, -0.86),
+                                child: Container(
+                                  width: 695.0,
+                                  height: 1328.0,
+                                  decoration: BoxDecoration(
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryBackground,
+                                  ),
+                                  child: SizedBox(
+                                    width:
+                                        MediaQuery.sizeOf(context).width * 1.0,
+                                    height:
+                                        MediaQuery.sizeOf(context).height * 1.0,
+                                    child: custom_widgets
+                                        .CustomMapWithRouteAndBins(
+                                      width: MediaQuery.sizeOf(context).width *
+                                          1.0,
+                                      height:
+                                          MediaQuery.sizeOf(context).height *
+                                              1.0,
+                                      trashBinIconPath:
+                                          '/assets/images/icon-local-bin.png',
+                                      initialZoom: 14.0,
+                                      currentLocation:
+                                          currentUserLocationValue!,
+                                    ),
+                                  ),
+                                ),
+                              ),
                               Align(
                                 alignment: const AlignmentDirectional(0.0, 1.0),
                                 child: Padding(
@@ -329,41 +404,6 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ),
-                              ),
-                              Align(
-                                alignment: const AlignmentDirectional(0.0, -0.86),
-                                child: Container(
-                                  width: 695.0,
-                                  height: 1328.0,
-                                  decoration: BoxDecoration(
-                                    color: FlutterFlowTheme.of(context)
-                                        .secondaryBackground,
-                                  ),
-                                  child: FlutterFlowGoogleMap(
-                                    controller: _model.googleMapsController,
-                                    onCameraIdle: (latLng) => safeSetState(
-                                        () => _model.googleMapsCenter = latLng),
-                                    initialLocation: _model.googleMapsCenter ??=
-                                        currentUserLocationValue!,
-                                    markerColor: GoogleMarkerColor.violet,
-                                    markerImage: const MarkerImage(
-                                      imagePath: 'assets/images/3143497.png',
-                                      isAssetImage: true,
-                                      size: 25.0 ?? 20,
-                                    ),
-                                    mapType: MapType.normal,
-                                    style: GoogleMapStyle.standard,
-                                    initialZoom: 16.0,
-                                    allowInteraction: true,
-                                    allowZoom: true,
-                                    showZoomControls: false,
-                                    showLocation: true,
-                                    showCompass: true,
-                                    showMapToolbar: false,
-                                    showTraffic: false,
-                                    centerMapOnMarkerTap: true,
                                   ),
                                 ),
                               ),
