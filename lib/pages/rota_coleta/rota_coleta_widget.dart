@@ -183,7 +183,7 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                           MediaQuery.sizeOf(context).height *
                                               1.0,
                                       trashBinIconPath:
-                                          '/assets/images/icon-local-bin.png',
+                                          '/assets/images/icon-local-bin2.png',
                                       initialZoom: 14.0,
                                       currentLocation:
                                           currentUserLocationValue!,
