@@ -2,8 +2,6 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'resumo_rota_page_model.dart';
 export 'resumo_rota_page_model.dart';
 
@@ -54,14 +52,14 @@ class _ResumoRotaPageWidgetState extends State<ResumoRotaPageWidget> {
                   letterSpacing: 0.0,
                 ),
           ),
-          actions: [],
+          actions: const [],
           centerTitle: true,
           elevation: 0.0,
         ),
         body: SafeArea(
           top: true,
           child: Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(24.0, 24.0, 24.0, 24.0),
+            padding: const EdgeInsetsDirectional.fromSTEB(24.0, 24.0, 24.0, 24.0),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -79,7 +77,7 @@ class _ResumoRotaPageWidgetState extends State<ResumoRotaPageWidget> {
                         borderRadius: BorderRadius.circular(16.0),
                       ),
                       child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
+                        padding: const EdgeInsetsDirectional.fromSTEB(
                             20.0, 20.0, 20.0, 20.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
@@ -151,7 +149,7 @@ class _ResumoRotaPageWidgetState extends State<ResumoRotaPageWidget> {
                                 ),
                               ],
                             ),
-                          ].divide(SizedBox(height: 16.0)),
+                          ].divide(const SizedBox(height: 16.0)),
                         ),
                       ),
                     ),
@@ -169,7 +167,7 @@ class _ResumoRotaPageWidgetState extends State<ResumoRotaPageWidget> {
                         borderRadius: BorderRadius.circular(16.0),
                       ),
                       child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
+                        padding: const EdgeInsetsDirectional.fromSTEB(
                             20.0, 20.0, 20.0, 20.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
@@ -194,11 +192,11 @@ class _ResumoRotaPageWidgetState extends State<ResumoRotaPageWidget> {
                                       width: 40.0,
                                       height: 40.0,
                                       decoration: BoxDecoration(
-                                        color: Color(0xFFE3F2FD),
+                                        color: const Color(0xFFE3F2FD),
                                         borderRadius:
                                             BorderRadius.circular(20.0),
                                       ),
-                                      child: Icon(
+                                      child: const Icon(
                                         Icons.location_on,
                                         color: Color(0xFF1565C0),
                                         size: 24.0,
@@ -232,7 +230,7 @@ class _ResumoRotaPageWidgetState extends State<ResumoRotaPageWidget> {
                                         ),
                                       ],
                                     ),
-                                  ].divide(SizedBox(width: 12.0)),
+                                  ].divide(const SizedBox(width: 12.0)),
                                 ),
                               ],
                             ),
@@ -247,11 +245,11 @@ class _ResumoRotaPageWidgetState extends State<ResumoRotaPageWidget> {
                                       width: 40.0,
                                       height: 40.0,
                                       decoration: BoxDecoration(
-                                        color: Color(0xFFE8F5E9),
+                                        color: const Color(0xFFE8F5E9),
                                         borderRadius:
                                             BorderRadius.circular(20.0),
                                       ),
-                                      child: Icon(
+                                      child: const Icon(
                                         Icons.flag,
                                         color: Color(0xFF2E7D32),
                                         size: 24.0,
@@ -285,11 +283,11 @@ class _ResumoRotaPageWidgetState extends State<ResumoRotaPageWidget> {
                                         ),
                                       ],
                                     ),
-                                  ].divide(SizedBox(width: 12.0)),
+                                  ].divide(const SizedBox(width: 12.0)),
                                 ),
                               ],
                             ),
-                          ].divide(SizedBox(height: 16.0)),
+                          ].divide(const SizedBox(height: 16.0)),
                         ),
                       ),
                     ),
@@ -307,7 +305,7 @@ class _ResumoRotaPageWidgetState extends State<ResumoRotaPageWidget> {
                         borderRadius: BorderRadius.circular(16.0),
                       ),
                       child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
+                        padding: const EdgeInsetsDirectional.fromSTEB(
                             20.0, 20.0, 20.0, 20.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
@@ -379,7 +377,7 @@ class _ResumoRotaPageWidgetState extends State<ResumoRotaPageWidget> {
                                 ),
                               ],
                             ),
-                          ].divide(SizedBox(height: 16.0)),
+                          ].divide(const SizedBox(height: 16.0)),
                         ),
                       ),
                     ),
@@ -398,9 +396,9 @@ class _ResumoRotaPageWidgetState extends State<ResumoRotaPageWidget> {
                       width: MediaQuery.sizeOf(context).width * 1.0,
                       height: 56.0,
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                          const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                       iconPadding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                          const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                       color: FlutterFlowTheme.of(context).primary,
                       textStyle:
                           FlutterFlowTheme.of(context).titleMedium.override(
@@ -412,7 +410,7 @@ class _ResumoRotaPageWidgetState extends State<ResumoRotaPageWidget> {
                       borderRadius: BorderRadius.circular(28.0),
                     ),
                   ),
-                ].divide(SizedBox(height: 24.0)),
+                ].divide(const SizedBox(height: 24.0)),
               ),
             ),
           ),

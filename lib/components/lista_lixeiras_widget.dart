@@ -1,8 +1,6 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'lista_lixeiras_model.dart';
 export 'lista_lixeiras_model.dart';
 
@@ -41,12 +39,12 @@ class _ListaLixeirasWidgetState extends State<ListaLixeirasWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 16.0),
+      padding: const EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 16.0),
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
           color: FlutterFlowTheme.of(context).secondaryBackground,
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
               blurRadius: 3.0,
               color: Color(0x33000000),
@@ -60,7 +58,7 @@ class _ListaLixeirasWidgetState extends State<ListaLixeirasWidget> {
           borderRadius: BorderRadius.circular(12.0),
         ),
         child: Padding(
-          padding: EdgeInsetsDirectional.fromSTEB(12.0, 12.0, 12.0, 12.0),
+          padding: const EdgeInsetsDirectional.fromSTEB(12.0, 12.0, 12.0, 12.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -100,7 +98,7 @@ class _ListaLixeirasWidgetState extends State<ListaLixeirasWidget> {
                       ),
                     ),
                     child: Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(
+                      padding: const EdgeInsetsDirectional.fromSTEB(
                           12.0, 12.0, 12.0, 12.0),
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
@@ -140,10 +138,10 @@ class _ListaLixeirasWidgetState extends State<ListaLixeirasWidget> {
                                   ),
                                 ],
                               ),
-                            ].divide(SizedBox(width: 12.0)),
+                            ].divide(const SizedBox(width: 12.0)),
                           ),
                           Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
                                 4.0, 8.0, 4.0, 8.0),
                             child: Container(
                               decoration: BoxDecoration(
@@ -151,7 +149,7 @@ class _ListaLixeirasWidgetState extends State<ListaLixeirasWidget> {
                                 borderRadius: BorderRadius.circular(12.0),
                               ),
                               child: Padding(
-                                padding: EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.all(8.0),
                                 child: Text(
                                   'Coletada',
                                   style: FlutterFlowTheme.of(context)
@@ -166,7 +164,7 @@ class _ListaLixeirasWidgetState extends State<ListaLixeirasWidget> {
                               ),
                             ),
                           ),
-                        ].divide(SizedBox(width: 12.0)),
+                        ].divide(const SizedBox(width: 12.0)),
                       ),
                     ),
                   ),
@@ -179,7 +177,7 @@ class _ListaLixeirasWidgetState extends State<ListaLixeirasWidget> {
                       ),
                     ),
                     child: Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(
+                      padding: const EdgeInsetsDirectional.fromSTEB(
                           12.0, 12.0, 12.0, 12.0),
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
@@ -219,10 +217,10 @@ class _ListaLixeirasWidgetState extends State<ListaLixeirasWidget> {
                                   ),
                                 ],
                               ),
-                            ].divide(SizedBox(width: 12.0)),
+                            ].divide(const SizedBox(width: 12.0)),
                           ),
                           Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
                                 4.0, 8.0, 4.0, 8.0),
                             child: Container(
                               decoration: BoxDecoration(
@@ -230,7 +228,7 @@ class _ListaLixeirasWidgetState extends State<ListaLixeirasWidget> {
                                 borderRadius: BorderRadius.circular(12.0),
                               ),
                               child: Padding(
-                                padding: EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.all(8.0),
                                 child: Text(
                                   'Pendente',
                                   style: FlutterFlowTheme.of(context)
@@ -245,7 +243,7 @@ class _ListaLixeirasWidgetState extends State<ListaLixeirasWidget> {
                               ),
                             ),
                           ),
-                        ].divide(SizedBox(width: 12.0)),
+                        ].divide(const SizedBox(width: 12.0)),
                       ),
                     ),
                   ),
@@ -258,7 +256,7 @@ class _ListaLixeirasWidgetState extends State<ListaLixeirasWidget> {
                       ),
                     ),
                     child: Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(
+                      padding: const EdgeInsetsDirectional.fromSTEB(
                           12.0, 12.0, 12.0, 12.0),
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
@@ -298,10 +296,10 @@ class _ListaLixeirasWidgetState extends State<ListaLixeirasWidget> {
                                   ),
                                 ],
                               ),
-                            ].divide(SizedBox(width: 12.0)),
+                            ].divide(const SizedBox(width: 12.0)),
                           ),
                           Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
                                 4.0, 8.0, 4.0, 8.0),
                             child: Container(
                               decoration: BoxDecoration(
@@ -309,7 +307,7 @@ class _ListaLixeirasWidgetState extends State<ListaLixeirasWidget> {
                                 borderRadius: BorderRadius.circular(12.0),
                               ),
                               child: Padding(
-                                padding: EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.all(8.0),
                                 child: Text(
                                   'Coletada',
                                   style: FlutterFlowTheme.of(context)
@@ -324,13 +322,13 @@ class _ListaLixeirasWidgetState extends State<ListaLixeirasWidget> {
                               ),
                             ),
                           ),
-                        ].divide(SizedBox(width: 12.0)),
+                        ].divide(const SizedBox(width: 12.0)),
                       ),
                     ),
                   ),
-                ].divide(SizedBox(height: 12.0)),
+                ].divide(const SizedBox(height: 12.0)),
               ),
-            ].divide(SizedBox(height: 16.0)),
+            ].divide(const SizedBox(height: 16.0)),
           ),
         ),
       ),

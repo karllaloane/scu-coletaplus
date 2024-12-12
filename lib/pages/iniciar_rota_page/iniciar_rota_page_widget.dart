@@ -3,8 +3,6 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'iniciar_rota_page_model.dart';
 export 'iniciar_rota_page_model.dart';
 
@@ -51,7 +49,7 @@ class _IniciarRotaPageWidgetState extends State<IniciarRotaPageWidget> {
             borderRadius: 30.0,
             borderWidth: 1.0,
             buttonSize: 60.0,
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back_rounded,
               color: Colors.white,
               size: 30.0,
@@ -69,14 +67,14 @@ class _IniciarRotaPageWidgetState extends State<IniciarRotaPageWidget> {
                   letterSpacing: 0.0,
                 ),
           ),
-          actions: [],
+          actions: const [],
           centerTitle: true,
           elevation: 2.0,
         ),
         body: SafeArea(
           top: true,
           child: Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(24.0, 12.0, 24.0, 12.0),
+            padding: const EdgeInsetsDirectional.fromSTEB(24.0, 12.0, 24.0, 12.0),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -95,7 +93,7 @@ class _IniciarRotaPageWidgetState extends State<IniciarRotaPageWidget> {
                         borderRadius: BorderRadius.circular(16.0),
                       ),
                       child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
+                        padding: const EdgeInsetsDirectional.fromSTEB(
                             24.0, 24.0, 24.0, 24.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
@@ -173,7 +171,7 @@ class _IniciarRotaPageWidgetState extends State<IniciarRotaPageWidget> {
                                 ),
                               ],
                             ),
-                          ].divide(SizedBox(height: 16.0)),
+                          ].divide(const SizedBox(height: 16.0)),
                         ),
                       ),
                     ),
@@ -191,7 +189,7 @@ class _IniciarRotaPageWidgetState extends State<IniciarRotaPageWidget> {
                         borderRadius: BorderRadius.circular(16.0),
                       ),
                       child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
+                        padding: const EdgeInsetsDirectional.fromSTEB(
                             24.0, 24.0, 24.0, 24.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
@@ -212,10 +210,10 @@ class _IniciarRotaPageWidgetState extends State<IniciarRotaPageWidget> {
                                   width: 40.0,
                                   height: 40.0,
                                   decoration: BoxDecoration(
-                                    color: Color(0xFFE8F5E9),
+                                    color: const Color(0xFFE8F5E9),
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.check_circle,
                                     color: Color(0xFF2E7D32),
                                     size: 24.0,
@@ -251,7 +249,7 @@ class _IniciarRotaPageWidgetState extends State<IniciarRotaPageWidget> {
                                     ],
                                   ),
                                 ),
-                              ].divide(SizedBox(width: 12.0)),
+                              ].divide(const SizedBox(width: 12.0)),
                             ),
                             Row(
                               mainAxisSize: MainAxisSize.max,
@@ -260,10 +258,10 @@ class _IniciarRotaPageWidgetState extends State<IniciarRotaPageWidget> {
                                   width: 40.0,
                                   height: 40.0,
                                   decoration: BoxDecoration(
-                                    color: Color(0xFFE8F5E9),
+                                    color: const Color(0xFFE8F5E9),
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.wifi,
                                     color: Color(0xFF2E7D32),
                                     size: 24.0,
@@ -299,9 +297,9 @@ class _IniciarRotaPageWidgetState extends State<IniciarRotaPageWidget> {
                                     ],
                                   ),
                                 ),
-                              ].divide(SizedBox(width: 12.0)),
+                              ].divide(const SizedBox(width: 12.0)),
                             ),
-                          ].divide(SizedBox(height: 16.0)),
+                          ].divide(const SizedBox(height: 16.0)),
                         ),
                       ),
                     ),
@@ -320,9 +318,9 @@ class _IniciarRotaPageWidgetState extends State<IniciarRotaPageWidget> {
                       width: MediaQuery.sizeOf(context).width * 1.0,
                       height: 56.0,
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                          const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                       iconPadding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                          const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                       color: FlutterFlowTheme.of(context).primary,
                       textStyle:
                           FlutterFlowTheme.of(context).titleMedium.override(
@@ -334,7 +332,7 @@ class _IniciarRotaPageWidgetState extends State<IniciarRotaPageWidget> {
                       borderRadius: BorderRadius.circular(28.0),
                     ),
                   ),
-                ].divide(SizedBox(height: 24.0)),
+                ].divide(const SizedBox(height: 24.0)),
               ),
             ),
           ),

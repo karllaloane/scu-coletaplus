@@ -1,21 +1,18 @@
-import '/flutter_flow/flutter_flow_theme.dart';
+import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
 import 'login_widget.dart' show LoginWidget;
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
 class LoginModel extends FlutterFlowModel<LoginWidget> {
   ///  State fields for stateful widgets in this page.
 
   final formKey = GlobalKey<FormState>();
-  // State field(s) for EmailAddressField widget.
-  FocusNode? emailAddressFieldFocusNode;
-  TextEditingController? emailAddressFieldTextController;
+  // State field(s) for LoginAddressField widget.
+  FocusNode? loginAddressFieldFocusNode;
+  TextEditingController? loginAddressFieldTextController;
   String? Function(BuildContext, String?)?
-      emailAddressFieldTextControllerValidator;
-  String? _emailAddressFieldTextControllerValidator(
+      loginAddressFieldTextControllerValidator;
+  String? _loginAddressFieldTextControllerValidator(
       BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
       return 'Email is required.';
@@ -41,10 +38,13 @@ class LoginModel extends FlutterFlowModel<LoginWidget> {
     return null;
   }
 
+  // Stores action output result for [Backend Call - API (Login API)] action in LogInButton widget.
+  ApiCallResponse? loginAPIResponse;
+
   @override
   void initState(BuildContext context) {
-    emailAddressFieldTextControllerValidator =
-        _emailAddressFieldTextControllerValidator;
+    loginAddressFieldTextControllerValidator =
+        _loginAddressFieldTextControllerValidator;
     passwordFieldVisibility = false;
     passwordFieldTextControllerValidator =
         _passwordFieldTextControllerValidator;
@@ -52,8 +52,8 @@ class LoginModel extends FlutterFlowModel<LoginWidget> {
 
   @override
   void dispose() {
-    emailAddressFieldFocusNode?.dispose();
-    emailAddressFieldTextController?.dispose();
+    loginAddressFieldFocusNode?.dispose();
+    loginAddressFieldTextController?.dispose();
 
     passwordFieldFocusNode?.dispose();
     passwordFieldTextController?.dispose();

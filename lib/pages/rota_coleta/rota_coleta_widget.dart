@@ -4,10 +4,7 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import '/custom_code/widgets/index.dart' as custom_widgets;
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'rota_coleta_model.dart';
 export 'rota_coleta_model.dart';
 
@@ -29,7 +26,7 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
     super.initState();
     _model = createModel(context, () => RotaColetaModel());
 
-    getCurrentUserLocation(defaultLocation: LatLng(0.0, 0.0), cached: true)
+    getCurrentUserLocation(defaultLocation: const LatLng(0.0, 0.0), cached: true)
         .then((loc) => safeSetState(() => currentUserLocationValue = loc));
   }
 
@@ -76,7 +73,7 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
             borderRadius: 30.0,
             borderWidth: 1.0,
             buttonSize: 60.0,
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back_rounded,
               color: Colors.white,
               size: 30.0,
@@ -94,7 +91,7 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                   letterSpacing: 0.0,
                 ),
           ),
-          actions: [],
+          actions: const [],
           centerTitle: true,
           elevation: 2.0,
         ),
@@ -112,22 +109,22 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                   child: Stack(
                     children: [
                       Align(
-                        alignment: AlignmentDirectional(0.0, 0.0),
+                        alignment: const AlignmentDirectional(0.0, 0.0),
                         child: Container(
                           width: 747.0,
                           height: MediaQuery.sizeOf(context).height * 8.52,
-                          decoration: BoxDecoration(),
+                          decoration: const BoxDecoration(),
                           child: Stack(
                             children: [
                               Align(
-                                alignment: AlignmentDirectional(0.0, 1.0),
+                                alignment: const AlignmentDirectional(0.0, 1.0),
                                 child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       16.0, 0.0, 16.0, 0.0),
                                   child: Material(
                                     color: Colors.transparent,
                                     elevation: 8.0,
-                                    shape: RoundedRectangleBorder(
+                                    shape: const RoundedRectangleBorder(
                                       borderRadius: BorderRadius.only(
                                         bottomLeft: Radius.circular(0.0),
                                         bottomRight: Radius.circular(0.0),
@@ -142,7 +139,7 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                       decoration: BoxDecoration(
                                         color: FlutterFlowTheme.of(context)
                                             .secondaryBackground,
-                                        borderRadius: BorderRadius.only(
+                                        borderRadius: const BorderRadius.only(
                                           bottomLeft: Radius.circular(0.0),
                                           bottomRight: Radius.circular(0.0),
                                           topLeft: Radius.circular(24.0),
@@ -150,7 +147,7 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                         ),
                                       ),
                                       child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                        padding: const EdgeInsetsDirectional.fromSTEB(
                                             14.0, 14.0, 14.0, 14.0),
                                         child: Column(
                                           mainAxisSize: MainAxisSize.min,
@@ -171,7 +168,7 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                                     children: [
                                                       Padding(
                                                         padding:
-                                                            EdgeInsetsDirectional
+                                                            const EdgeInsetsDirectional
                                                                 .fromSTEB(
                                                                     0.0,
                                                                     0.0,
@@ -231,12 +228,12 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                                       height: 40.0,
                                                       decoration: BoxDecoration(
                                                         color:
-                                                            Color(0xFFE3F2FD),
+                                                            const Color(0xFFE3F2FD),
                                                         borderRadius:
                                                             BorderRadius
                                                                 .circular(20.0),
                                                       ),
-                                                      child: Icon(
+                                                      child: const Icon(
                                                         Icons.turn_right,
                                                         color:
                                                             Color(0xFF1565C0),
@@ -282,15 +279,15 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                                       ),
                                                     ),
                                                   ].divide(
-                                                      SizedBox(width: 16.0)),
+                                                      const SizedBox(width: 16.0)),
                                                 ),
-                                              ].divide(SizedBox(height: 24.0)),
+                                              ].divide(const SizedBox(height: 24.0)),
                                             ),
                                             Align(
-                                              alignment: AlignmentDirectional(
+                                              alignment: const AlignmentDirectional(
                                                   0.0, 1.0),
                                               child: Padding(
-                                                padding: EdgeInsetsDirectional
+                                                padding: const EdgeInsetsDirectional
                                                     .fromSTEB(
                                                         0.0, 0.0, 0.0, 5.0),
                                                 child: FFButtonWidget(
@@ -302,11 +299,11 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                                     width: 150.0,
                                                     height: 40.0,
                                                     padding:
-                                                        EdgeInsetsDirectional
+                                                        const EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 0.0,
                                                                 0.0, 0.0),
                                                     iconPadding:
-                                                        EdgeInsetsDirectional
+                                                        const EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 0.0,
                                                                 0.0, 0.0),
                                                     color: FlutterFlowTheme.of(
@@ -328,102 +325,15 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                                 ),
                                               ),
                                             ),
-                                          ].divide(SizedBox(height: 20.0)),
+                                          ].divide(const SizedBox(height: 20.0)),
                                         ),
                                       ),
                                     ),
                                   ),
                                 ),
                               ),
-                              if (responsiveVisibility(
-                                context: context,
-                                phone: false,
-                                tablet: false,
-                                tabletLandscape: false,
-                                desktop: false,
-                              ))
-                                Align(
-                                  alignment: AlignmentDirectional(0.0, -0.86),
-                                  child: Container(
-                                    width: 695.0,
-                                    height: 1328.0,
-                                    decoration: BoxDecoration(
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryBackground,
-                                    ),
-                                    child: Visibility(
-                                      visible: responsiveVisibility(
-                                        context: context,
-                                        phone: false,
-                                        tablet: false,
-                                        tabletLandscape: false,
-                                        desktop: false,
-                                      ),
-                                      child: Builder(builder: (context) {
-                                        final _googleMapMarker =
-                                            currentUserLocationValue;
-                                        return FlutterFlowGoogleMap(
-                                          controller:
-                                              _model.googleMapsController,
-                                          onCameraIdle: (latLng) =>
-                                              safeSetState(() => _model
-                                                  .googleMapsCenter = latLng),
-                                          initialLocation:
-                                              _model.googleMapsCenter ??=
-                                                  currentUserLocationValue!,
-                                          markers: [
-                                            if (_googleMapMarker != null)
-                                              FlutterFlowMarker(
-                                                _googleMapMarker.serialize(),
-                                                _googleMapMarker,
-                                                () async {
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(
-                                                    SnackBar(
-                                                      content: Text(
-                                                        'Localizacao',
-                                                        style: TextStyle(
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primaryText,
-                                                        ),
-                                                      ),
-                                                      duration: Duration(
-                                                          milliseconds: 4000),
-                                                      backgroundColor:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .secondary,
-                                                    ),
-                                                  );
-                                                },
-                                              ),
-                                          ],
-                                          markerColor: GoogleMarkerColor.violet,
-                                          markerImage: MarkerImage(
-                                            imagePath:
-                                                'assets/images/3143497.png',
-                                            isAssetImage: true,
-                                            size: 25.0 ?? 20,
-                                          ),
-                                          mapType: MapType.normal,
-                                          style: GoogleMapStyle.standard,
-                                          initialZoom: 16.0,
-                                          allowInteraction: true,
-                                          allowZoom: true,
-                                          showZoomControls: false,
-                                          showLocation: true,
-                                          showCompass: true,
-                                          showMapToolbar: false,
-                                          showTraffic: false,
-                                          centerMapOnMarkerTap: true,
-                                        );
-                                      }),
-                                    ),
-                                  ),
-                                ),
                               Align(
-                                alignment: AlignmentDirectional(0.0, -0.86),
+                                alignment: const AlignmentDirectional(0.0, -0.86),
                                 child: Container(
                                   width: 695.0,
                                   height: 1328.0,
@@ -431,16 +341,29 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                     color: FlutterFlowTheme.of(context)
                                         .secondaryBackground,
                                   ),
-                                  child: Container(
-                                    width: 200.0,
-                                    height: 200.0,
-                                    child:
-                                        custom_widgets.CustomWasteCollectionMap(
-                                      width: 200.0,
-                                      height: 200.0,
-                                      currentLocation:
-                                          currentUserLocationValue!,
+                                  child: FlutterFlowGoogleMap(
+                                    controller: _model.googleMapsController,
+                                    onCameraIdle: (latLng) => safeSetState(
+                                        () => _model.googleMapsCenter = latLng),
+                                    initialLocation: _model.googleMapsCenter ??=
+                                        currentUserLocationValue!,
+                                    markerColor: GoogleMarkerColor.violet,
+                                    markerImage: const MarkerImage(
+                                      imagePath: 'assets/images/3143497.png',
+                                      isAssetImage: true,
+                                      size: 25.0 ?? 20,
                                     ),
+                                    mapType: MapType.normal,
+                                    style: GoogleMapStyle.standard,
+                                    initialZoom: 16.0,
+                                    allowInteraction: true,
+                                    allowZoom: true,
+                                    showZoomControls: false,
+                                    showLocation: true,
+                                    showCompass: true,
+                                    showMapToolbar: false,
+                                    showTraffic: false,
+                                    centerMapOnMarkerTap: true,
                                   ),
                                 ),
                               ),
@@ -471,7 +394,7 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                       child: wrapWithModel(
                         model: _model.listaLixeirasModel,
                         updateCallback: () => safeSetState(() {}),
-                        child: ListaLixeirasWidget(),
+                        child: const ListaLixeirasWidget(),
                       ),
                     ),
                   ),

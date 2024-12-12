@@ -20,6 +20,7 @@ import 'lat_lng.dart';
 export 'lat_lng.dart';
 export 'place.dart';
 export 'uploaded_file.dart';
+export '../app_state.dart';
 export 'flutter_flow_model.dart';
 export 'dart:math' show min, max;
 export 'dart:typed_data' show Uint8List;
@@ -283,7 +284,7 @@ Future<LatLng?> queryCurrentUserLocation() async {
   }
 
   final position = await Geolocator.getCurrentPosition();
-  return position != null && position.latitude != 0 && position.longitude != 0
+  return position.latitude != 0 && position.longitude != 0
       ? LatLng(position.latitude, position.longitude)
       : null;
 }
@@ -330,12 +331,12 @@ void showSnackbar(
       content: Row(
         children: [
           if (loading)
-            Padding(
+            const Padding(
               padding: EdgeInsetsDirectional.only(end: 10.0),
-              child: Container(
+              child: SizedBox(
                 height: 20,
                 width: 20,
-                child: const CircularProgressIndicator(
+                child: CircularProgressIndicator(
                   color: Colors.white,
                 ),
               ),
