@@ -11,8 +11,12 @@ import '/flutter_flow/flutter_flow_util.dart';
 class LocationStruct extends FFFirebaseStruct {
   LocationStruct({
     List<LatLng>? userLocation,
+    String? latitude,
+    String? longitude,
     FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
   })  : _userLocation = userLocation,
+        _latitude = latitude,
+        _longitude = longitude,
         super(firestoreUtilData);
 
   // "user_location" field.
@@ -26,8 +30,24 @@ class LocationStruct extends FFFirebaseStruct {
 
   bool hasUserLocation() => _userLocation != null;
 
+  // "latitude" field.
+  String? _latitude;
+  String get latitude => _latitude ?? '';
+  set latitude(String? val) => _latitude = val;
+
+  bool hasLatitude() => _latitude != null;
+
+  // "longitude" field.
+  String? _longitude;
+  String get longitude => _longitude ?? '';
+  set longitude(String? val) => _longitude = val;
+
+  bool hasLongitude() => _longitude != null;
+
   static LocationStruct fromMap(Map<String, dynamic> data) => LocationStruct(
         userLocation: getDataList(data['user_location']),
+        latitude: data['latitude'] as String?,
+        longitude: data['longitude'] as String?,
       );
 
   static LocationStruct? maybeFromMap(dynamic data) =>
@@ -35,6 +55,8 @@ class LocationStruct extends FFFirebaseStruct {
 
   Map<String, dynamic> toMap() => {
         'user_location': _userLocation,
+        'latitude': _latitude,
+        'longitude': _longitude,
       }.withoutNulls;
 
   @override
@@ -43,6 +65,14 @@ class LocationStruct extends FFFirebaseStruct {
           _userLocation,
           ParamType.LatLng,
           isList: true,
+        ),
+        'latitude': serializeParam(
+          _latitude,
+          ParamType.String,
+        ),
+        'longitude': serializeParam(
+          _longitude,
+          ParamType.String,
         ),
       }.withoutNulls;
 
@@ -53,6 +83,16 @@ class LocationStruct extends FFFirebaseStruct {
           ParamType.LatLng,
           true,
         ),
+        latitude: deserializeParam(
+          data['latitude'],
+          ParamType.String,
+          false,
+        ),
+        longitude: deserializeParam(
+          data['longitude'],
+          ParamType.String,
+          false,
+        ),
       );
 
   @override
@@ -62,20 +102,27 @@ class LocationStruct extends FFFirebaseStruct {
   bool operator ==(Object other) {
     const listEquality = ListEquality();
     return other is LocationStruct &&
-        listEquality.equals(userLocation, other.userLocation);
+        listEquality.equals(userLocation, other.userLocation) &&
+        latitude == other.latitude &&
+        longitude == other.longitude;
   }
 
   @override
-  int get hashCode => const ListEquality().hash([userLocation]);
+  int get hashCode =>
+      const ListEquality().hash([userLocation, latitude, longitude]);
 }
 
 LocationStruct createLocationStruct({
+  String? latitude,
+  String? longitude,
   Map<String, dynamic> fieldValues = const {},
   bool clearUnsetFields = true,
   bool create = false,
   bool delete = false,
 }) =>
     LocationStruct(
+      latitude: latitude,
+      longitude: longitude,
       firestoreUtilData: FirestoreUtilData(
         clearUnsetFields: clearUnsetFields,
         create: create,

@@ -133,31 +133,41 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                       color: FlutterFlowTheme.of(context)
                                           .secondaryBackground,
                                     ),
-                                    child: FlutterFlowGoogleMap(
-                                      controller: _model.googleMapsController,
-                                      onCameraIdle: (latLng) => safeSetState(
-                                          () =>
-                                              _model.googleMapsCenter = latLng),
-                                      initialLocation:
-                                          _model.googleMapsCenter ??=
-                                              currentUserLocationValue!,
-                                      markerColor: GoogleMarkerColor.violet,
-                                      markerImage: const MarkerImage(
-                                        imagePath: 'assets/images/3143497.png',
-                                        isAssetImage: true,
-                                        size: 25.0 ?? 20,
+                                    child: Visibility(
+                                      visible: responsiveVisibility(
+                                        context: context,
+                                        phone: false,
+                                        tablet: false,
+                                        tabletLandscape: false,
+                                        desktop: false,
                                       ),
-                                      mapType: MapType.normal,
-                                      style: GoogleMapStyle.standard,
-                                      initialZoom: 16.0,
-                                      allowInteraction: true,
-                                      allowZoom: true,
-                                      showZoomControls: false,
-                                      showLocation: true,
-                                      showCompass: true,
-                                      showMapToolbar: false,
-                                      showTraffic: false,
-                                      centerMapOnMarkerTap: true,
+                                      child: FlutterFlowGoogleMap(
+                                        controller: _model.googleMapsController,
+                                        onCameraIdle: (latLng) => safeSetState(
+                                            () => _model.googleMapsCenter =
+                                                latLng),
+                                        initialLocation:
+                                            _model.googleMapsCenter ??=
+                                                currentUserLocationValue!,
+                                        markerColor: GoogleMarkerColor.violet,
+                                        markerImage: const MarkerImage(
+                                          imagePath:
+                                              'assets/images/icon-local-bin2.png',
+                                          isAssetImage: true,
+                                          size: 25.0 ?? 20,
+                                        ),
+                                        mapType: MapType.normal,
+                                        style: GoogleMapStyle.standard,
+                                        initialZoom: 16.0,
+                                        allowInteraction: true,
+                                        allowZoom: true,
+                                        showZoomControls: false,
+                                        showLocation: true,
+                                        showCompass: true,
+                                        showMapToolbar: false,
+                                        showTraffic: false,
+                                        centerMapOnMarkerTap: true,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -183,7 +193,7 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                           MediaQuery.sizeOf(context).height *
                                               1.0,
                                       trashBinIconPath:
-                                          '/assets/images/icon-local-bin2.png',
+                                          'assets/images/icon-local-bin2.png',
                                       initialZoom: 14.0,
                                       currentLocation:
                                           currentUserLocationValue!,

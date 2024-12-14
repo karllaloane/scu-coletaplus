@@ -44,6 +44,33 @@ class LoginAPICall {
       );
 }
 
+class ObterRotasAPICall {
+  static Future<ApiCallResponse> call({
+    String? authToken = '',
+    String? latitude = '',
+    String? longitude = '',
+  }) async {
+    return ApiManager.instance.makeApiCall(
+      callName: 'Obter Rotas API',
+      apiUrl: 'http://192.168.0.35:8088/caminhao/obter-rotas',
+      callType: ApiCallType.GET,
+      headers: {
+        'Authorization': 'Bearer $authToken',
+      },
+      params: {
+        'latitude': latitude,
+        'longitude': longitude,
+      },
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: true,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
 class ApiPagingParams {
   int nextPageNumber = 0;
   int numItems = 0;

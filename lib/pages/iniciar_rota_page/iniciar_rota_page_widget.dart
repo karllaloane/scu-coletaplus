@@ -1,8 +1,11 @@
+import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'iniciar_rota_page_model.dart';
 export 'iniciar_rota_page_model.dart';
 
@@ -17,6 +20,7 @@ class _IniciarRotaPageWidgetState extends State<IniciarRotaPageWidget> {
   late IniciarRotaPageModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  LatLng? currentUserLocationValue;
 
   @override
   void initState() {
@@ -33,6 +37,8 @@ class _IniciarRotaPageWidgetState extends State<IniciarRotaPageWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -306,7 +312,54 @@ class _IniciarRotaPageWidgetState extends State<IniciarRotaPageWidget> {
                   ),
                   FFButtonWidget(
                     onPressed: () async {
-                      context.pushNamed('ResumoRotaPage');
+                      currentUserLocationValue = await getCurrentUserLocation(
+                          defaultLocation: const LatLng(0.0, 0.0));
+                      _model.apiResultcp9 = await ObterRotasAPICall.call(
+                        authToken: FFAppState().userAcessToken,
+                        latitude:
+                            functions.getLatitude(currentUserLocationValue),
+                        longitude:
+                            functions.getLongitude(currentUserLocationValue),
+                      );
+
+                      if ((_model.apiResultcp9?.succeeded ?? true)) {
+                        await showDialog(
+                          context: context,
+                          builder: (alertDialogContext) {
+                            return AlertDialog(
+                              title: const Text('Deu certo'),
+                              content: const Text('Deu certo!'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () =>
+                                      Navigator.pop(alertDialogContext),
+                                  child: const Text('Ok'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      } else {
+                        await showDialog(
+                          context: context,
+                          builder: (alertDialogContext) {
+                            return AlertDialog(
+                              title: const Text('Buscar Rota'),
+                              content: const Text(
+                                  'Não foi possível encontrar uma rota de coleta!'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () =>
+                                      Navigator.pop(alertDialogContext),
+                                  child: const Text('Ok'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
+
+                      safeSetState(() {});
                     },
                     text: 'Buscar Melhor Rota',
                     icon: Icon(

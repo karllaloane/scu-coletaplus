@@ -4,6 +4,7 @@ import '/backend/schema/structs/index.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'index.dart'; // Imports other custom widgets
+import '/flutter_flow/custom_functions.dart'; // Imports custom functions
 import 'package:flutter/material.dart';
 // Begin custom widget code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
@@ -34,8 +35,8 @@ class CustomMapWithRouteAndBins extends StatefulWidget {
   final double? width;
   final double? height;
   final latlng.LatLng currentLocation;
-  final List<dynamic>? polylinePoints; // nullable
-  final List<dynamic>? trashBinLocations; // nullable
+  final List<latlng.LatLng>? polylinePoints; // nullable
+  final List<latlng.LatLng>? trashBinLocations; // nullable
   final String trashBinIconPath;
   final double initialZoom;
 
@@ -56,7 +57,7 @@ class _CustomMapWithRouteAndBinsState extends State<CustomMapWithRouteAndBins> {
   }
 
   Future<void> _loadTrashBinIcon() async {
-    final icon = await _getMarkerIcon(widget.trashBinIconPath, size: 48.0);
+    final icon = await _getMarkerIcon(widget.trashBinIconPath, size: 100.0);
     setState(() {
       _trashBinIcon = icon;
     });
@@ -64,32 +65,20 @@ class _CustomMapWithRouteAndBinsState extends State<CustomMapWithRouteAndBins> {
 
   Future<gmaps.BitmapDescriptor> _getMarkerIcon(
     String imagePath, {
-    double size = 48.0,
+    double size = 150.0, // Ajuste o tamanho desejado aqui
   }) async {
-    final completer = Completer<gmaps.BitmapDescriptor>();
-
-    // Sempre asset local
-    final imageProvider = AssetImage(imagePath);
-
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      final config =
-          createLocalImageConfiguration(context, size: Size(size, size));
-      imageProvider
-          .resolve(config)
-          .addListener(ImageStreamListener((img, _) async {
-        final byteData =
-            await img.image.toByteData(format: ImageByteFormat.png);
-        if (byteData != null) {
-          final bitmap =
-              gmaps.BitmapDescriptor.fromBytes(byteData.buffer.asUint8List());
-          completer.complete(bitmap);
-        } else {
-          completer.complete(gmaps.BitmapDescriptor.defaultMarker);
-        }
-      }));
-    });
-
-    return completer.future;
+    final imageData = await rootBundle.load(imagePath);
+    final codec = await instantiateImageCodec(
+      imageData.buffer.asUint8List(),
+      targetWidth: size.toInt(),
+      targetHeight: size.toInt(),
+    );
+    final frame = await codec.getNextFrame();
+    final byteData = await frame.image.toByteData(format: ImageByteFormat.png);
+    if (byteData != null) {
+      return gmaps.BitmapDescriptor.fromBytes(byteData.buffer.asUint8List());
+    }
+    return gmaps.BitmapDescriptor.defaultMarker;
   }
 
   @override
