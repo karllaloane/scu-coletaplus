@@ -69,6 +69,35 @@ class FFAppState extends ChangeNotifier {
   void deleteSenha() {
     secureStorage.delete(key: 'ff_senha');
   }
+
+  List<String> _rota = [];
+  List<String> get rota => _rota;
+  set rota(List<String> value) {
+    _rota = value;
+  }
+
+  void addToRota(String value) {
+    rota.add(value);
+  }
+
+  void removeFromRota(String value) {
+    rota.remove(value);
+  }
+
+  void removeAtIndexFromRota(int index) {
+    rota.removeAt(index);
+  }
+
+  void updateRotaAtIndex(
+    int index,
+    String Function(String) updateFn,
+  ) {
+    rota[index] = updateFn(_rota[index]);
+  }
+
+  void insertAtIndexInRota(int index, String value) {
+    rota.insert(index, value);
+  }
 }
 
 void _safeInit(Function() initializeField) {

@@ -6,6 +6,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/custom_code/widgets/index.dart' as custom_widgets;
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'rota_coleta_model.dart';
 export 'rota_coleta_model.dart';
 
@@ -40,6 +41,7 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
     if (currentUserLocationValue == null) {
       return Container(
         color: FlutterFlowTheme.of(context).primaryBackground,
@@ -86,7 +88,7 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
           title: Text(
             'Rota de Coleta',
             style: FlutterFlowTheme.of(context).headlineMedium.override(
-                  fontFamily: 'Urbanist',
+                  fontFamily: 'Inter',
                   color: Colors.white,
                   fontSize: 22.0,
                   letterSpacing: 0.0,
@@ -197,6 +199,7 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                       initialZoom: 14.0,
                                       currentLocation:
                                           currentUserLocationValue!,
+                                      polylinePoints: FFAppState().rota,
                                     ),
                                   ),
                                 ),
@@ -266,7 +269,7 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                                               .titleMedium
                                                               .override(
                                                                 fontFamily:
-                                                                    'Plus Jakarta Sans',
+                                                                    'Readex Pro',
                                                                 letterSpacing:
                                                                     0.0,
                                                               ),
@@ -280,7 +283,7 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                                                 .titleMedium
                                                                 .override(
                                                                   fontFamily:
-                                                                      'Plus Jakarta Sans',
+                                                                      'Readex Pro',
                                                                   letterSpacing:
                                                                       0.0,
                                                                 ),
@@ -340,7 +343,7 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                                                 .bodyMedium
                                                                 .override(
                                                                   fontFamily:
-                                                                      'Plus Jakarta Sans',
+                                                                      'Readex Pro',
                                                                   letterSpacing:
                                                                       0.0,
                                                                 ),
@@ -352,7 +355,7 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                                                 .bodyMedium
                                                                 .override(
                                                                   fontFamily:
-                                                                      'Plus Jakarta Sans',
+                                                                      'Readex Pro',
                                                                   color: FlutterFlowTheme.of(
                                                                           context)
                                                                       .secondaryText,
@@ -399,7 +402,7 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                                         .titleSmall
                                                         .override(
                                                           fontFamily:
-                                                              'Plus Jakarta Sans',
+                                                              'Readex Pro',
                                                           letterSpacing: 0.0,
                                                         ),
                                                     elevation: 0.0,

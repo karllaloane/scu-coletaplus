@@ -46,7 +46,7 @@ class _ResumoRotaPageWidgetState extends State<ResumoRotaPageWidget> {
           title: Text(
             'Coleta de Resíduos',
             style: FlutterFlowTheme.of(context).headlineMedium.override(
-                  fontFamily: 'Urbanist',
+                  fontFamily: 'Inter',
                   color: FlutterFlowTheme.of(context).info,
                   fontSize: 22.0,
                   letterSpacing: 0.0,
@@ -87,7 +87,7 @@ class _ResumoRotaPageWidgetState extends State<ResumoRotaPageWidget> {
                               style: FlutterFlowTheme.of(context)
                                   .headlineSmall
                                   .override(
-                                    fontFamily: 'Urbanist',
+                                    fontFamily: 'Inter',
                                     letterSpacing: 0.0,
                                   ),
                             ),
@@ -104,7 +104,7 @@ class _ResumoRotaPageWidgetState extends State<ResumoRotaPageWidget> {
                                       style: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .override(
-                                            fontFamily: 'Plus Jakarta Sans',
+                                            fontFamily: 'Readex Pro',
                                             color: FlutterFlowTheme.of(context)
                                                 .secondaryText,
                                             letterSpacing: 0.0,
@@ -115,7 +115,7 @@ class _ResumoRotaPageWidgetState extends State<ResumoRotaPageWidget> {
                                       style: FlutterFlowTheme.of(context)
                                           .titleLarge
                                           .override(
-                                            fontFamily: 'Urbanist',
+                                            fontFamily: 'Readex Pro',
                                             letterSpacing: 0.0,
                                           ),
                                     ),
@@ -130,7 +130,7 @@ class _ResumoRotaPageWidgetState extends State<ResumoRotaPageWidget> {
                                       style: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .override(
-                                            fontFamily: 'Plus Jakarta Sans',
+                                            fontFamily: 'Readex Pro',
                                             color: FlutterFlowTheme.of(context)
                                                 .secondaryText,
                                             letterSpacing: 0.0,
@@ -141,7 +141,7 @@ class _ResumoRotaPageWidgetState extends State<ResumoRotaPageWidget> {
                                       style: FlutterFlowTheme.of(context)
                                           .titleLarge
                                           .override(
-                                            fontFamily: 'Urbanist',
+                                            fontFamily: 'Readex Pro',
                                             letterSpacing: 0.0,
                                           ),
                                     ),
@@ -177,7 +177,7 @@ class _ResumoRotaPageWidgetState extends State<ResumoRotaPageWidget> {
                               style: FlutterFlowTheme.of(context)
                                   .headlineSmall
                                   .override(
-                                    fontFamily: 'Urbanist',
+                                    fontFamily: 'Inter',
                                     letterSpacing: 0.0,
                                   ),
                             ),
@@ -212,7 +212,7 @@ class _ResumoRotaPageWidgetState extends State<ResumoRotaPageWidget> {
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(
-                                                fontFamily: 'Plus Jakarta Sans',
+                                                fontFamily: 'Readex Pro',
                                                 letterSpacing: 0.0,
                                               ),
                                         ),
@@ -221,7 +221,7 @@ class _ResumoRotaPageWidgetState extends State<ResumoRotaPageWidget> {
                                           style: FlutterFlowTheme.of(context)
                                               .bodySmall
                                               .override(
-                                                fontFamily: 'Plus Jakarta Sans',
+                                                fontFamily: 'Readex Pro',
                                                 color:
                                                     FlutterFlowTheme.of(context)
                                                         .secondaryText,
@@ -265,7 +265,7 @@ class _ResumoRotaPageWidgetState extends State<ResumoRotaPageWidget> {
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(
-                                                fontFamily: 'Plus Jakarta Sans',
+                                                fontFamily: 'Readex Pro',
                                                 letterSpacing: 0.0,
                                               ),
                                         ),
@@ -274,7 +274,7 @@ class _ResumoRotaPageWidgetState extends State<ResumoRotaPageWidget> {
                                           style: FlutterFlowTheme.of(context)
                                               .bodySmall
                                               .override(
-                                                fontFamily: 'Plus Jakarta Sans',
+                                                fontFamily: 'Readex Pro',
                                                 color:
                                                     FlutterFlowTheme.of(context)
                                                         .secondaryText,
@@ -315,7 +315,7 @@ class _ResumoRotaPageWidgetState extends State<ResumoRotaPageWidget> {
                               style: FlutterFlowTheme.of(context)
                                   .headlineSmall
                                   .override(
-                                    fontFamily: 'Urbanist',
+                                    fontFamily: 'Inter',
                                     letterSpacing: 0.0,
                                   ),
                             ),
@@ -332,7 +332,7 @@ class _ResumoRotaPageWidgetState extends State<ResumoRotaPageWidget> {
                                       style: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .override(
-                                            fontFamily: 'Plus Jakarta Sans',
+                                            fontFamily: 'Readex Pro',
                                             color: FlutterFlowTheme.of(context)
                                                 .secondaryText,
                                             letterSpacing: 0.0,
@@ -343,7 +343,7 @@ class _ResumoRotaPageWidgetState extends State<ResumoRotaPageWidget> {
                                       style: FlutterFlowTheme.of(context)
                                           .titleMedium
                                           .override(
-                                            fontFamily: 'Plus Jakarta Sans',
+                                            fontFamily: 'Readex Pro',
                                             letterSpacing: 0.0,
                                           ),
                                     ),
@@ -358,7 +358,7 @@ class _ResumoRotaPageWidgetState extends State<ResumoRotaPageWidget> {
                                       style: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .override(
-                                            fontFamily: 'Plus Jakarta Sans',
+                                            fontFamily: 'Readex Pro',
                                             color: FlutterFlowTheme.of(context)
                                                 .secondaryText,
                                             letterSpacing: 0.0,
@@ -369,7 +369,7 @@ class _ResumoRotaPageWidgetState extends State<ResumoRotaPageWidget> {
                                       style: FlutterFlowTheme.of(context)
                                           .titleMedium
                                           .override(
-                                            fontFamily: 'Plus Jakarta Sans',
+                                            fontFamily: 'Readex Pro',
                                             letterSpacing: 0.0,
                                           ),
                                     ),
@@ -402,7 +402,7 @@ class _ResumoRotaPageWidgetState extends State<ResumoRotaPageWidget> {
                       color: FlutterFlowTheme.of(context).primary,
                       textStyle:
                           FlutterFlowTheme.of(context).titleMedium.override(
-                                fontFamily: 'Plus Jakarta Sans',
+                                fontFamily: 'Readex Pro',
                                 color: FlutterFlowTheme.of(context).info,
                                 letterSpacing: 0.0,
                               ),

@@ -1,6 +1,4 @@
 // Automatic FlutterFlow imports
-import '/backend/backend.dart';
-import '/backend/schema/structs/index.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'index.dart'; // Imports other custom widgets
@@ -35,7 +33,7 @@ class CustomMapWithRouteAndBins extends StatefulWidget {
   final double? width;
   final double? height;
   final latlng.LatLng currentLocation;
-  final List<latlng.LatLng>? polylinePoints; // nullable
+  final List<String>? polylinePoints; // nullable
   final List<latlng.LatLng>? trashBinLocations; // nullable
   final String trashBinIconPath;
   final double initialZoom;
@@ -65,7 +63,7 @@ class _CustomMapWithRouteAndBinsState extends State<CustomMapWithRouteAndBins> {
 
   Future<gmaps.BitmapDescriptor> _getMarkerIcon(
     String imagePath, {
-    double size = 150.0, // Ajuste o tamanho desejado aqui
+    double size = 150.0,
   }) async {
     final imageData = await rootBundle.load(imagePath);
     final codec = await instantiateImageCodec(
@@ -81,6 +79,31 @@ class _CustomMapWithRouteAndBinsState extends State<CustomMapWithRouteAndBins> {
     return gmaps.BitmapDescriptor.defaultMarker;
   }
 
+  List<gmaps.LatLng> _decodePolyline(String encoded) {
+    final polylinePoints = PolylinePoints().decodePolyline(encoded);
+    return polylinePoints
+        .map((point) => gmaps.LatLng(point.latitude, point.longitude))
+        .toList();
+  }
+
+  Set<gmaps.Polyline> _buildPolylines(List<String>? encodedPolylines) {
+    final polylines = <gmaps.Polyline>{};
+    if (encodedPolylines != null) {
+      for (int i = 0; i < encodedPolylines.length; i++) {
+        final points = _decodePolyline(encodedPolylines[i]);
+        polylines.add(
+          gmaps.Polyline(
+            polylineId: gmaps.PolylineId('route_$i'),
+            points: points,
+            color: Colors.blue,
+            width: 4,
+          ),
+        );
+      }
+    }
+    return polylines;
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_trashBinIcon == null) {
@@ -93,25 +116,16 @@ class _CustomMapWithRouteAndBinsState extends State<CustomMapWithRouteAndBins> {
       widget.currentLocation.longitude,
     );
 
-    // Converter polylinePoints para gmaps.LatLng se não for nulo
-    final routePoints = widget.polylinePoints != null
-        ? widget.polylinePoints!.map((p) {
-            final ffPoint = p as latlng.LatLng;
-            return gmaps.LatLng(ffPoint.latitude, ffPoint.longitude);
-          }).toList()
-        : <gmaps.LatLng>[];
-
     // Converter trashBinLocations para gmaps.LatLng se não for nulo
     final binPositions = widget.trashBinLocations != null
         ? widget.trashBinLocations!.map((b) {
-            final ffBin = b as latlng.LatLng;
+            final ffBin = b;
             return gmaps.LatLng(ffBin.latitude, ffBin.longitude);
           }).toList()
         : <gmaps.LatLng>[];
 
-    // Definir posição inicial (caso polyline tenha pontos, usar o primeiro ponto, caso contrário a posição atual)
-    final initialPosition =
-        routePoints.isNotEmpty ? routePoints.first : currentPos;
+    // Definir posição inicial
+    final initialPosition = currentPos;
 
     return SizedBox(
       width: widget.width ?? double.infinity,
@@ -127,7 +141,7 @@ class _CustomMapWithRouteAndBinsState extends State<CustomMapWithRouteAndBins> {
         myLocationEnabled: true,
         myLocationButtonEnabled: true,
         markers: _buildMarkers(currentPos, binPositions),
-        polylines: _buildPolylines(routePoints),
+        polylines: _buildPolylines(widget.polylinePoints),
         mapType: gmaps.MapType.normal,
       ),
     );
@@ -147,7 +161,7 @@ class _CustomMapWithRouteAndBinsState extends State<CustomMapWithRouteAndBins> {
       ),
     );
 
-    // Marcadores de lixeiras se existirem
+    // Marcadores de lixeiras
     for (final binPos in bins) {
       markers.add(
         gmaps.Marker(
@@ -159,17 +173,5 @@ class _CustomMapWithRouteAndBinsState extends State<CustomMapWithRouteAndBins> {
     }
 
     return markers;
-  }
-
-  Set<gmaps.Polyline> _buildPolylines(List<gmaps.LatLng> routePoints) {
-    return {
-      if (routePoints.isNotEmpty)
-        gmaps.Polyline(
-          polylineId: const gmaps.PolylineId('route'),
-          points: routePoints,
-          color: Colors.blue,
-          width: 4,
-        ),
-    };
   }
 }

@@ -114,7 +114,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                               style: FlutterFlowTheme.of(context)
                                   .headlineSmall
                                   .override(
-                                    fontFamily: 'Urbanist',
+                                    fontFamily: 'Inter',
                                     fontSize: 30.0,
                                     letterSpacing: 0.0,
                                     fontWeight: FontWeight.w600,
@@ -130,7 +130,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                 style: FlutterFlowTheme.of(context)
                                     .bodySmall
                                     .override(
-                                      fontFamily: 'Plus Jakarta Sans',
+                                      fontFamily: 'Readex Pro',
                                       letterSpacing: 0.0,
                                       lineHeight: 1.5,
                                     ),
@@ -186,7 +186,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                           .bodyMedium
                                                           .override(
                                                             fontFamily:
-                                                                'Plus Jakarta Sans',
+                                                                'Readex Pro',
                                                             letterSpacing: 0.0,
                                                           ),
                                                     )),
@@ -210,7 +210,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                               .bodyMedium
                                                               .override(
                                                                 fontFamily:
-                                                                    'Plus Jakarta Sans',
+                                                                    'Readex Pro',
                                                                 color: FlutterFlowTheme.of(
                                                                         context)
                                                                     .primaryText,
@@ -227,7 +227,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                               .bodyMedium
                                                               .override(
                                                                 fontFamily:
-                                                                    'Plus Jakarta Sans',
+                                                                    'Readex Pro',
                                                                 color: FlutterFlowTheme.of(
                                                                         context)
                                                                     .secondaryText,
@@ -293,7 +293,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                         .bodyMedium
                                                         .override(
                                                           fontFamily:
-                                                              'Plus Jakarta Sans',
+                                                              'Readex Pro',
                                                           color: FlutterFlowTheme
                                                                   .of(context)
                                                               .primaryText,
@@ -330,7 +330,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                                 .bodyMedium
                                                                 .override(
                                                                   fontFamily:
-                                                                      'Plus Jakarta Sans',
+                                                                      'Readex Pro',
                                                                   letterSpacing:
                                                                       0.0,
                                                                 ),
@@ -358,7 +358,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                                 .bodyMedium
                                                                 .override(
                                                                   fontFamily:
-                                                                      'Plus Jakarta Sans',
+                                                                      'Readex Pro',
                                                                   color: FlutterFlowTheme.of(
                                                                           context)
                                                                       .primaryText,
@@ -376,7 +376,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                                 .bodyMedium
                                                                 .override(
                                                                   fontFamily:
-                                                                      'Plus Jakarta Sans',
+                                                                      'Readex Pro',
                                                                   color: FlutterFlowTheme.of(
                                                                           context)
                                                                       .secondaryText,
@@ -476,7 +476,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                               .bodyMedium
                                                               .override(
                                                                 fontFamily:
-                                                                    'Plus Jakarta Sans',
+                                                                    'Readex Pro',
                                                                 color: FlutterFlowTheme.of(
                                                                         context)
                                                                     .primaryText,
@@ -513,8 +513,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium
                                                 .override(
-                                                  fontFamily:
-                                                      'Plus Jakarta Sans',
+                                                  fontFamily: 'Readex Pro',
                                                   color: FlutterFlowTheme.of(
                                                           context)
                                                       .primary,
@@ -542,7 +541,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                     ?.succeeded ??
                                                 true)) {
                                               context.pushNamed(
-                                                'IniciarRotaPage',
+                                                'BuscarRotaPage',
                                                 extra: <String, dynamic>{
                                                   kTransitionInfoKey:
                                                       const TransitionInfo(
@@ -609,8 +608,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                 FlutterFlowTheme.of(context)
                                                     .titleSmall
                                                     .override(
-                                                      fontFamily:
-                                                          'Plus Jakarta Sans',
+                                                      fontFamily: 'Readex Pro',
                                                       color: Colors.white,
                                                       letterSpacing: 0.0,
                                                     ),
@@ -671,7 +669,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                       style: FlutterFlowTheme.of(context)
                                           .headlineSmall
                                           .override(
-                                            fontFamily: 'Urbanist',
+                                            fontFamily: 'Inter',
                                             fontSize: 30.0,
                                             letterSpacing: 0.0,
                                             fontWeight: FontWeight.w500,

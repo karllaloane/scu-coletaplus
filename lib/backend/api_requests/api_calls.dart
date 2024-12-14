@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 
 import '/flutter_flow/flutter_flow_util.dart';
@@ -21,7 +20,7 @@ class LoginAPICall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'Login API',
-      apiUrl: 'http://10.0.2.2:8088/publico/login',
+      apiUrl: 'http://10.0.0.105:8088/publico/login',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -52,7 +51,7 @@ class ObterRotasAPICall {
   }) async {
     return ApiManager.instance.makeApiCall(
       callName: 'Obter Rotas API',
-      apiUrl: 'http://192.168.0.35:8088/caminhao/obter-rotas',
+      apiUrl: 'http://10.0.0.105:8088/caminhao/obter-rotas',
       callType: ApiCallType.GET,
       headers: {
         'Authorization': 'Bearer $authToken',
@@ -88,9 +87,6 @@ class ApiPagingParams {
 }
 
 String _toEncodable(dynamic item) {
-  if (item is DocumentReference) {
-    return item.path;
-  }
   return item;
 }
 

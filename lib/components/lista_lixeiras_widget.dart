@@ -69,14 +69,14 @@ class _ListaLixeirasWidgetState extends State<ListaLixeirasWidget> {
                   Text(
                     'Lixeiras na Rota',
                     style: FlutterFlowTheme.of(context).headlineSmall.override(
-                          fontFamily: 'Urbanist',
+                          fontFamily: 'Inter',
                           letterSpacing: 0.0,
                         ),
                   ),
                   Text(
                     '3/5 Coletadas',
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
-                          fontFamily: 'Plus Jakarta Sans',
+                          fontFamily: 'Readex Pro',
                           color: FlutterFlowTheme.of(context).primary,
                           letterSpacing: 0.0,
                         ),
@@ -121,7 +121,7 @@ class _ListaLixeirasWidgetState extends State<ListaLixeirasWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .override(
-                                          fontFamily: 'Plus Jakarta Sans',
+                                          fontFamily: 'Readex Pro',
                                           letterSpacing: 0.0,
                                         ),
                                   ),
@@ -130,7 +130,7 @@ class _ListaLixeirasWidgetState extends State<ListaLixeirasWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .labelMedium
                                         .override(
-                                          fontFamily: 'Plus Jakarta Sans',
+                                          fontFamily: 'Readex Pro',
                                           color: FlutterFlowTheme.of(context)
                                               .success,
                                           letterSpacing: 0.0,
@@ -155,7 +155,7 @@ class _ListaLixeirasWidgetState extends State<ListaLixeirasWidget> {
                                   style: FlutterFlowTheme.of(context)
                                       .labelSmall
                                       .override(
-                                        fontFamily: 'Plus Jakarta Sans',
+                                        fontFamily: 'Readex Pro',
                                         color:
                                             FlutterFlowTheme.of(context).info,
                                         letterSpacing: 0.0,

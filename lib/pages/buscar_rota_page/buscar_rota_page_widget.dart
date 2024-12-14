@@ -6,18 +6,18 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'iniciar_rota_page_model.dart';
-export 'iniciar_rota_page_model.dart';
+import 'buscar_rota_page_model.dart';
+export 'buscar_rota_page_model.dart';
 
-class IniciarRotaPageWidget extends StatefulWidget {
-  const IniciarRotaPageWidget({super.key});
+class BuscarRotaPageWidget extends StatefulWidget {
+  const BuscarRotaPageWidget({super.key});
 
   @override
-  State<IniciarRotaPageWidget> createState() => _IniciarRotaPageWidgetState();
+  State<BuscarRotaPageWidget> createState() => _BuscarRotaPageWidgetState();
 }
 
-class _IniciarRotaPageWidgetState extends State<IniciarRotaPageWidget> {
-  late IniciarRotaPageModel _model;
+class _BuscarRotaPageWidgetState extends State<BuscarRotaPageWidget> {
+  late BuscarRotaPageModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
   LatLng? currentUserLocationValue;
@@ -25,7 +25,7 @@ class _IniciarRotaPageWidgetState extends State<IniciarRotaPageWidget> {
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => IniciarRotaPageModel());
+    _model = createModel(context, () => BuscarRotaPageModel());
   }
 
   @override
@@ -67,7 +67,7 @@ class _IniciarRotaPageWidgetState extends State<IniciarRotaPageWidget> {
           title: Text(
             'Encontrar Toda',
             style: FlutterFlowTheme.of(context).headlineMedium.override(
-                  fontFamily: 'Urbanist',
+                  fontFamily: 'Inter',
                   color: Colors.white,
                   fontSize: 22.0,
                   letterSpacing: 0.0,
@@ -109,7 +109,7 @@ class _IniciarRotaPageWidgetState extends State<IniciarRotaPageWidget> {
                               style: FlutterFlowTheme.of(context)
                                   .headlineSmall
                                   .override(
-                                    fontFamily: 'Urbanist',
+                                    fontFamily: 'Inter',
                                     letterSpacing: 0.0,
                                   ),
                             ),
@@ -126,7 +126,7 @@ class _IniciarRotaPageWidgetState extends State<IniciarRotaPageWidget> {
                                       style: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .override(
-                                            fontFamily: 'Plus Jakarta Sans',
+                                            fontFamily: 'Readex Pro',
                                             color: FlutterFlowTheme.of(context)
                                                 .secondaryText,
                                             letterSpacing: 0.0,
@@ -137,7 +137,7 @@ class _IniciarRotaPageWidgetState extends State<IniciarRotaPageWidget> {
                                       style: FlutterFlowTheme.of(context)
                                           .titleMedium
                                           .override(
-                                            fontFamily: 'Plus Jakarta Sans',
+                                            fontFamily: 'Readex Pro',
                                             letterSpacing: 0.0,
                                           ),
                                     ),
@@ -158,7 +158,7 @@ class _IniciarRotaPageWidgetState extends State<IniciarRotaPageWidget> {
                                       style: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .override(
-                                            fontFamily: 'Plus Jakarta Sans',
+                                            fontFamily: 'Readex Pro',
                                             color: FlutterFlowTheme.of(context)
                                                 .secondaryText,
                                             letterSpacing: 0.0,
@@ -169,7 +169,7 @@ class _IniciarRotaPageWidgetState extends State<IniciarRotaPageWidget> {
                                       style: FlutterFlowTheme.of(context)
                                           .titleMedium
                                           .override(
-                                            fontFamily: 'Plus Jakarta Sans',
+                                            fontFamily: 'Readex Pro',
                                             letterSpacing: 0.0,
                                           ),
                                     ),
@@ -205,7 +205,7 @@ class _IniciarRotaPageWidgetState extends State<IniciarRotaPageWidget> {
                               style: FlutterFlowTheme.of(context)
                                   .headlineSmall
                                   .override(
-                                    fontFamily: 'Urbanist',
+                                    fontFamily: 'Inter',
                                     letterSpacing: 0.0,
                                   ),
                             ),
@@ -236,7 +236,7 @@ class _IniciarRotaPageWidgetState extends State<IniciarRotaPageWidget> {
                                         style: FlutterFlowTheme.of(context)
                                             .bodyMedium
                                             .override(
-                                              fontFamily: 'Plus Jakarta Sans',
+                                              fontFamily: 'Readex Pro',
                                               letterSpacing: 0.0,
                                             ),
                                       ),
@@ -245,7 +245,7 @@ class _IniciarRotaPageWidgetState extends State<IniciarRotaPageWidget> {
                                         style: FlutterFlowTheme.of(context)
                                             .bodySmall
                                             .override(
-                                              fontFamily: 'Plus Jakarta Sans',
+                                              fontFamily: 'Readex Pro',
                                               color:
                                                   FlutterFlowTheme.of(context)
                                                       .secondaryText,
@@ -284,7 +284,7 @@ class _IniciarRotaPageWidgetState extends State<IniciarRotaPageWidget> {
                                         style: FlutterFlowTheme.of(context)
                                             .bodyMedium
                                             .override(
-                                              fontFamily: 'Plus Jakarta Sans',
+                                              fontFamily: 'Readex Pro',
                                               letterSpacing: 0.0,
                                             ),
                                       ),
@@ -293,7 +293,7 @@ class _IniciarRotaPageWidgetState extends State<IniciarRotaPageWidget> {
                                         style: FlutterFlowTheme.of(context)
                                             .bodySmall
                                             .override(
-                                              fontFamily: 'Plus Jakarta Sans',
+                                              fontFamily: 'Readex Pro',
                                               color:
                                                   FlutterFlowTheme.of(context)
                                                       .secondaryText,
@@ -339,6 +339,10 @@ class _IniciarRotaPageWidgetState extends State<IniciarRotaPageWidget> {
                             );
                           },
                         );
+
+                        safeSetState(() {});
+
+                        context.pushNamed('ResumoRotaPage');
                       } else {
                         await showDialog(
                           context: context,
@@ -377,7 +381,7 @@ class _IniciarRotaPageWidgetState extends State<IniciarRotaPageWidget> {
                       color: FlutterFlowTheme.of(context).primary,
                       textStyle:
                           FlutterFlowTheme.of(context).titleMedium.override(
-                                fontFamily: 'Plus Jakarta Sans',
+                                fontFamily: 'Readex Pro',
                                 color: FlutterFlowTheme.of(context).info,
                                 letterSpacing: 0.0,
                               ),
