@@ -50,17 +50,21 @@ class ObterRotasAPICall {
     String? latitude = '',
     String? longitude = '',
   }) async {
+    final ffApiRequestBody = '''
+{
+  "latitude": "${escapeStringForJson(latitude)}",
+  "longitude": "${escapeStringForJson(longitude)}"
+}''';
     return ApiManager.instance.makeApiCall(
       callName: 'Obter Rotas API',
       apiUrl: 'http://10.0.0.105:8088/caminhao/obter-rotas',
-      callType: ApiCallType.GET,
+      callType: ApiCallType.POST,
       headers: {
         'Authorization': 'Bearer $authToken',
       },
-      params: {
-        'latitude': latitude,
-        'longitude': longitude,
-      },
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
       returnBody: true,
       encodeBodyUtf8: false,
       decodeUtf8: false,

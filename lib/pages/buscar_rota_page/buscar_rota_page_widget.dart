@@ -345,10 +345,13 @@ class _BuscarRotaPageWidgetState extends State<BuscarRotaPageWidget> {
                                 .toString())
                             .toList()
                             .cast<LixeiraStruct>();
-                        FFAppState().rota = functions
-                            .parsePolylines(
-                                (_model.apiResultcp9?.jsonBody ?? '')
-                                    .toString())!
+                        FFAppState().rota = (getJsonField(
+                          (_model.apiResultcp9?.jsonBody ?? ''),
+                          r'''$.polylines''',
+                          true,
+                        ) as List)
+                            .map<String>((s) => s.toString())
+                            .toList()
                             .toList()
                             .cast<String>();
                         safeSetState(() {});

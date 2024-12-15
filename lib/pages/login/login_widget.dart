@@ -540,19 +540,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                                             if ((_model.loginAPIResponse
                                                     ?.succeeded ??
                                                 true)) {
-                                              context.pushNamed(
-                                                'BuscarRotaPage',
-                                                extra: <String, dynamic>{
-                                                  kTransitionInfoKey:
-                                                      const TransitionInfo(
-                                                    hasTransition: true,
-                                                    transitionType:
-                                                        PageTransitionType
-                                                            .leftToRight,
-                                                  ),
-                                                },
-                                              );
-
                                               FFAppState().userAcessToken =
                                                   getJsonField(
                                                 (_model.loginAPIResponse
@@ -567,6 +554,19 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                   .passwordFieldTextController
                                                   .text;
                                               safeSetState(() {});
+
+                                              context.pushNamed(
+                                                'BuscarRotaPage',
+                                                extra: <String, dynamic>{
+                                                  kTransitionInfoKey:
+                                                      const TransitionInfo(
+                                                    hasTransition: true,
+                                                    transitionType:
+                                                        PageTransitionType
+                                                            .leftToRight,
+                                                  ),
+                                                },
+                                              );
                                             } else {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
