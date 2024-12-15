@@ -200,6 +200,7 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                       currentLocation:
                                           currentUserLocationValue!,
                                       polylinePoints: FFAppState().rota,
+                                      trashBins: FFAppState().Lixeiras,
                                     ),
                                   ),
                                 ),

@@ -27,7 +27,7 @@ class CustomMapWithRouteAndBins extends StatefulWidget {
     Key? key,
     required this.currentLocation,
     this.polylinePoints, // Agora é opcional (nullable)
-    this.trashBinLocations, // Agora é opcional (nullable)
+    this.trashBins, // Agora é opcional (nullable)
     required this.trashBinIconPath,
     this.width,
     this.height,
@@ -38,7 +38,7 @@ class CustomMapWithRouteAndBins extends StatefulWidget {
   final double? height;
   final latlng.LatLng currentLocation;
   final List<String>? polylinePoints; // nullable
-  final List<latlng.LatLng>? trashBinLocations; // nullable
+  final List<Lixeiras>? trashBins; // nullable
   final String trashBinIconPath;
   final double initialZoom;
 
@@ -121,11 +121,14 @@ class _CustomMapWithRouteAndBinsState extends State<CustomMapWithRouteAndBins> {
     );
 
     // Converter trashBinLocations para gmaps.LatLng se não for nulo
-    final binPositions = widget.trashBinLocations != null
-        ? widget.trashBinLocations!.map((b) {
-            final ffBin = b;
-            return gmaps.LatLng(ffBin.latitude, ffBin.longitude);
-          }).toList()
+    final binPositions = widget.trashBins != null
+        ? widget.trashBins!
+            .where((b) =>
+                b.latitude != null &&
+                b.longitude != null) // Verifica se os valores não são nulos
+            .map((b) => gmaps.LatLng(
+                b.latitude!, b.longitude!)) // Confirma que não são nulos
+            .toList()
         : <gmaps.LatLng>[];
 
     // Definir posição inicial
@@ -152,7 +155,7 @@ class _CustomMapWithRouteAndBinsState extends State<CustomMapWithRouteAndBins> {
   }
 
   Set<gmaps.Marker> _buildMarkers(
-      gmaps.LatLng currentPos, List<gmaps.LatLng> bins) {
+      gmaps.LatLng currentPos, List<Lixeira>? trashBins) {
     final markers = <gmaps.Marker>{};
 
     // Marcador da localização atual
@@ -165,15 +168,23 @@ class _CustomMapWithRouteAndBinsState extends State<CustomMapWithRouteAndBins> {
       ),
     );
 
-    // Marcadores de lixeiras
-    for (final binPos in bins) {
-      markers.add(
-        gmaps.Marker(
-          markerId: gmaps.MarkerId(binPos.toString()),
-          position: binPos,
-          icon: _trashBinIcon!,
-        ),
-      );
+    // Marcadores das lixeiras
+    if (trashBins != null) {
+      for (final bin in trashBins) {
+        markers.add(
+          gmaps.Marker(
+            markerId:
+                gmaps.MarkerId(bin.id ?? '${bin.latitude},${bin.longitude}'),
+            position: gmaps.LatLng(bin.latitude, bin.longitude),
+            icon: _trashBinIcon ?? gmaps.BitmapDescriptor.defaultMarker,
+            infoWindow: gmaps.InfoWindow(
+              title: 'Lixeira',
+              snippet:
+                  'Volume Atual: ${bin.volumeAtual ?? 'N/A'} / ${bin.volumeMaximo ?? 'N/A'}\nPeso Atual: ${bin.pesoAtual ?? 'N/A'} / ${bin.pesoMaximo ?? 'N/A'}',
+            ),
+          ),
+        );
+      }
     }
 
     return markers;
