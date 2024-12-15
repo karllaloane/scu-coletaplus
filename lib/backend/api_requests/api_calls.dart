@@ -61,6 +61,7 @@ class ObterRotasAPICall {
       callType: ApiCallType.POST,
       headers: {
         'Authorization': 'Bearer $authToken',
+        'Content-Type': 'application/json',
       },
       params: {},
       body: ffApiRequestBody,
