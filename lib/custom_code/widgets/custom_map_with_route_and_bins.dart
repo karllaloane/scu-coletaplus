@@ -38,7 +38,7 @@ class CustomMapWithRouteAndBins extends StatefulWidget {
   final double? height;
   final latlng.LatLng currentLocation;
   final List<String>? polylinePoints; // nullable
-  final List<Lixeiras>? trashBins; // nullable
+  final List<Lixeira>? trashBins; // nullable
   final String trashBinIconPath;
   final double initialZoom;
 
