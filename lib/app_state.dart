@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '/backend/schema/structs/index.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:csv/csv.dart';
 import 'package:synchronized/synchronized.dart';
@@ -97,6 +98,35 @@ class FFAppState extends ChangeNotifier {
 
   void insertAtIndexInRota(int index, String value) {
     rota.insert(index, value);
+  }
+
+  List<LixeiraStruct> _Lixeiras = [];
+  List<LixeiraStruct> get Lixeiras => _Lixeiras;
+  set Lixeiras(List<LixeiraStruct> value) {
+    _Lixeiras = value;
+  }
+
+  void addToLixeiras(LixeiraStruct value) {
+    Lixeiras.add(value);
+  }
+
+  void removeFromLixeiras(LixeiraStruct value) {
+    Lixeiras.remove(value);
+  }
+
+  void removeAtIndexFromLixeiras(int index) {
+    Lixeiras.removeAt(index);
+  }
+
+  void updateLixeirasAtIndex(
+    int index,
+    LixeiraStruct Function(LixeiraStruct) updateFn,
+  ) {
+    Lixeiras[index] = updateFn(_Lixeiras[index]);
+  }
+
+  void insertAtIndexInLixeiras(int index, LixeiraStruct value) {
+    Lixeiras.insert(index, value);
   }
 }
 

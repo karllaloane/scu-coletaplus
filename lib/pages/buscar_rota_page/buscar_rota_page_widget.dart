@@ -1,4 +1,5 @@
 import '/backend/api_requests/api_calls.dart';
+import '/backend/schema/structs/index.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -339,7 +340,17 @@ class _BuscarRotaPageWidgetState extends State<BuscarRotaPageWidget> {
                             );
                           },
                         );
-
+                        FFAppState().Lixeiras = functions
+                            .parseLixeira((_model.apiResultcp9?.jsonBody ?? '')
+                                .toString())
+                            .toList()
+                            .cast<LixeiraStruct>();
+                        FFAppState().rota = functions
+                            .parsePolylines(
+                                (_model.apiResultcp9?.jsonBody ?? '')
+                                    .toString())!
+                            .toList()
+                            .cast<String>();
                         safeSetState(() {});
 
                         context.pushNamed('ResumoRotaPage');
