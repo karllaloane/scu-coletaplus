@@ -545,7 +545,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                 (_model.loginAPIResponse
                                                         ?.jsonBody ??
                                                     ''),
-                                                r'''$.acess_token''',
+                                                r'''$.access_token''',
                                               ).toString();
                                               FFAppState().userName = _model
                                                   .loginAddressFieldTextController

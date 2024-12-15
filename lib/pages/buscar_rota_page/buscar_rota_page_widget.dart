@@ -340,9 +340,15 @@ class _BuscarRotaPageWidgetState extends State<BuscarRotaPageWidget> {
                             );
                           },
                         );
-                        FFAppState().Lixeiras = functions
-                            .parseLixeira((_model.apiResultcp9?.jsonBody ?? '')
-                                .toString())
+                        FFAppState().Lixeiras = (getJsonField(
+                          (_model.apiResultcp9?.jsonBody ?? ''),
+                          r'''$.lixeiras''',
+                          true,
+                        )!
+                                .toList()
+                                .map<LixeiraStruct?>(LixeiraStruct.maybeFromMap)
+                                .toList() as Iterable<LixeiraStruct?>)
+                            .withoutNulls
                             .toList()
                             .cast<LixeiraStruct>();
                         FFAppState().rota = (getJsonField(
