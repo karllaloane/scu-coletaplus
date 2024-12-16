@@ -5,9 +5,6 @@ import 'lista_lixeiras_model.dart';
 export 'lista_lixeiras_model.dart';
 
 class ListaLixeirasWidget extends StatefulWidget {
-  /// Quero um componente que mostre uma lista de lixeiras que estão na rota de
-  /// coleta,  mostrando o local de lixeira, porcentagem de preenchimento e se
-  /// ela foi coletada ou não.
   const ListaLixeirasWidget({super.key});
 
   @override
@@ -89,83 +86,73 @@ class _ListaLixeirasWidgetState extends State<ListaLixeirasWidget> {
                 shrinkWrap: true,
                 scrollDirection: Axis.vertical,
                 children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.0),
-                      border: Border.all(
-                        color: FlutterFlowTheme.of(context).alternate,
-                        width: 1.0,
-                      ),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsetsDirectional.fromSTEB(
-                          12.0, 12.0, 12.0, 12.0),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Icon(
-                                Icons.delete_rounded,
-                                color: FlutterFlowTheme.of(context).primary,
-                                size: 24.0,
-                              ),
-                              Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Rua das Flores, 123',
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .override(
-                                          fontFamily: 'Readex Pro',
-                                          letterSpacing: 0.0,
-                                        ),
-                                  ),
-                                  Text(
-                                    '85% cheia',
-                                    style: FlutterFlowTheme.of(context)
-                                        .labelMedium
-                                        .override(
-                                          fontFamily: 'Readex Pro',
-                                          color: FlutterFlowTheme.of(context)
-                                              .success,
-                                          letterSpacing: 0.0,
-                                        ),
-                                  ),
-                                ],
-                              ),
-                            ].divide(const SizedBox(width: 12.0)),
-                          ),
-                          Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
-                                4.0, 8.0, 4.0, 8.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: FlutterFlowTheme.of(context).success,
-                                borderRadius: BorderRadius.circular(12.0),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  'Coletada',
+                  Padding(
+                    padding:
+                        const EdgeInsetsDirectional.fromSTEB(12.0, 12.0, 12.0, 12.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Icon(
+                              Icons.delete_rounded,
+                              color: FlutterFlowTheme.of(context).primary,
+                              size: 24.0,
+                            ),
+                            Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Rua das Flores, 123',
                                   style: FlutterFlowTheme.of(context)
-                                      .labelSmall
+                                      .bodyMedium
                                       .override(
                                         fontFamily: 'Readex Pro',
-                                        color:
-                                            FlutterFlowTheme.of(context).info,
                                         letterSpacing: 0.0,
                                       ),
                                 ),
+                                Text(
+                                  '85% cheia',
+                                  style: FlutterFlowTheme.of(context)
+                                      .labelMedium
+                                      .override(
+                                        fontFamily: 'Readex Pro',
+                                        color: FlutterFlowTheme.of(context)
+                                            .success,
+                                        letterSpacing: 0.0,
+                                      ),
+                                ),
+                              ],
+                            ),
+                          ].divide(const SizedBox(width: 12.0)),
+                        ),
+                        Padding(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                              4.0, 8.0, 4.0, 8.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: FlutterFlowTheme.of(context).success,
+                              borderRadius: BorderRadius.circular(12.0),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                'Coletada',
+                                style: FlutterFlowTheme.of(context)
+                                    .labelSmall
+                                    .override(
+                                      fontFamily: 'Readex Pro',
+                                      color: FlutterFlowTheme.of(context).info,
+                                      letterSpacing: 0.0,
+                                    ),
                               ),
                             ),
                           ),
-                        ].divide(const SizedBox(width: 12.0)),
-                      ),
+                        ),
+                      ].divide(const SizedBox(width: 12.0)),
                     ),
                   ),
                 ].divide(const SizedBox(height: 12.0)),
