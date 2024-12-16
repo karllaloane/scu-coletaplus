@@ -1,3 +1,4 @@
+import '/flutter_flow/flutter_flow_google_map.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -64,6 +65,7 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
       },
       child: Scaffold(
         key: scaffoldKey,
+        resizeToAvoidBottomInset: false,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         appBar: AppBar(
           backgroundColor: FlutterFlowTheme.of(context).primary,
@@ -125,25 +127,33 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                     color: FlutterFlowTheme.of(context)
                                         .secondaryBackground,
                                   ),
-                                  child: SizedBox(
-                                    width:
-                                        MediaQuery.sizeOf(context).width * 1.0,
-                                    height:
-                                        MediaQuery.sizeOf(context).height * 1.0,
-                                    child: custom_widgets
-                                        .CustomMapWithRouteAndBins(
-                                      width: MediaQuery.sizeOf(context).width *
-                                          1.0,
-                                      height:
-                                          MediaQuery.sizeOf(context).height *
-                                              1.0,
-                                      trashBinIconPath:
-                                          'assets/images/icon-local-bin2.png',
+                                  child: Visibility(
+                                    visible: responsiveVisibility(
+                                      context: context,
+                                      phone: false,
+                                      tablet: false,
+                                      tabletLandscape: false,
+                                      desktop: false,
+                                    ),
+                                    child: FlutterFlowGoogleMap(
+                                      controller: _model.googleMapsController,
+                                      onCameraIdle: (latLng) =>
+                                          _model.googleMapsCenter = latLng,
+                                      initialLocation:
+                                          _model.googleMapsCenter ??=
+                                              const LatLng(13.106061, -59.613158),
+                                      markerColor: GoogleMarkerColor.violet,
+                                      mapType: MapType.normal,
+                                      style: GoogleMapStyle.standard,
                                       initialZoom: 14.0,
-                                      currentLocation:
-                                          currentUserLocationValue!,
-                                      polylinePoints: FFAppState().rota,
-                                      trashBins: FFAppState().Lixeiras,
+                                      allowInteraction: true,
+                                      allowZoom: true,
+                                      showZoomControls: true,
+                                      showLocation: true,
+                                      showCompass: false,
+                                      showMapToolbar: false,
+                                      showTraffic: false,
+                                      centerMapOnMarkerTap: true,
                                     ),
                                   ),
                                 ),
@@ -360,6 +370,38 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                           ].divide(const SizedBox(height: 20.0)),
                                         ),
                                       ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Align(
+                                alignment: const AlignmentDirectional(0.0, -0.86),
+                                child: Container(
+                                  width: 695.0,
+                                  height: 1328.0,
+                                  decoration: BoxDecoration(
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryBackground,
+                                  ),
+                                  child: SizedBox(
+                                    width:
+                                        MediaQuery.sizeOf(context).width * 1.0,
+                                    height:
+                                        MediaQuery.sizeOf(context).height * 1.0,
+                                    child: custom_widgets
+                                        .CustomMapWithRouteAndBins(
+                                      width: MediaQuery.sizeOf(context).width *
+                                          1.0,
+                                      height:
+                                          MediaQuery.sizeOf(context).height *
+                                              1.0,
+                                      trashBinIconPath:
+                                          'assets/images/icon-local-bin2.png',
+                                      initialZoom: 14.0,
+                                      currentLocation:
+                                          currentUserLocationValue!,
+                                      polylinePoints: FFAppState().rota,
+                                      trashBins: FFAppState().Lixeiras,
                                     ),
                                   ),
                                 ),
