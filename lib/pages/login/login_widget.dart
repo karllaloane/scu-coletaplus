@@ -3,6 +3,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'login_model.dart';
 export 'login_model.dart';
 
@@ -23,10 +24,12 @@ class _LoginWidgetState extends State<LoginWidget> {
     super.initState();
     _model = createModel(context, () => LoginModel());
 
-    _model.loginAddressFieldTextController ??= TextEditingController();
+    _model.loginAddressFieldTextController ??=
+        TextEditingController(text: FFAppState().userName);
     _model.loginAddressFieldFocusNode ??= FocusNode();
 
-    _model.passwordFieldTextController ??= TextEditingController();
+    _model.passwordFieldTextController ??=
+        TextEditingController(text: FFAppState().senha);
     _model.passwordFieldFocusNode ??= FocusNode();
   }
 
@@ -39,6 +42,8 @@ class _LoginWidgetState extends State<LoginWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();

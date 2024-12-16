@@ -128,6 +128,16 @@ class FFAppState extends ChangeNotifier {
   void insertAtIndexInLixeiras(int index, LixeiraStruct value) {
     Lixeiras.insert(index, value);
   }
+
+  VeiculoStruct _veiculo = VeiculoStruct();
+  VeiculoStruct get veiculo => _veiculo;
+  set veiculo(VeiculoStruct value) {
+    _veiculo = value;
+  }
+
+  void updateVeiculoStruct(Function(VeiculoStruct) updateFn) {
+    updateFn(_veiculo);
+  }
 }
 
 void _safeInit(Function() initializeField) {
