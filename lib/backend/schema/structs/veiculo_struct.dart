@@ -28,7 +28,7 @@ class VeiculoStruct extends BaseStruct {
 
   // "placa" field.
   String? _placa;
-  String get placa => _placa ?? 'ABC';
+  String get placa => _placa ?? 'ABC-123';
   set placa(String? val) => _placa = val;
 
   bool hasPlaca() => _placa != null;

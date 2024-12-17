@@ -3,6 +3,7 @@ import '/backend/schema/structs/index.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:csv/csv.dart';
 import 'package:synchronized/synchronized.dart';
+import 'flutter_flow/flutter_flow_util.dart';
 
 class FFAppState extends ChangeNotifier {
   static FFAppState _instance = FFAppState._internal();
@@ -28,6 +29,18 @@ class FFAppState extends ChangeNotifier {
     });
     await _safeInitAsync(() async {
       _senha = await secureStorage.getString('ff_senha') ?? _senha;
+    });
+    await _safeInitAsync(() async {
+      if (await secureStorage.read(key: 'ff_veiculo') != null) {
+        try {
+          final serializedData =
+              await secureStorage.getString('ff_veiculo') ?? '{}';
+          _veiculo =
+              VeiculoStruct.fromSerializableMap(jsonDecode(serializedData));
+        } catch (e) {
+          print("Can't decode persisted data type. Error: $e.");
+        }
+      }
     });
   }
 
@@ -129,14 +142,50 @@ class FFAppState extends ChangeNotifier {
     Lixeiras.insert(index, value);
   }
 
-  VeiculoStruct _veiculo = VeiculoStruct();
+  VeiculoStruct _veiculo = VeiculoStruct.fromSerializableMap(jsonDecode(
+      '{\"capacidade\":\"10\",\"placa\":\"ABC-1234\",\"estado\":\"DISPONIVEL\",\"id\":\"1\"}'));
   VeiculoStruct get veiculo => _veiculo;
   set veiculo(VeiculoStruct value) {
     _veiculo = value;
+    secureStorage.setString('ff_veiculo', value.serialize());
+  }
+
+  void deleteVeiculo() {
+    secureStorage.delete(key: 'ff_veiculo');
   }
 
   void updateVeiculoStruct(Function(VeiculoStruct) updateFn) {
     updateFn(_veiculo);
+    secureStorage.setString('ff_veiculo', _veiculo.serialize());
+  }
+
+  List<LixeiraStruct> _LixeirasVisitadas = [];
+  List<LixeiraStruct> get LixeirasVisitadas => _LixeirasVisitadas;
+  set LixeirasVisitadas(List<LixeiraStruct> value) {
+    _LixeirasVisitadas = value;
+  }
+
+  void addToLixeirasVisitadas(LixeiraStruct value) {
+    LixeirasVisitadas.add(value);
+  }
+
+  void removeFromLixeirasVisitadas(LixeiraStruct value) {
+    LixeirasVisitadas.remove(value);
+  }
+
+  void removeAtIndexFromLixeirasVisitadas(int index) {
+    LixeirasVisitadas.removeAt(index);
+  }
+
+  void updateLixeirasVisitadasAtIndex(
+    int index,
+    LixeiraStruct Function(LixeiraStruct) updateFn,
+  ) {
+    LixeirasVisitadas[index] = updateFn(_LixeirasVisitadas[index]);
+  }
+
+  void insertAtIndexInLixeirasVisitadas(int index, LixeiraStruct value) {
+    LixeirasVisitadas.insert(index, value);
   }
 }
 

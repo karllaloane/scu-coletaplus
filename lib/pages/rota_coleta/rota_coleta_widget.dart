@@ -781,16 +781,70 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                             letterSpacing: 0.0,
                                           ),
                                     ),
-                                    Text(
-                                      '3/5 Coletadas',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            fontFamily: 'Readex Pro',
-                                            color: FlutterFlowTheme.of(context)
-                                                .primary,
-                                            letterSpacing: 0.0,
+                                    Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        Text(
+                                          valueOrDefault<String>(
+                                            FFAppState()
+                                                .LixeirasVisitadas
+                                                .length
+                                                .toString(),
+                                            '0',
                                           ),
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyMedium
+                                              .override(
+                                                fontFamily: 'Readex Pro',
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primary,
+                                                letterSpacing: 0.0,
+                                              ),
+                                        ),
+                                        Text(
+                                          '/',
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyMedium
+                                              .override(
+                                                fontFamily: 'Readex Pro',
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primary,
+                                                letterSpacing: 0.0,
+                                              ),
+                                        ),
+                                        Text(
+                                          valueOrDefault<String>(
+                                            FFAppState()
+                                                .Lixeiras
+                                                .length
+                                                .toString(),
+                                            '0',
+                                          ),
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyMedium
+                                              .override(
+                                                fontFamily: 'Readex Pro',
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primary,
+                                                letterSpacing: 0.0,
+                                              ),
+                                        ),
+                                        Text(
+                                          ' Visitadas',
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyMedium
+                                              .override(
+                                                fontFamily: 'Readex Pro',
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primary,
+                                                letterSpacing: 0.0,
+                                              ),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
@@ -819,7 +873,7 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                           child: Row(
                                             mainAxisSize: MainAxisSize.max,
                                             mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                                MainAxisAlignment.spaceAround,
                                             children: [
                                               Row(
                                                 mainAxisSize: MainAxisSize.max,
@@ -871,92 +925,190 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                                                       0.0,
                                                                 ),
                                                       ),
-                                                      Row(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        children: [
-                                                          Text(
-                                                            'Volume: ',
-                                                            style: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .labelMedium
-                                                                .override(
-                                                                  fontFamily:
-                                                                      'Readex Pro',
-                                                                  color: () {
-                                                                    if (listviewLixeirasItem
-                                                                            .volumeAtual >=
-                                                                        90.0) {
-                                                                      return FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .error;
-                                                                    } else if ((listviewLixeirasItem.volumeAtual <
-                                                                            90.0) &&
-                                                                        (listviewLixeirasItem.volumeAtual >=
-                                                                            70.0)) {
-                                                                      return FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .tertiary;
-                                                                    } else {
-                                                                      return FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .primary;
-                                                                    }
-                                                                  }(),
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                ),
-                                                          ),
-                                                          Text(
-                                                            listviewLixeirasItem
-                                                                .volumeAtual
-                                                                .toString(),
-                                                            style: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .labelMedium
-                                                                .override(
-                                                                  fontFamily:
-                                                                      'Readex Pro',
-                                                                  color: () {
-                                                                    if (listviewLixeirasItem
-                                                                            .volumeAtual >=
-                                                                        90.0) {
-                                                                      return FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .error;
-                                                                    } else if ((listviewLixeirasItem.volumeAtual <
-                                                                            90.0) &&
-                                                                        (listviewLixeirasItem.volumeAtual >=
-                                                                            70.0)) {
-                                                                      return FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .tertiary;
-                                                                    } else {
-                                                                      return FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .primary;
-                                                                    }
-                                                                  }(),
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                ),
-                                                          ),
-                                                          Text(
-                                                            '%',
-                                                            style: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .labelMedium
-                                                                .override(
-                                                                  fontFamily:
-                                                                      'Readex Pro',
-                                                                  color: FlutterFlowTheme.of(
+                                                      SingleChildScrollView(
+                                                        scrollDirection:
+                                                            Axis.horizontal,
+                                                        child: Row(
+                                                          mainAxisSize:
+                                                              MainAxisSize.max,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceAround,
+                                                          children: [
+                                                            Row(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .max,
+                                                              children: [
+                                                                Text(
+                                                                  'Volume: ',
+                                                                  style: FlutterFlowTheme.of(
                                                                           context)
-                                                                      .success,
-                                                                  letterSpacing:
-                                                                      0.0,
+                                                                      .labelMedium
+                                                                      .override(
+                                                                        fontFamily:
+                                                                            'Readex Pro',
+                                                                        color:
+                                                                            () {
+                                                                          if (listviewLixeirasItem.volumeAtual >=
+                                                                              90.0) {
+                                                                            return FlutterFlowTheme.of(context).error;
+                                                                          } else if ((listviewLixeirasItem.volumeAtual < 90.0) &&
+                                                                              (listviewLixeirasItem.volumeAtual >= 70.0)) {
+                                                                            return FlutterFlowTheme.of(context).tertiary;
+                                                                          } else {
+                                                                            return FlutterFlowTheme.of(context).primary;
+                                                                          }
+                                                                        }(),
+                                                                        letterSpacing:
+                                                                            0.0,
+                                                                      ),
                                                                 ),
-                                                          ),
-                                                        ],
+                                                                Text(
+                                                                  listviewLixeirasItem
+                                                                      .volumeAtual
+                                                                      .toString(),
+                                                                  style: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .labelMedium
+                                                                      .override(
+                                                                        fontFamily:
+                                                                            'Readex Pro',
+                                                                        color:
+                                                                            () {
+                                                                          if (listviewLixeirasItem.volumeAtual >=
+                                                                              90.0) {
+                                                                            return FlutterFlowTheme.of(context).error;
+                                                                          } else if ((listviewLixeirasItem.volumeAtual < 90.0) &&
+                                                                              (listviewLixeirasItem.volumeAtual >= 70.0)) {
+                                                                            return FlutterFlowTheme.of(context).tertiary;
+                                                                          } else {
+                                                                            return FlutterFlowTheme.of(context).primary;
+                                                                          }
+                                                                        }(),
+                                                                        letterSpacing:
+                                                                            0.0,
+                                                                      ),
+                                                                ),
+                                                                Text(
+                                                                  '%',
+                                                                  style: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .labelMedium
+                                                                      .override(
+                                                                        fontFamily:
+                                                                            'Readex Pro',
+                                                                        color:
+                                                                            () {
+                                                                          if (listviewLixeirasItem.volumeAtual >=
+                                                                              90.0) {
+                                                                            return FlutterFlowTheme.of(context).error;
+                                                                          } else if ((listviewLixeirasItem.volumeAtual < 90.0) &&
+                                                                              (listviewLixeirasItem.volumeAtual >= 70.0)) {
+                                                                            return FlutterFlowTheme.of(context).tertiary;
+                                                                          } else {
+                                                                            return FlutterFlowTheme.of(context).primary;
+                                                                          }
+                                                                        }(),
+                                                                        letterSpacing:
+                                                                            0.0,
+                                                                      ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          0.0,
+                                                                          0.0,
+                                                                          10.0,
+                                                                          0.0),
+                                                              child: Row(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .max,
+                                                                children: [
+                                                                  Text(
+                                                                    'Peso: ',
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .labelMedium
+                                                                        .override(
+                                                                          fontFamily:
+                                                                              'Readex Pro',
+                                                                          color:
+                                                                              () {
+                                                                            if (listviewLixeirasItem.volumeAtual >=
+                                                                                90.0) {
+                                                                              return FlutterFlowTheme.of(context).error;
+                                                                            } else if ((listviewLixeirasItem.volumeAtual < 90.0) &&
+                                                                                (listviewLixeirasItem.volumeAtual >= 70.0)) {
+                                                                              return FlutterFlowTheme.of(context).tertiary;
+                                                                            } else {
+                                                                              return FlutterFlowTheme.of(context).primary;
+                                                                            }
+                                                                          }(),
+                                                                          letterSpacing:
+                                                                              0.0,
+                                                                        ),
+                                                                  ),
+                                                                  Text(
+                                                                    listviewLixeirasItem
+                                                                        .volumeAtual
+                                                                        .toString(),
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .labelMedium
+                                                                        .override(
+                                                                          fontFamily:
+                                                                              'Readex Pro',
+                                                                          color:
+                                                                              () {
+                                                                            if (listviewLixeirasItem.volumeAtual >=
+                                                                                90.0) {
+                                                                              return FlutterFlowTheme.of(context).error;
+                                                                            } else if ((listviewLixeirasItem.volumeAtual < 90.0) &&
+                                                                                (listviewLixeirasItem.volumeAtual >= 70.0)) {
+                                                                              return FlutterFlowTheme.of(context).tertiary;
+                                                                            } else {
+                                                                              return FlutterFlowTheme.of(context).primary;
+                                                                            }
+                                                                          }(),
+                                                                          letterSpacing:
+                                                                              0.0,
+                                                                        ),
+                                                                  ),
+                                                                  Text(
+                                                                    'kg',
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .labelMedium
+                                                                        .override(
+                                                                          fontFamily:
+                                                                              'Readex Pro',
+                                                                          color:
+                                                                              () {
+                                                                            if (listviewLixeirasItem.volumeAtual >=
+                                                                                90.0) {
+                                                                              return FlutterFlowTheme.of(context).error;
+                                                                            } else if ((listviewLixeirasItem.volumeAtual < 90.0) &&
+                                                                                (listviewLixeirasItem.volumeAtual >= 70.0)) {
+                                                                              return FlutterFlowTheme.of(context).tertiary;
+                                                                            } else {
+                                                                              return FlutterFlowTheme.of(context).primary;
+                                                                            }
+                                                                          }(),
+                                                                          letterSpacing:
+                                                                              0.0,
+                                                                        ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ].divide(const SizedBox(
+                                                              width: 10.0)),
+                                                        ),
                                                       ),
                                                     ],
                                                   ),
@@ -968,9 +1120,14 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                                         4.0, 8.0, 4.0, 8.0),
                                                 child: Container(
                                                   decoration: BoxDecoration(
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .success,
+                                                    color: listviewLixeirasItem
+                                                            .isVisitada
+                                                        ? FlutterFlowTheme.of(
+                                                                context)
+                                                            .primary
+                                                        : FlutterFlowTheme.of(
+                                                                context)
+                                                            .alternate,
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             12.0),
@@ -979,7 +1136,13 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                                     padding:
                                                         const EdgeInsets.all(8.0),
                                                     child: Text(
-                                                      'Coletada',
+                                                      valueOrDefault<String>(
+                                                        listviewLixeirasItem
+                                                                .isVisitada
+                                                            ? 'Visitada'
+                                                            : 'Em rota',
+                                                        'Em rota',
+                                                      ),
                                                       style:
                                                           FlutterFlowTheme.of(
                                                                   context)

@@ -134,7 +134,7 @@ class _BuscarRotaPageWidgetState extends State<BuscarRotaPageWidget> {
                               child: FlutterFlowDropDown<String>(
                                 controller: _model.dropDownValueController ??=
                                     FormFieldController<String>(null),
-                                options: const ['ABC-9999', 'DEF-8888', 'GHI-7777'],
+                                options: const ['ABC-1234'],
                                 onChanged: (val) => safeSetState(
                                     () => _model.dropDownValue = val),
                                 width: 200.0,

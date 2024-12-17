@@ -135,7 +135,7 @@ class InformarColetaAPICall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'Informar Coleta API',
-      apiUrl: 'http://192.168.0.35:8088/caminhao/descobrir-lixeiras',
+      apiUrl: 'http://192.168.0.35:8088/coleta/informar',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
