@@ -16,6 +16,7 @@ class LixeiraStruct extends BaseStruct {
     DateTime? ultimaAtualizacao,
     DateTime? momentoUltimaColeta,
     String? id,
+    String? descricao,
   })  : _latitude = latitude,
         _longitude = longitude,
         _volumeAtual = volumeAtual,
@@ -24,7 +25,8 @@ class LixeiraStruct extends BaseStruct {
         _pesoAtual = pesoAtual,
         _ultimaAtualizacao = ultimaAtualizacao,
         _momentoUltimaColeta = momentoUltimaColeta,
-        _id = id;
+        _id = id,
+        _descricao = descricao;
 
   // "latitude" field.
   double? _latitude;
@@ -103,6 +105,13 @@ class LixeiraStruct extends BaseStruct {
 
   bool hasId() => _id != null;
 
+  // "descricao" field.
+  String? _descricao;
+  String get descricao => _descricao ?? '';
+  set descricao(String? val) => _descricao = val;
+
+  bool hasDescricao() => _descricao != null;
+
   static LixeiraStruct fromMap(Map<String, dynamic> data) => LixeiraStruct(
         latitude: castToType<double>(data['latitude']),
         longitude: castToType<double>(data['longitude']),
@@ -113,6 +122,7 @@ class LixeiraStruct extends BaseStruct {
         ultimaAtualizacao: data['ultimaAtualizacao'] as DateTime?,
         momentoUltimaColeta: data['momentoUltimaColeta'] as DateTime?,
         id: data['id'] as String?,
+        descricao: data['descricao'] as String?,
       );
 
   static LixeiraStruct? maybeFromMap(dynamic data) =>
@@ -128,6 +138,7 @@ class LixeiraStruct extends BaseStruct {
         'ultimaAtualizacao': _ultimaAtualizacao,
         'momentoUltimaColeta': _momentoUltimaColeta,
         'id': _id,
+        'descricao': _descricao,
       }.withoutNulls;
 
   @override
@@ -166,6 +177,10 @@ class LixeiraStruct extends BaseStruct {
         ),
         'id': serializeParam(
           _id,
+          ParamType.String,
+        ),
+        'descricao': serializeParam(
+          _descricao,
           ParamType.String,
         ),
       }.withoutNulls;
@@ -217,6 +232,11 @@ class LixeiraStruct extends BaseStruct {
           ParamType.String,
           false,
         ),
+        descricao: deserializeParam(
+          data['descricao'],
+          ParamType.String,
+          false,
+        ),
       );
 
   @override
@@ -233,7 +253,8 @@ class LixeiraStruct extends BaseStruct {
         pesoAtual == other.pesoAtual &&
         ultimaAtualizacao == other.ultimaAtualizacao &&
         momentoUltimaColeta == other.momentoUltimaColeta &&
-        id == other.id;
+        id == other.id &&
+        descricao == other.descricao;
   }
 
   @override
@@ -246,7 +267,8 @@ class LixeiraStruct extends BaseStruct {
         pesoAtual,
         ultimaAtualizacao,
         momentoUltimaColeta,
-        id
+        id,
+        descricao
       ]);
 }
 
@@ -260,6 +282,7 @@ LixeiraStruct createLixeiraStruct({
   DateTime? ultimaAtualizacao,
   DateTime? momentoUltimaColeta,
   String? id,
+  String? descricao,
 }) =>
     LixeiraStruct(
       latitude: latitude,
@@ -271,4 +294,5 @@ LixeiraStruct createLixeiraStruct({
       ultimaAtualizacao: ultimaAtualizacao,
       momentoUltimaColeta: momentoUltimaColeta,
       id: id,
+      descricao: descricao,
     );

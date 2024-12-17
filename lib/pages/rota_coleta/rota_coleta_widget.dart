@@ -1,9 +1,16 @@
+import '/backend/api_requests/api_calls.dart';
+import '/backend/schema/enums/enums.dart';
+import '/backend/schema/structs/index.dart';
 import '/flutter_flow/flutter_flow_google_map.dart';
+import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/custom_code/widgets/index.dart' as custom_widgets;
+import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:provider/provider.dart';
 import 'rota_coleta_model.dart';
 export 'rota_coleta_model.dart';
@@ -25,6 +32,69 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => RotaColetaModel());
+
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      currentUserLocationValue =
+          await getCurrentUserLocation(defaultLocation: const LatLng(0.0, 0.0));
+      while (FFAppState().veiculo.estado == EstadoVeiculo.EM_ROTA) {
+        _model.apiResultfv1 = await DescobrirLixeirasAPICall.call(
+          authToken: FFAppState().userAcessToken,
+          latitude: functions.getLatitude(currentUserLocationValue),
+          longitude: functions.getLongitude(currentUserLocationValue),
+          idCaminhao: FFAppState().veiculo.id,
+          estadoCaminhao: FFAppState().veiculo.estado.name,
+          distanciaMaximaLixeira: 10,
+          volumeMinimoLixeira: 70,
+        );
+
+        if ((_model.apiResultfv1?.succeeded ?? true)) {
+          FFAppState().rota = (getJsonField(
+            (_model.apiResultfv1?.jsonBody ?? ''),
+            r'''$.polylines''',
+            true,
+          ) as List)
+              .map<String>((s) => s.toString())
+              .toList()
+              .toList()
+              .cast<String>();
+          FFAppState().Lixeiras = (getJsonField(
+            (_model.apiResultfv1?.jsonBody ?? ''),
+            r'''$.lixeiras''',
+            true,
+          )!
+                  .toList()
+                  .map<LixeiraStruct?>(LixeiraStruct.maybeFromMap)
+                  .toList() as Iterable<LixeiraStruct?>)
+              .withoutNulls
+              .toList()
+              .cast<LixeiraStruct>();
+          safeSetState(() {});
+          _model.soundPlayer1 ??= AudioPlayer();
+          if (_model.soundPlayer1!.playing) {
+            await _model.soundPlayer1!.stop();
+          }
+          _model.soundPlayer1!.setVolume(1.0);
+          _model.soundPlayer1!
+              .setAsset('assets/audios/notification-sound-3-262896.mp3')
+              .then((_) => _model.soundPlayer1!.play());
+
+          ScaffoldMessenger.of(context).clearSnackBars();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                'Nova rota encontrada!',
+                style: TextStyle(
+                  color: FlutterFlowTheme.of(context).primaryText,
+                ),
+              ),
+              duration: const Duration(milliseconds: 6000),
+              backgroundColor: FlutterFlowTheme.of(context).secondary,
+            ),
+          );
+        }
+      }
+    });
 
     getCurrentUserLocation(defaultLocation: const LatLng(0.0, 0.0), cached: true)
         .then((loc) => safeSetState(() => currentUserLocationValue = loc));
@@ -71,6 +141,20 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
           appBar: AppBar(
             backgroundColor: FlutterFlowTheme.of(context).primary,
             automaticallyImplyLeading: false,
+            leading: FlutterFlowIconButton(
+              borderColor: Colors.transparent,
+              borderRadius: 30.0,
+              borderWidth: 1.0,
+              buttonSize: 60.0,
+              icon: const Icon(
+                Icons.arrow_back_rounded,
+                color: Colors.white,
+                size: 30.0,
+              ),
+              onPressed: () async {
+                context.pop();
+              },
+            ),
             title: Text(
               'Rota de Coleta',
               style: FlutterFlowTheme.of(context).headlineMedium.override(
@@ -114,27 +198,70 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                       color: FlutterFlowTheme.of(context)
                                           .secondaryBackground,
                                     ),
-                                    child: SizedBox(
-                                      width: MediaQuery.sizeOf(context).width *
-                                          1.0,
-                                      height:
-                                          MediaQuery.sizeOf(context).height *
-                                              1.0,
-                                      child: custom_widgets
-                                          .CustomMapWithRouteAndBins(
+                                    child: InkWell(
+                                      splashColor: Colors.transparent,
+                                      focusColor: Colors.transparent,
+                                      hoverColor: Colors.transparent,
+                                      highlightColor: Colors.transparent,
+                                      onDoubleTap: () async {
+                                        currentUserLocationValue =
+                                            await getCurrentUserLocation(
+                                                defaultLocation:
+                                                    const LatLng(0.0, 0.0));
+                                        _model.apiResult24z =
+                                            await InformarColetaAPICall.call(
+                                          latitude: functions.getLatitude(
+                                              currentUserLocationValue),
+                                          longitude: functions.getLongitude(
+                                              currentUserLocationValue),
+                                          lixeiraId: '1',
+                                          caminhaoId: FFAppState()
+                                              .veiculo
+                                              .id
+                                              .toString(),
+                                          authToken:
+                                              FFAppState().userAcessToken,
+                                        );
+
+                                        if ((_model.apiResult24z?.succeeded ??
+                                            true)) {
+                                          _model.soundPlayer2 ??= AudioPlayer();
+                                          if (_model.soundPlayer2!.playing) {
+                                            await _model.soundPlayer2!.stop();
+                                          }
+                                          _model.soundPlayer2!.setVolume(1.0);
+                                          _model.soundPlayer2!
+                                              .setAsset(
+                                                  'assets/audios/ding-126626.mp3')
+                                              .then((_) =>
+                                                  _model.soundPlayer2!.play());
+                                        }
+
+                                        safeSetState(() {});
+                                      },
+                                      child: SizedBox(
                                         width:
                                             MediaQuery.sizeOf(context).width *
                                                 1.0,
                                         height:
                                             MediaQuery.sizeOf(context).height *
                                                 1.0,
-                                        trashBinIconPath:
-                                            'assets/images/icon-local-bin2.png',
-                                        initialZoom: 14.0,
-                                        currentLocation:
-                                            currentUserLocationValue!,
-                                        polylinePoints: FFAppState().rota,
-                                        trashBins: FFAppState().Lixeiras,
+                                        child: custom_widgets
+                                            .CustomMapWithRouteAndBins(
+                                          width:
+                                              MediaQuery.sizeOf(context).width *
+                                                  1.0,
+                                          height: MediaQuery.sizeOf(context)
+                                                  .height *
+                                              1.0,
+                                          trashBinIconPath:
+                                              'assets/images/icon-local-bin2.png',
+                                          initialZoom: 14.0,
+                                          currentLocation:
+                                              currentUserLocationValue!,
+                                          polylinePoints: FFAppState().rota,
+                                          trashBins: FFAppState().Lixeiras,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -699,9 +826,28 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                                 children: [
                                                   Icon(
                                                     Icons.delete_rounded,
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primary,
+                                                    color: () {
+                                                      if (listviewLixeirasItem
+                                                              .volumeAtual >=
+                                                          90.0) {
+                                                        return FlutterFlowTheme
+                                                                .of(context)
+                                                            .error;
+                                                      } else if ((listviewLixeirasItem
+                                                                  .volumeAtual <
+                                                              90.0) &&
+                                                          (listviewLixeirasItem
+                                                                  .volumeAtual >=
+                                                              70.0)) {
+                                                        return FlutterFlowTheme
+                                                                .of(context)
+                                                            .tertiary;
+                                                      } else {
+                                                        return FlutterFlowTheme
+                                                                .of(context)
+                                                            .primary;
+                                                      }
+                                                    }(),
                                                     size: 24.0,
                                                   ),
                                                   Column(
@@ -713,8 +859,7 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                                     children: [
                                                       Text(
                                                         listviewLixeirasItem
-                                                            .latitude
-                                                            .toString(),
+                                                            .descricao,
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -726,13 +871,80 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                                                       0.0,
                                                                 ),
                                                       ),
-                                                      Text(
-                                                        listviewLixeirasItem
-                                                            .volumeAtual
-                                                            .toString(),
-                                                        style:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
+                                                      Row(
+                                                        mainAxisSize:
+                                                            MainAxisSize.max,
+                                                        children: [
+                                                          Text(
+                                                            'Volume: ',
+                                                            style: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .labelMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Readex Pro',
+                                                                  color: () {
+                                                                    if (listviewLixeirasItem
+                                                                            .volumeAtual >=
+                                                                        90.0) {
+                                                                      return FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .error;
+                                                                    } else if ((listviewLixeirasItem.volumeAtual <
+                                                                            90.0) &&
+                                                                        (listviewLixeirasItem.volumeAtual >=
+                                                                            70.0)) {
+                                                                      return FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .tertiary;
+                                                                    } else {
+                                                                      return FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .primary;
+                                                                    }
+                                                                  }(),
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                ),
+                                                          ),
+                                                          Text(
+                                                            listviewLixeirasItem
+                                                                .volumeAtual
+                                                                .toString(),
+                                                            style: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .labelMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Readex Pro',
+                                                                  color: () {
+                                                                    if (listviewLixeirasItem
+                                                                            .volumeAtual >=
+                                                                        90.0) {
+                                                                      return FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .error;
+                                                                    } else if ((listviewLixeirasItem.volumeAtual <
+                                                                            90.0) &&
+                                                                        (listviewLixeirasItem.volumeAtual >=
+                                                                            70.0)) {
+                                                                      return FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .tertiary;
+                                                                    } else {
+                                                                      return FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .primary;
+                                                                    }
+                                                                  }(),
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                ),
+                                                          ),
+                                                          Text(
+                                                            '%',
+                                                            style: FlutterFlowTheme
+                                                                    .of(context)
                                                                 .labelMedium
                                                                 .override(
                                                                   fontFamily:
@@ -743,6 +955,8 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                                                   letterSpacing:
                                                                       0.0,
                                                                 ),
+                                                          ),
+                                                        ],
                                                       ),
                                                     ],
                                                   ),

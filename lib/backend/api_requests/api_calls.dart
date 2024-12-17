@@ -21,7 +21,7 @@ class LoginAPICall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'Login API',
-      apiUrl: 'http://10.0.0.105:8088/publico/login',
+      apiUrl: 'http://192.168.0.35:8088/publico/login',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -49,15 +49,17 @@ class ObterRotasAPICall {
     String? authToken = '',
     String? latitude = '',
     String? longitude = '',
+    int? kilometrosLimite = 10,
   }) async {
     final ffApiRequestBody = '''
 {
   "latitude": "${escapeStringForJson(latitude)}",
-  "longitude": "${escapeStringForJson(longitude)}"
+  "longitude": "${escapeStringForJson(longitude)}",
+  "kilometrosLimite": $kilometrosLimite
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'Obter Rotas API',
-      apiUrl: 'http://10.0.0.105:8088/caminhao/obter-rotas',
+      apiUrl: 'http://192.168.0.35:8088/caminhao/obter-rotas',
       callType: ApiCallType.POST,
       headers: {
         'Authorization': 'Bearer $authToken',
@@ -70,6 +72,82 @@ class ObterRotasAPICall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: true,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+class DescobrirLixeirasAPICall {
+  static Future<ApiCallResponse> call({
+    String? authToken = '',
+    String? latitude = '',
+    String? longitude = '',
+    int? idCaminhao = 1,
+    String? estadoCaminhao = 'EM_ROTA',
+    int? distanciaMaximaLixeira = 5,
+    int? volumeMinimoLixeira = 70,
+  }) async {
+    final ffApiRequestBody = '''
+{
+  "latitude": "${escapeStringForJson(latitude)}",
+  "longitude": "${escapeStringForJson(longitude)}",
+  "idCaminhao": $idCaminhao,
+  "estadoCaminhao": "${escapeStringForJson(estadoCaminhao)}",
+  "distanciaMaximaLixeira": $distanciaMaximaLixeira,
+  "volumeMinimoLixeira": $volumeMinimoLixeira
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'Descobrir Lixeiras API',
+      apiUrl: 'http://192.168.0.35:8088/caminhao/descobrir-lixeiras',
+      callType: ApiCallType.POST,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $authToken',
+      },
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+class InformarColetaAPICall {
+  static Future<ApiCallResponse> call({
+    String? latitude = '',
+    String? longitude = '',
+    String? lixeiraId = '',
+    String? caminhaoId = '',
+    String? authToken = '',
+  }) async {
+    final ffApiRequestBody = '''
+{
+  "latitude": "${escapeStringForJson(latitude)}",
+  "longitude": "${escapeStringForJson(longitude)}",
+  "lixeiraId": "${escapeStringForJson(lixeiraId)}",
+  "caminhaoId": "${escapeStringForJson(caminhaoId)}"
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'Informar Coleta API',
+      apiUrl: 'http://192.168.0.35:8088/caminhao/descobrir-lixeiras',
+      callType: ApiCallType.POST,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $authToken',
+      },
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
       isStreamingApi: false,
       alwaysAllowBody: false,
     );
