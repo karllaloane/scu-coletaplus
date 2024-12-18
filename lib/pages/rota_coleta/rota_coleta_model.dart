@@ -17,6 +17,8 @@ class RotaColetaModel extends FlutterFlowModel<RotaColetaWidget> {
   // State field(s) for GoogleMap widget.
   LatLng? googleMapsCenter;
   final googleMapsController = Completer<GoogleMapController>();
+  // Stores action output result for [Backend Call - API (Estado Caminhao API)] action in Button widget.
+  ApiCallResponse? apiResult2qp;
 
   @override
   void initState(BuildContext context) {}

@@ -159,33 +159,33 @@ class FFAppState extends ChangeNotifier {
     secureStorage.setString('ff_veiculo', _veiculo.serialize());
   }
 
-  List<LixeiraStruct> _LixeirasVisitadas = [];
-  List<LixeiraStruct> get LixeirasVisitadas => _LixeirasVisitadas;
-  set LixeirasVisitadas(List<LixeiraStruct> value) {
-    _LixeirasVisitadas = value;
+  List<LixeiraStruct> _lixeirasVisitadas = [];
+  List<LixeiraStruct> get lixeirasVisitadas => _lixeirasVisitadas;
+  set lixeirasVisitadas(List<LixeiraStruct> value) {
+    _lixeirasVisitadas = value;
   }
 
   void addToLixeirasVisitadas(LixeiraStruct value) {
-    LixeirasVisitadas.add(value);
+    lixeirasVisitadas.add(value);
   }
 
   void removeFromLixeirasVisitadas(LixeiraStruct value) {
-    LixeirasVisitadas.remove(value);
+    lixeirasVisitadas.remove(value);
   }
 
   void removeAtIndexFromLixeirasVisitadas(int index) {
-    LixeirasVisitadas.removeAt(index);
+    lixeirasVisitadas.removeAt(index);
   }
 
   void updateLixeirasVisitadasAtIndex(
     int index,
     LixeiraStruct Function(LixeiraStruct) updateFn,
   ) {
-    LixeirasVisitadas[index] = updateFn(_LixeirasVisitadas[index]);
+    lixeirasVisitadas[index] = updateFn(_lixeirasVisitadas[index]);
   }
 
   void insertAtIndexInLixeirasVisitadas(int index, LixeiraStruct value) {
-    LixeirasVisitadas.insert(index, value);
+    lixeirasVisitadas.insert(index, value);
   }
 }
 

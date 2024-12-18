@@ -83,17 +83,13 @@ class DescobrirLixeirasAPICall {
     String? authToken = '',
     String? latitude = '',
     String? longitude = '',
-    int? idCaminhao = 1,
-    String? estadoCaminhao = 'EM_ROTA',
-    int? distanciaMaximaLixeira = 5,
     int? volumeMinimoLixeira = 70,
+    int? distanciaMaximaLixeira = 10,
   }) async {
     final ffApiRequestBody = '''
 {
   "latitude": "${escapeStringForJson(latitude)}",
   "longitude": "${escapeStringForJson(longitude)}",
-  "idCaminhao": $idCaminhao,
-  "estadoCaminhao": "${escapeStringForJson(estadoCaminhao)}",
   "distanciaMaximaLixeira": $distanciaMaximaLixeira,
   "volumeMinimoLixeira": $volumeMinimoLixeira
 }''';
@@ -136,6 +132,42 @@ class InformarColetaAPICall {
     return ApiManager.instance.makeApiCall(
       callName: 'Informar Coleta API',
       apiUrl: 'http://192.168.0.35:8088/coleta/informar',
+      callType: ApiCallType.POST,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $authToken',
+      },
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+class EstadoCaminhaoAPICall {
+  static Future<ApiCallResponse> call({
+    String? authToken = '',
+    int? idCaminhao,
+    String? estadoCaminhao = '',
+    String? latitude = '',
+    String? longitude = '',
+  }) async {
+    final ffApiRequestBody = '''
+{
+  "idCaminhao": $idCaminhao,
+  "estadoCaminhao": "${escapeStringForJson(estadoCaminhao)}",
+  "latitude": "${escapeStringForJson(latitude)}",
+  "longitude": "${escapeStringForJson(longitude)}"
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'Estado Caminhao API',
+      apiUrl: 'registrar-estado-caminhao',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',

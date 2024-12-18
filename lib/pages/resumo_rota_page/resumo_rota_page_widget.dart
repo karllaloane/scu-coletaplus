@@ -1,7 +1,10 @@
+import '/backend/api_requests/api_calls.dart';
+import '/backend/schema/enums/enums.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'resumo_rota_page_model.dart';
@@ -18,6 +21,7 @@ class _ResumoRotaPageWidgetState extends State<ResumoRotaPageWidget> {
   late ResumoRotaPageModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  LatLng? currentUserLocationValue;
 
   @override
   void initState() {
@@ -281,7 +285,46 @@ class _ResumoRotaPageWidgetState extends State<ResumoRotaPageWidget> {
                   ),
                   FFButtonWidget(
                     onPressed: () async {
-                      context.pushNamed('RotaColeta');
+                      currentUserLocationValue = await getCurrentUserLocation(
+                          defaultLocation: const LatLng(0.0, 0.0));
+                      _model.apiResult1qp = await EstadoCaminhaoAPICall.call(
+                        authToken: FFAppState().userAcessToken,
+                        idCaminhao: FFAppState().veiculo.id,
+                        estadoCaminhao: '\"EM_ROTA\"',
+                        latitude:
+                            functions.getLatitude(currentUserLocationValue),
+                        longitude:
+                            functions.getLongitude(currentUserLocationValue),
+                      );
+
+                      if ((_model.apiResult1qp?.succeeded ?? true)) {
+                        FFAppState().updateVeiculoStruct(
+                          (e) => e..estado = EstadoVeiculo.EM_ROTA,
+                        );
+                        safeSetState(() {});
+
+                        context.pushNamed('RotaColeta');
+                      } else {
+                        await showDialog(
+                          context: context,
+                          builder: (alertDialogContext) {
+                            return AlertDialog(
+                              title: const Text('Falha'),
+                              content: const Text(
+                                  'Não foi possível iniciar a rota de coleta.'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () =>
+                                      Navigator.pop(alertDialogContext),
+                                  child: const Text('Ok'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
+
+                      safeSetState(() {});
                     },
                     text: 'Iniciar Coleta',
                     icon: Icon(

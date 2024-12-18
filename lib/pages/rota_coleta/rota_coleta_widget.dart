@@ -42,10 +42,8 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
           authToken: FFAppState().userAcessToken,
           latitude: functions.getLatitude(currentUserLocationValue),
           longitude: functions.getLongitude(currentUserLocationValue),
-          idCaminhao: FFAppState().veiculo.id,
-          estadoCaminhao: FFAppState().veiculo.estado.name,
-          distanciaMaximaLixeira: 10,
           volumeMinimoLixeira: 70,
+          distanciaMaximaLixeira: 10,
         );
 
         if ((_model.apiResultfv1?.succeeded ?? true)) {
@@ -670,9 +668,83 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                                             .fromSTEB(0.0, 0.0,
                                                                 0.0, 5.0),
                                                     child: FFButtonWidget(
-                                                      onPressed: () {
-                                                        print(
-                                                            'Button pressed ...');
+                                                      onPressed: () async {
+                                                        currentUserLocationValue =
+                                                            await getCurrentUserLocation(
+                                                                defaultLocation:
+                                                                    const LatLng(0.0,
+                                                                        0.0));
+                                                        _model.apiResult2qp =
+                                                            await EstadoCaminhaoAPICall
+                                                                .call(
+                                                          authToken: FFAppState()
+                                                              .userAcessToken,
+                                                          idCaminhao:
+                                                              FFAppState()
+                                                                  .veiculo
+                                                                  .id,
+                                                          estadoCaminhao:
+                                                              '\"GUARDADO\"',
+                                                          latitude: functions
+                                                              .getLatitude(
+                                                                  currentUserLocationValue),
+                                                          longitude: functions
+                                                              .getLongitude(
+                                                                  currentUserLocationValue),
+                                                        );
+
+                                                        if ((_model.apiResult2qp
+                                                                ?.succeeded ??
+                                                            true)) {
+                                                          await showDialog(
+                                                            context: context,
+                                                            builder:
+                                                                (alertDialogContext) {
+                                                              return AlertDialog(
+                                                                title: const Text(
+                                                                    'Fim do trajeto'),
+                                                                content: const Text(
+                                                                    'Sua coleta foi finalizada com sucesso!'),
+                                                                actions: [
+                                                                  TextButton(
+                                                                    onPressed: () =>
+                                                                        Navigator.pop(
+                                                                            alertDialogContext),
+                                                                    child: const Text(
+                                                                        'Ok'),
+                                                                  ),
+                                                                ],
+                                                              );
+                                                            },
+                                                          );
+
+                                                          context.pushNamed(
+                                                              'BuscarRotaPage');
+                                                        } else {
+                                                          await showDialog(
+                                                            context: context,
+                                                            builder:
+                                                                (alertDialogContext) {
+                                                              return AlertDialog(
+                                                                title: const Text(
+                                                                    'Erro'),
+                                                                content: const Text(
+                                                                    'Não foi possível finalizar a coleta. Tente novamente mais tarde!'),
+                                                                actions: [
+                                                                  TextButton(
+                                                                    onPressed: () =>
+                                                                        Navigator.pop(
+                                                                            alertDialogContext),
+                                                                    child: const Text(
+                                                                        'Ok'),
+                                                                  ),
+                                                                ],
+                                                              );
+                                                            },
+                                                          );
+                                                        }
+
+                                                        safeSetState(() {});
                                                       },
                                                       text: 'Finalizar rota',
                                                       options: FFButtonOptions(
@@ -765,7 +837,7 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                             padding: const EdgeInsetsDirectional.fromSTEB(
                                 12.0, 12.0, 12.0, 12.0),
                             child: Column(
-                              mainAxisSize: MainAxisSize.min,
+                              mainAxisSize: MainAxisSize.max,
                               children: [
                                 Row(
                                   mainAxisSize: MainAxisSize.max,
@@ -787,7 +859,7 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                         Text(
                                           valueOrDefault<String>(
                                             FFAppState()
-                                                .LixeirasVisitadas
+                                                .lixeirasVisitadas
                                                 .length
                                                 .toString(),
                                             '0',
