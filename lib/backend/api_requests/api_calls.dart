@@ -6,6 +6,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import 'api_manager.dart';
 
 export 'api_manager.dart' show ApiCallResponse;
+import '../schema/util/config.dart';
 
 const _kPrivateApiFunctionName = 'ffPrivateApiCall';
 
@@ -21,7 +22,7 @@ class LoginAPICall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'Login API',
-      apiUrl: 'http://192.168.0.35:8088/publico/login',
+      apiUrl: '${AppConfig.baseUrl}/publico/login',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -59,7 +60,7 @@ class ObterRotasAPICall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'Obter Rotas API',
-      apiUrl: 'http://192.168.0.35:8088/caminhao/obter-rotas',
+      apiUrl: '${AppConfig.baseUrl}/caminhao/obter-rotas',
       callType: ApiCallType.POST,
       headers: {
         'Authorization': 'Bearer $authToken',
@@ -95,7 +96,7 @@ class DescobrirLixeirasAPICall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'Descobrir Lixeiras API',
-      apiUrl: 'http://192.168.0.35:8088/caminhao/descobrir-lixeiras',
+      apiUrl: '${AppConfig.baseUrl}/caminhao/descobrir-lixeiras',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -131,7 +132,7 @@ class InformarColetaAPICall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'Informar Coleta API',
-      apiUrl: 'http://192.168.0.35:8088/coleta/informar',
+      apiUrl: '${AppConfig.baseUrl}/coleta/informar',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -167,7 +168,7 @@ class EstadoCaminhaoAPICall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'Estado Caminhao API',
-      apiUrl: 'http://192.168.0.35:8088/caminhao/registrar-estado-caminhao',
+      apiUrl: '${AppConfig.baseUrl}/caminhao/registrar-estado-caminhao',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
