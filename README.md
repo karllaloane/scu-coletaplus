@@ -10,6 +10,10 @@ Este projeto faz parte do sistema de coleta de resíduos em cidades inteligentes
 - Rotas otimizadas: busca e exibição de rotas de coleta com base no volume de resíduos e localização geográfica do dispositivo.
 - Monitoramento em tempo real: atualizações em tempo real das condições das lixeiras e rotas.
 
+[Clique aqui para o vídeo demonstrativo do aplicativo em um smartphone](https://drive.google.com/file/d/1XO40YPYeqsmvCMXveAGvS3Z2PmbvX16R/view?usp=sharing)
+
+[Clique aqui para o vídeo demonstrativo do aplicativo em um tablet](https://drive.google.com/file/d/1XwZ50HXxMYI7Eonu7OkgCxVPZUt1voKm/view?usp=sharing)
+
 ## Pré-requisitos
 
 ### Clonar o repositório
