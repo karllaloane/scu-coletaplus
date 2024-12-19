@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '/backend/backend.dart';
 import '/backend/schema/structs/index.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:csv/csv.dart';
@@ -114,32 +115,32 @@ class FFAppState extends ChangeNotifier {
   }
 
   List<LixeiraStruct> _Lixeiras = [];
-  List<LixeiraStruct> get lixeiras => _Lixeiras;
-  set lixeiras(List<LixeiraStruct> value) {
+  List<LixeiraStruct> get Lixeiras => _Lixeiras;
+  set Lixeiras(List<LixeiraStruct> value) {
     _Lixeiras = value;
   }
 
   void addToLixeiras(LixeiraStruct value) {
-    lixeiras.add(value);
+    Lixeiras.add(value);
   }
 
   void removeFromLixeiras(LixeiraStruct value) {
-    lixeiras.remove(value);
+    Lixeiras.remove(value);
   }
 
   void removeAtIndexFromLixeiras(int index) {
-    lixeiras.removeAt(index);
+    Lixeiras.removeAt(index);
   }
 
   void updateLixeirasAtIndex(
     int index,
     LixeiraStruct Function(LixeiraStruct) updateFn,
   ) {
-    lixeiras[index] = updateFn(_Lixeiras[index]);
+    Lixeiras[index] = updateFn(_Lixeiras[index]);
   }
 
   void insertAtIndexInLixeiras(int index, LixeiraStruct value) {
-    lixeiras.insert(index, value);
+    Lixeiras.insert(index, value);
   }
 
   VeiculoStruct _veiculo = VeiculoStruct.fromSerializableMap(jsonDecode(

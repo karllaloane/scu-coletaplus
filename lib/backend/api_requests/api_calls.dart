@@ -83,8 +83,8 @@ class DescobrirLixeirasAPICall {
     String? authToken = '',
     String? latitude = '',
     String? longitude = '',
-    double? volumeMinimoLixeira = 0.7,
-    int? distanciaMaximaLixeira = 20,
+    int? volumeMinimoLixeira = 70,
+    int? distanciaMaximaLixeira = 10,
   }) async {
     final ffApiRequestBody = '''
 {
@@ -167,7 +167,7 @@ class EstadoCaminhaoAPICall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'Estado Caminhao API',
-      apiUrl: 'http://192.168.0.35:8088/caminhao/registrar-estado-caminhao',
+      apiUrl: 'registrar-estado-caminhao',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
@@ -203,6 +203,9 @@ class ApiPagingParams {
 }
 
 String _toEncodable(dynamic item) {
+  if (item is DocumentReference) {
+    return item.path;
+  }
   return item;
 }
 

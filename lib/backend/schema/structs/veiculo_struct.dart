@@ -1,21 +1,24 @@
 // ignore_for_file: unnecessary_getters_setters
 
-import '/backend/schema/util/schema_util.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import '/backend/schema/util/firestore_util.dart';
 import '/backend/schema/enums/enums.dart';
 
-import 'index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
-class VeiculoStruct extends BaseStruct {
+class VeiculoStruct extends FFFirebaseStruct {
   VeiculoStruct({
     int? capacidade,
     String? placa,
     EstadoVeiculo? estado,
     int? id,
+    FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
   })  : _capacidade = capacidade,
         _placa = placa,
         _estado = estado,
-        _id = id;
+        _id = id,
+        super(firestoreUtilData);
 
   // "capacidade" field.
   int? _capacidade;
@@ -134,10 +137,78 @@ VeiculoStruct createVeiculoStruct({
   String? placa,
   EstadoVeiculo? estado,
   int? id,
+  Map<String, dynamic> fieldValues = const {},
+  bool clearUnsetFields = true,
+  bool create = false,
+  bool delete = false,
 }) =>
     VeiculoStruct(
       capacidade: capacidade,
       placa: placa,
       estado: estado,
       id: id,
+      firestoreUtilData: FirestoreUtilData(
+        clearUnsetFields: clearUnsetFields,
+        create: create,
+        delete: delete,
+        fieldValues: fieldValues,
+      ),
     );
+
+VeiculoStruct? updateVeiculoStruct(
+  VeiculoStruct? veiculo, {
+  bool clearUnsetFields = true,
+  bool create = false,
+}) =>
+    veiculo
+      ?..firestoreUtilData = FirestoreUtilData(
+        clearUnsetFields: clearUnsetFields,
+        create: create,
+      );
+
+void addVeiculoStructData(
+  Map<String, dynamic> firestoreData,
+  VeiculoStruct? veiculo,
+  String fieldName, [
+  bool forFieldValue = false,
+]) {
+  firestoreData.remove(fieldName);
+  if (veiculo == null) {
+    return;
+  }
+  if (veiculo.firestoreUtilData.delete) {
+    firestoreData[fieldName] = FieldValue.delete();
+    return;
+  }
+  final clearFields =
+      !forFieldValue && veiculo.firestoreUtilData.clearUnsetFields;
+  if (clearFields) {
+    firestoreData[fieldName] = <String, dynamic>{};
+  }
+  final veiculoData = getVeiculoFirestoreData(veiculo, forFieldValue);
+  final nestedData = veiculoData.map((k, v) => MapEntry('$fieldName.$k', v));
+
+  final mergeFields = veiculo.firestoreUtilData.create || clearFields;
+  firestoreData
+      .addAll(mergeFields ? mergeNestedFields(nestedData) : nestedData);
+}
+
+Map<String, dynamic> getVeiculoFirestoreData(
+  VeiculoStruct? veiculo, [
+  bool forFieldValue = false,
+]) {
+  if (veiculo == null) {
+    return {};
+  }
+  final firestoreData = mapToFirestore(veiculo.toMap());
+
+  // Add any Firestore field values
+  veiculo.firestoreUtilData.fieldValues.forEach((k, v) => firestoreData[k] = v);
+
+  return forFieldValue ? mergeNestedFields(firestoreData) : firestoreData;
+}
+
+List<Map<String, dynamic>> getVeiculoListFirestoreData(
+  List<VeiculoStruct>? veiculos,
+) =>
+    veiculos?.map((e) => getVeiculoFirestoreData(e, true)).toList() ?? [];

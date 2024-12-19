@@ -1,11 +1,12 @@
 // ignore_for_file: unnecessary_getters_setters
 
-import '/backend/schema/util/schema_util.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'index.dart';
+import '/backend/schema/util/firestore_util.dart';
+
 import '/flutter_flow/flutter_flow_util.dart';
 
-class LixeiraStruct extends BaseStruct {
+class LixeiraStruct extends FFFirebaseStruct {
   LixeiraStruct({
     double? latitude,
     double? longitude,
@@ -18,6 +19,7 @@ class LixeiraStruct extends BaseStruct {
     String? id,
     String? descricao,
     bool? isVisitada,
+    FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
   })  : _latitude = latitude,
         _longitude = longitude,
         _volumeAtual = volumeAtual,
@@ -28,7 +30,8 @@ class LixeiraStruct extends BaseStruct {
         _momentoUltimaColeta = momentoUltimaColeta,
         _id = id,
         _descricao = descricao,
-        _isVisitada = isVisitada;
+        _isVisitada = isVisitada,
+        super(firestoreUtilData);
 
   // "latitude" field.
   double? _latitude;
@@ -115,7 +118,7 @@ class LixeiraStruct extends BaseStruct {
   bool hasDescricao() => _descricao != null;
 
   // "isVisitada" field.
-  bool? _isVisitada = false;
+  bool? _isVisitada;
   bool get isVisitada => _isVisitada ?? false;
   set isVisitada(bool? val) => _isVisitada = val;
 
@@ -128,16 +131,11 @@ class LixeiraStruct extends BaseStruct {
         volumeMaximo: castToType<double>(data['volumeMaximo']),
         pesoMaximo: castToType<double>(data['pesoMaximo']),
         pesoAtual: castToType<double>(data['pesoAtual']),
-        //ultimaAtualizacao: data['ultimaAtualizacao'] as DateTime?,
-        //momentoUltimaColeta: data['momentoUltimaColeta'] as DateTime?,
-    ultimaAtualizacao: data['ultimaAtualizacao'] != null
-        ? DateTime.tryParse(data['ultimaAtualizacao'])
-        : null,
-    momentoUltimaColeta: data['momentoUltimaColeta'] != null
-        ? DateTime.tryParse(data['momentoUltimaColeta'])
-        : null,
+        ultimaAtualizacao: data['ultimaAtualizacao'] as DateTime?,
+        momentoUltimaColeta: data['momentoUltimaColeta'] as DateTime?,
         id: data['id'] as String?,
         descricao: data['descricao'] as String?,
+        isVisitada: data['isVisitada'] as bool?,
       );
 
   static LixeiraStruct? maybeFromMap(dynamic data) =>
@@ -150,8 +148,8 @@ class LixeiraStruct extends BaseStruct {
         'volumeMaximo': _volumeMaximo,
         'pesoMaximo': _pesoMaximo,
         'pesoAtual': _pesoAtual,
-        'ultimaAtualizacao': _ultimaAtualizacao?.toIso8601String(),
-        'momentoUltimaColeta': _momentoUltimaColeta?.toIso8601String(),
+        'ultimaAtualizacao': _ultimaAtualizacao,
+        'momentoUltimaColeta': _momentoUltimaColeta,
         'id': _id,
         'descricao': _descricao,
         'isVisitada': _isVisitada,
@@ -311,6 +309,10 @@ LixeiraStruct createLixeiraStruct({
   String? id,
   String? descricao,
   bool? isVisitada,
+  Map<String, dynamic> fieldValues = const {},
+  bool clearUnsetFields = true,
+  bool create = false,
+  bool delete = false,
 }) =>
     LixeiraStruct(
       latitude: latitude,
@@ -323,5 +325,69 @@ LixeiraStruct createLixeiraStruct({
       momentoUltimaColeta: momentoUltimaColeta,
       id: id,
       descricao: descricao,
-      isVisitada: false,
+      isVisitada: isVisitada,
+      firestoreUtilData: FirestoreUtilData(
+        clearUnsetFields: clearUnsetFields,
+        create: create,
+        delete: delete,
+        fieldValues: fieldValues,
+      ),
     );
+
+LixeiraStruct? updateLixeiraStruct(
+  LixeiraStruct? lixeira, {
+  bool clearUnsetFields = true,
+  bool create = false,
+}) =>
+    lixeira
+      ?..firestoreUtilData = FirestoreUtilData(
+        clearUnsetFields: clearUnsetFields,
+        create: create,
+      );
+
+void addLixeiraStructData(
+  Map<String, dynamic> firestoreData,
+  LixeiraStruct? lixeira,
+  String fieldName, [
+  bool forFieldValue = false,
+]) {
+  firestoreData.remove(fieldName);
+  if (lixeira == null) {
+    return;
+  }
+  if (lixeira.firestoreUtilData.delete) {
+    firestoreData[fieldName] = FieldValue.delete();
+    return;
+  }
+  final clearFields =
+      !forFieldValue && lixeira.firestoreUtilData.clearUnsetFields;
+  if (clearFields) {
+    firestoreData[fieldName] = <String, dynamic>{};
+  }
+  final lixeiraData = getLixeiraFirestoreData(lixeira, forFieldValue);
+  final nestedData = lixeiraData.map((k, v) => MapEntry('$fieldName.$k', v));
+
+  final mergeFields = lixeira.firestoreUtilData.create || clearFields;
+  firestoreData
+      .addAll(mergeFields ? mergeNestedFields(nestedData) : nestedData);
+}
+
+Map<String, dynamic> getLixeiraFirestoreData(
+  LixeiraStruct? lixeira, [
+  bool forFieldValue = false,
+]) {
+  if (lixeira == null) {
+    return {};
+  }
+  final firestoreData = mapToFirestore(lixeira.toMap());
+
+  // Add any Firestore field values
+  lixeira.firestoreUtilData.fieldValues.forEach((k, v) => firestoreData[k] = v);
+
+  return forFieldValue ? mergeNestedFields(firestoreData) : firestoreData;
+}
+
+List<Map<String, dynamic>> getLixeiraListFirestoreData(
+  List<LixeiraStruct>? lixeiras,
+) =>
+    lixeiras?.map((e) => getLixeiraFirestoreData(e, true)).toList() ?? [];

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "458717794730",
+    "project_id": "coleta-plus-2xp90b",
+    "storage_bucket": "coleta-plus-2xp90b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:458717794730:android:7bc6a2477ce609f5f51bd3",
+        "android_client_info": {
+          "package_name": "com.mycompany.coletaplus"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmL3U-4E2LImCeH-moAmOoaSip3-cDg60"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

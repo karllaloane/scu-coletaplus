@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import '/backend/api_requests/api_calls.dart';
 import '/backend/schema/structs/index.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
@@ -346,16 +344,23 @@ class _BuscarRotaPageWidgetState extends State<BuscarRotaPageWidget> {
                       );
 
                       if ((_model.apiResultcp9?.succeeded ?? true)) {
-
-                        var teste = (getJsonField(
-                          (_model.apiResultcp9?.jsonBody ?? ''),
-                          r'''$.lixeiras''',
-                          true,
-                        ));
-
-                        print("############# ${jsonEncode(teste)}");
-
-                        FFAppState().lixeiras = (getJsonField(
+                        await showDialog(
+                          context: context,
+                          builder: (alertDialogContext) {
+                            return AlertDialog(
+                              title: const Text('Deu certo'),
+                              content: const Text('Deu certo!'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () =>
+                                      Navigator.pop(alertDialogContext),
+                                  child: const Text('Ok'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                        FFAppState().Lixeiras = (getJsonField(
                           (_model.apiResultcp9?.jsonBody ?? ''),
                           r'''$.lixeiras''',
                           true,
@@ -366,8 +371,6 @@ class _BuscarRotaPageWidgetState extends State<BuscarRotaPageWidget> {
                             .withoutNulls
                             .toList()
                             .cast<LixeiraStruct>();
-
-
                         FFAppState().rota = (getJsonField(
                           (_model.apiResultcp9?.jsonBody ?? ''),
                           r'''$.polylines''',
@@ -379,25 +382,7 @@ class _BuscarRotaPageWidgetState extends State<BuscarRotaPageWidget> {
                             .cast<String>();
                         safeSetState(() {});
 
-                        if(FFAppState().lixeiras.isEmpty){
-                            await showDialog(
-                            context: context,
-                            builder: (alertDialogContext) {
-                            return AlertDialog(
-                            title: const Text('Buscar Rota'),
-                            content: const Text(
-                            'Não há lixeiras a serem coletadas!'),
-                            actions: [
-                            TextButton(
-                            onPressed: () =>
-                            Navigator.pop(alertDialogContext),
-                            child: const Text('Ok'),
-                            ),
-                            ],
-                            ); } ); }
-                         else {
-                          context.pushNamed('ResumoRotaPage');
-                          }
+                        context.pushNamed('ResumoRotaPage');
                       } else {
                         await showDialog(
                           context: context,

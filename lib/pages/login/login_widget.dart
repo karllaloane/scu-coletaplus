@@ -689,7 +689,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                               child: Padding(
                                 padding: const EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 64.0, 0.0),
-
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -701,7 +700,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                           .headlineSmall
                                           .override(
                                             fontFamily: 'Inter',
-                                            fontSize: 15.0,
+                                            fontSize: 30.0,
                                             letterSpacing: 0.0,
                                             fontWeight: FontWeight.w500,
                                             lineHeight: 1.2,
