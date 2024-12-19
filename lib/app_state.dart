@@ -207,7 +207,7 @@ class FFAppState extends ChangeNotifier {
   }
 
   void syncAppStateWithFirestore(String userId) {
-    final docRef = FirebaseFirestore.instance.collection('app_state').doc(FFAppState()._userName);
+    final docRef = FirebaseFirestore.instance.collection('app_state').doc(FFAppState().userName);
 
     // Carregar estado inicial
     docRef.get().then((snapshot) {

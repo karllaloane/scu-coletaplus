@@ -547,9 +547,14 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                                                     if ((_model.apiResult2qp
                                                                         ?.succeeded ??
                                                                         true)) {
+
                                                                       FFAppState().rota.clear();
                                                                       FFAppState().lixeiras.clear();
                                                                       FFAppState().lixeirasVisitadas.clear();
+                                                                      FFAppState().emRota = false;
+
+                                                                      FFAppState().saveAppStateToFirestore(FFAppState().userName);
+
                                                                       safeSetState(() {});
                                                                       await showDialog(
                                                                         context: context,
@@ -862,6 +867,10 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                                           FFAppState().rota.clear();
                                                           FFAppState().lixeiras.clear();
                                                           FFAppState().lixeirasVisitadas.clear();
+                                                          FFAppState().emRota = false;
+
+                                                          FFAppState().saveAppStateToFirestore(FFAppState().userName);
+
                                                           safeSetState(() {});
                                                           await showDialog(
                                                             context: context,

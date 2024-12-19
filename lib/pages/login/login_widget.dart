@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'login_model.dart';
 export 'login_model.dart';
+import 'package:logger/logger.dart';
 
 class LoginWidget extends StatefulWidget {
   const LoginWidget({super.key});
@@ -16,6 +17,8 @@ class LoginWidget extends StatefulWidget {
 
 class _LoginWidgetState extends State<LoginWidget> {
   late LoginModel _model;
+
+  final logger = Logger();
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -584,18 +587,29 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                     .text;
                                                 safeSetState(() {});
 
-                                                context.pushNamed(
-                                                  'BuscarRotaPage',
-                                                  extra: <String, dynamic>{
-                                                    kTransitionInfoKey:
-                                                        const TransitionInfo(
-                                                      hasTransition: true,
-                                                      transitionType:
-                                                          PageTransitionType
-                                                              .leftToRight,
-                                                    ),
-                                                  },
-                                                );
+                                                FFAppState().syncAppStateWithFirestore(FFAppState().userName);
+
+                                                if(FFAppState().emRota){
+                                                  logger.e("EM ROTA");
+                                                  context.pushNamed('RotaColeta');
+                                                } else {
+                                                  logger.e("NÃO ESTÁ EM ROTA ${FFAppState().emRota}");
+                                                  context.pushNamed(
+                                                    'BuscarRotaPage',
+                                                    extra: <String, dynamic>{
+                                                      kTransitionInfoKey:
+                                                      const TransitionInfo(
+                                                        hasTransition: true,
+                                                        transitionType:
+                                                        PageTransitionType
+                                                            .leftToRight,
+                                                      ),
+                                                    },
+                                                  );
+                                                }
+
+
+
                                               } else {
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(
