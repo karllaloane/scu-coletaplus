@@ -312,6 +312,8 @@ class _ResumoRotaPageWidgetState extends State<ResumoRotaPageWidget> {
                         );
                         safeSetState(() {});
 
+                        FFAppState().saveAppStateToFirestore(FFAppState().userName);
+
                         context.pushNamed('RotaColeta');
                       } else {
                         await showDialog(

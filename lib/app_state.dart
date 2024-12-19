@@ -4,6 +4,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:csv/csv.dart';
 import 'package:synchronized/synchronized.dart';
 import 'flutter_flow/flutter_flow_util.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 class FFAppState extends ChangeNotifier {
   static FFAppState _instance = FFAppState._internal();
@@ -24,6 +26,10 @@ class FFAppState extends ChangeNotifier {
       _userAcessToken =
           await secureStorage.getString('ff_userAcessToken') ?? _userAcessToken;
     });
+    await _safeInitAsync(() async {
+      _emRota = await secureStorage.getBool('ff_emRota') ?? _emRota;
+    });
+
     await _safeInitAsync(() async {
       _userName = await secureStorage.getString('ff_userName') ?? _userName;
     });
@@ -50,6 +56,7 @@ class FFAppState extends ChangeNotifier {
   }
 
   late FlutterSecureStorage secureStorage;
+
 
   String _userAcessToken = '';
   String get userAcessToken => _userAcessToken;
@@ -82,6 +89,17 @@ class FFAppState extends ChangeNotifier {
 
   void deleteSenha() {
     secureStorage.delete(key: 'ff_senha');
+  }
+
+  bool _emRota = false;
+  bool get emRota => _emRota;
+  set emRota(bool value) {
+    _emRota = value;
+    secureStorage.setBool('ff_emRota', value);
+  }
+
+  void deleteEmRota() {
+    secureStorage.delete(key: 'ff_emRota');
   }
 
   List<String> _rota = [];
@@ -187,6 +205,48 @@ class FFAppState extends ChangeNotifier {
   void insertAtIndexInLixeirasVisitadas(int index, LixeiraStruct value) {
     lixeirasVisitadas.insert(index, value);
   }
+
+  void syncAppStateWithFirestore(String userId) {
+    final docRef = FirebaseFirestore.instance.collection('app_state').doc(FFAppState()._userName);
+
+    // Carregar estado inicial
+    docRef.get().then((snapshot) {
+      if (snapshot.exists) {
+        final data = snapshot.data()!;
+        FFAppState().rota = List<String>.from(data['rota'] ?? []);
+        FFAppState().lixeiras = List<Map<String, dynamic>>.from(data['lixeiras'] ?? [])
+            .map((e) => LixeiraStruct.fromMap(e))
+            .toList();
+        FFAppState().emRota = data['emRota'] ?? false;
+        FFAppState().veiculo.id = data['caminhaoId'] ?? '';
+      }
+    });
+
+    // Monitorar alterações no estado
+    docRef.snapshots().listen((snapshot) {
+      if (snapshot.exists) {
+        final data = snapshot.data()!;
+        FFAppState().update(() {
+          FFAppState().rota = List<String>.from(data['rota'] ?? []);
+          FFAppState().lixeiras = List<Map<String, dynamic>>.from(data['lixeiras'] ?? [])
+              .map((e) => LixeiraStruct.fromMap(e))
+              .toList();
+          FFAppState().emRota = data['emRota'] ?? false;
+          FFAppState().veiculo.id = data['caminhaoId'] ?? '';
+        });
+      }
+    });
+  }
+
+  void saveAppStateToFirestore(String userId) {
+    final docRef = FirebaseFirestore.instance.collection('appState').doc(userId);
+    docRef.set({
+      'rota': FFAppState().rota,
+      'lixeiras': FFAppState().lixeiras.map((e) => e.toMap()).toList(),
+      'emRota': FFAppState().emRota,
+      'caminhaoId': FFAppState().veiculo.id,
+    });
+  }
 }
 
 void _safeInit(Function() initializeField) {
@@ -200,6 +260,7 @@ Future _safeInitAsync(Function() initializeField) async {
     await initializeField();
   } catch (_) {}
 }
+
 
 extension FlutterSecureStorageExtensions on FlutterSecureStorage {
   static final _lock = Lock();
@@ -240,6 +301,7 @@ extension FlutterSecureStorageExtensions on FlutterSecureStorage {
             .map((e) => e.toString())
             .toList();
       });
+
   Future<void> setStringList(String key, List<String> value) async =>
       await writeSync(key: key, value: const ListToCsvConverter().convert([value]));
 }
