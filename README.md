@@ -89,6 +89,6 @@ flutter run
 ## Outros repositórios importantes para o projeto:
 
 - Repositório backend do projeto: [sicoin-backend](https://github.com/JohnTFM/sicoin-backend)
-- Documentação e arquitetura do projeto: [aqui](https://github.com/karllaloane/PadraoArqui-SCU)
+- Documentação, diagramas e arquitetura do projeto: [aqui](https://github.com/karllaloane/PadraoArqui-SCU)
 - Repositório do portal web do projeto, para relatórios e dashboard: [sicoin-frontend](https://github.com/JvRosa/sicoin-frontend)
 
