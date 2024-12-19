@@ -1,7 +1,83 @@
-# coleta-plus
+# Coleta+ - Aplicativo para otimização de rotas de coleta de resíduos
 
-A new Flutter project.
+Este projeto faz parte do sistema de coleta de resíduos em cidades inteligentes, com funcionalidades como monitoramento em tempo real, rotas otimizadas baseadas em volume de lixo e geolocalização, além de geração de relatórios de eficiência.
 
-## Getting Started
+## Funcionalidades
 
-FlutterFlow projects are built to run on the Flutter _stable_ release.
+- Rotas otimizadas: busca e exibição de rotas de coleta com base no volume de resíduos e localização geográfica do dispositivo.
+- Monitoramento em tempo real: atualizações em tempo real das condições das lixeiras e rotas.
+
+## Pré-requisitos
+
+### Clonar o repositório
+
+Clone este repositório com o comando:
+
+```
+git clone https://github.com/karllaloane/scu-coletaplus
+```
+
+### Servidor Backend
+Para que o aplicativo funcione corretamente, é necessário garantir que o servidor backend do sistema esteja em execução. O servidor backend pode ser acessado pelo endereço padrão configurado no aplicativo. Caso prefira rodar o backend localmente:
+
+1. Clone o repositório do backend:
+2. Configure e execute o backend seguindo as instruções disponíveis no repositório.
+3. Altere a URL das chamadas para a API no arquivo `lib/backend/schemas/utils/config.dart`, inserindo o endereço de IP da máquina e a porta 8088.
+
+## Configuração do Ambiente de Desenvolvimento
+
+Certifique-se de ter as seguintes ferramentas e dependências configuradas:
+
+### Ambiente Flutter
+
+- **SDK Flutter**: O projeto requer Flutter com suporte para o Dart `SDK >=3.0.0 <4.0.0`. Instale o Flutter seguindo a documentação oficial: [windows](https://docs.flutter.dev/get-started/install/windows/mobile) ou linux [linux](https://docs.flutter.dev/get-started/install/linux/android).
+
+- **Android Studio**: Recomendado para configuração e execução em dispositivos físicos ou emuladores.
+  - Inclua o SDK do Android.
+  - Configure ao menos um emulador Android.
+  - Para mais informações: (Instalar o Android Studio)[https://developer.android.com/studio/install?hl=pt-br]
+ 
+- Outras opções de IDE:
+  - Visual Studio Code: Instale as extensões Flutter e Dart.
+
+## Dependências do Projeto
+
+Após clonar o repositório do aplicativo, instale as dependências executando os seguintes comandos na raiz do projeto:
+
+```
+flutter clean
+```
+
+```
+flutter pub get
+```
+
+### Executando o Aplicativo
+
+Observação: Certifique-se de que o servidor backend está em execução antes de iniciar o aplicativo.
+
+**Em Dispositivos Físicos**
+- Conecte o dispositivo ao computador e ative a depuração USB ou depuração WiFi.
+- Execute o aplicativo no dispositivo:
+
+```
+flutter run
+```
+
+**Em Emuladores Android**
+- Inicie um emulador pelo Android Studio.
+- Execute o comando e aguarde a instalação.:
+
+```
+flutter run
+```
+
+## Observações importantes
+
+1. A URL do backend já está configurada para o servidor padrão em produção. Certifique-se de que ele está ativo.
+2. Caso deseje utilizar um backend local, ajuste a URL no arquivo config.dart e reinicie o aplicativo.
+3. Consulte os logs em tempo real no console da IDE para verificar mensagens de erro ou informações.
+
+
+
+
