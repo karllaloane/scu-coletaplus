@@ -1,3 +1,6 @@
+![Captura de tela 2024-12-19 141240](https://github.com/user-attachments/assets/12b87891-5485-4ef9-8b68-fae9c7b5c162)
+
+
 # Coleta+ - Aplicativo para otimização de rotas de coleta de resíduos
 
 Este projeto faz parte do sistema de coleta de resíduos em cidades inteligentes, com funcionalidades como monitoramento em tempo real, rotas otimizadas baseadas em volume de lixo e geolocalização, além de geração de relatórios de eficiência.
@@ -20,7 +23,7 @@ git clone https://github.com/karllaloane/scu-coletaplus
 ### Servidor Backend
 Para que o aplicativo funcione corretamente, é necessário garantir que o servidor backend do sistema esteja em execução. O servidor backend pode ser acessado pelo endereço padrão configurado no aplicativo. Caso prefira rodar o backend localmente:
 
-1. Clone o repositório do backend:
+1. Clone o repositório do backend: [sicoin-backend](https://github.com/JohnTFM/sicoin-backend)
 2. Configure e execute o backend seguindo as instruções disponíveis no repositório.
 3. Altere a URL das chamadas para a API no arquivo `lib/backend/schemas/utils/config.dart`, inserindo o endereço de IP da máquina e a porta 8088.
 
@@ -79,5 +82,9 @@ flutter run
 3. Consulte os logs em tempo real no console da IDE para verificar mensagens de erro ou informações.
 
 
+## Outros repositórios importantes para o projeto:
 
+- Repositório backend do projeto: [sicoin-backend](https://github.com/JohnTFM/sicoin-backend)
+- Documentação e arquitetura do projeto: [aqui](https://github.com/karllaloane/PadraoArqui-SCU)
+- Repositório do portal web do projeto, para relatórios e dashboard: [sicoin-frontend](https://github.com/JvRosa/sicoin-frontend)
 
