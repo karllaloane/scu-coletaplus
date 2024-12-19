@@ -12,16 +12,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 
+import 'package:geolocator/geolocator.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as gmaps;
 import 'dart:async';
-import 'dart:ui';
+import 'dart:ui' as ui;
 import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/scheduler.dart';
-
+import 'package:just_audio/just_audio.dart';
+import '/backend/api_requests/api_calls.dart';
+import 'package:coleta_plus/pages/rota_coleta/rota_coleta_model.dart';
+import 'package:logger/logger.dart';
 import '/flutter_flow/lat_lng.dart'
-    as latlng; // Import do FlutterFlow para latlng.LatLng
+as latlng; // Import do FlutterFlow para latlng.LatLng
 
 class CustomMapWithRouteAndBins extends StatefulWidget {
   const CustomMapWithRouteAndBins({
@@ -32,11 +36,13 @@ class CustomMapWithRouteAndBins extends StatefulWidget {
     required this.trashBinIconPath,
     this.width,
     this.height,
-    this.initialZoom = 14.0,
-    this.onInstructionUpdate,
-    this.onNextCollectionDistanceUpdate,
+    this.initialZoom = 15.0,
+    required this.onInstructionUpdate,
+    required this.onNextCollectionDistanceUpdate,
+    required this.onSendCollectionEvent,
   }) : super(key: key);
 
+  final Function(LixeiraStruct) onSendCollectionEvent;
   final Function(String)? onInstructionUpdate;
   final Function(double)? onNextCollectionDistanceUpdate;
   final double? width;
@@ -57,6 +63,8 @@ class _CustomMapWithRouteAndBinsState extends State<CustomMapWithRouteAndBins> {
   gmaps.BitmapDescriptor? _trashBinIcon;
   gmaps.LatLng? currentLocation;
 
+  final logger = Logger();
+
   @override
   void initState() {
     super.initState();
@@ -66,6 +74,7 @@ class _CustomMapWithRouteAndBinsState extends State<CustomMapWithRouteAndBins> {
       widget.currentLocation.latitude,
       widget.currentLocation.longitude,
     );
+
 
     // Rastreie o movimento do dispositivo
     Geolocator.getPositionStream(
@@ -96,12 +105,12 @@ class _CustomMapWithRouteAndBinsState extends State<CustomMapWithRouteAndBins> {
       // Redimensionar a imagem
       final codec = await ui.instantiateImageCodec(
         imageData.buffer.asUint8List(),
-        targetWidth: 100, // Largura desejada
-        targetHeight: 150, // Altura desejada
+        targetWidth: 100,
+        targetHeight: 150,
       );
       final ui.FrameInfo frame = await codec.getNextFrame();
       final ByteData? byteData =
-          await frame.image.toByteData(format: ui.ImageByteFormat.png);
+      await frame.image.toByteData(format: ui.ImageByteFormat.png);
 
       if (byteData != null) {
         // Criar o BitmapDescriptor com a imagem redimensionada
@@ -112,7 +121,7 @@ class _CustomMapWithRouteAndBinsState extends State<CustomMapWithRouteAndBins> {
         }
       }
     } catch (e) {
-      print('[ERROR] Falha ao carregar o ícone da lixeira: $e');
+      logger.e('[ERROR] Falha ao carregar o ícone da lixeira: $e');
     }
   }
 
@@ -154,6 +163,27 @@ class _CustomMapWithRouteAndBinsState extends State<CustomMapWithRouteAndBins> {
     if (widget.polylinePoints == null || widget.polylinePoints!.isEmpty) {
       print('[ERROR] Nenhuma polyline fornecida.');
       return;
+    }
+
+    if (widget.trashBins != null && widget.trashBins!.isNotEmpty) {
+      for (final bin in widget.trashBins!) {
+        if (bin.hasLatitude() && bin.hasLongitude()) {
+          final distance = _calculateDistance(
+            currentLocation!,
+            gmaps.LatLng(bin.latitude, bin.longitude),
+          );
+
+          logger.e("user $currentLocation - + lixeira ${bin.latitude} ${bin.longitude}");
+
+          // Se estiver a 7 metros ou menos, enviar evento de coleta
+          if (distance <= 7) {
+            bin.isVisitada = true;
+            FFAppState().lixeirasVisitadas.add(bin);
+            widget.onSendCollectionEvent(bin);
+          } else {
+          }
+        }
+      }
     }
 
     // Decodifica os pontos da rota
@@ -203,13 +233,13 @@ class _CustomMapWithRouteAndBinsState extends State<CustomMapWithRouteAndBins> {
     String instruction;
     if (bearing > 30 && bearing < 150) {
       instruction =
-          'Vire à direita em ${distanceToNext.toStringAsFixed(0)} metros.';
+      'Vire à direita em ${distanceToNext.toStringAsFixed(0)} metros.';
     } else if (bearing > -150 && bearing < -30) {
       instruction =
-          'Vire à esquerda em ${distanceToNext.toStringAsFixed(0)} metros.';
+      'Vire à esquerda em ${distanceToNext.toStringAsFixed(0)} metros.';
     } else {
       instruction =
-          'Siga em frente por ${distanceToNext.toStringAsFixed(0)} metros.';
+      'Siga em frente por ${distanceToNext.toStringAsFixed(0)} metros.';
     }
 
     print('[DEBUG] Instrução gerada: $instruction');
@@ -220,7 +250,7 @@ class _CustomMapWithRouteAndBinsState extends State<CustomMapWithRouteAndBins> {
       final distancesToBins = widget.trashBins!
           .where((bin) => bin.hasLatitude() && bin.hasLongitude())
           .map((bin) => _calculateDistance(
-              currentLocation!, gmaps.LatLng(bin.latitude, bin.longitude)))
+          currentLocation!, gmaps.LatLng(bin.latitude, bin.longitude)))
           .toList();
 
       // Encontra a menor distância
@@ -305,7 +335,7 @@ class _CustomMapWithRouteAndBinsState extends State<CustomMapWithRouteAndBins> {
           markers.add(
             gmaps.Marker(
               markerId:
-                  gmaps.MarkerId(bin.id ?? '${bin.latitude},${bin.longitude}'),
+              gmaps.MarkerId(bin.id ?? '${bin.latitude},${bin.longitude}'),
               position: gmaps.LatLng(bin.latitude, bin.longitude),
               icon: _trashBinIcon ?? gmaps.BitmapDescriptor.defaultMarker,
             ),

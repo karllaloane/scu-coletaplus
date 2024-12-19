@@ -115,7 +115,7 @@ class LixeiraStruct extends BaseStruct {
   bool hasDescricao() => _descricao != null;
 
   // "isVisitada" field.
-  bool? _isVisitada;
+  bool? _isVisitada = false;
   bool get isVisitada => _isVisitada ?? false;
   set isVisitada(bool? val) => _isVisitada = val;
 
@@ -128,11 +128,16 @@ class LixeiraStruct extends BaseStruct {
         volumeMaximo: castToType<double>(data['volumeMaximo']),
         pesoMaximo: castToType<double>(data['pesoMaximo']),
         pesoAtual: castToType<double>(data['pesoAtual']),
-        ultimaAtualizacao: data['ultimaAtualizacao'] as DateTime?,
-        momentoUltimaColeta: data['momentoUltimaColeta'] as DateTime?,
+        //ultimaAtualizacao: data['ultimaAtualizacao'] as DateTime?,
+        //momentoUltimaColeta: data['momentoUltimaColeta'] as DateTime?,
+    ultimaAtualizacao: data['ultimaAtualizacao'] != null
+        ? DateTime.tryParse(data['ultimaAtualizacao'])
+        : null,
+    momentoUltimaColeta: data['momentoUltimaColeta'] != null
+        ? DateTime.tryParse(data['momentoUltimaColeta'])
+        : null,
         id: data['id'] as String?,
         descricao: data['descricao'] as String?,
-        isVisitada: data['isVisitada'] as bool?,
       );
 
   static LixeiraStruct? maybeFromMap(dynamic data) =>
@@ -145,8 +150,8 @@ class LixeiraStruct extends BaseStruct {
         'volumeMaximo': _volumeMaximo,
         'pesoMaximo': _pesoMaximo,
         'pesoAtual': _pesoAtual,
-        'ultimaAtualizacao': _ultimaAtualizacao,
-        'momentoUltimaColeta': _momentoUltimaColeta,
+        'ultimaAtualizacao': _ultimaAtualizacao?.toIso8601String(),
+        'momentoUltimaColeta': _momentoUltimaColeta?.toIso8601String(),
         'id': _id,
         'descricao': _descricao,
         'isVisitada': _isVisitada,
@@ -318,5 +323,5 @@ LixeiraStruct createLixeiraStruct({
       momentoUltimaColeta: momentoUltimaColeta,
       id: id,
       descricao: descricao,
-      isVisitada: isVisitada,
+      isVisitada: false,
     );

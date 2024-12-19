@@ -114,32 +114,32 @@ class FFAppState extends ChangeNotifier {
   }
 
   List<LixeiraStruct> _Lixeiras = [];
-  List<LixeiraStruct> get Lixeiras => _Lixeiras;
-  set Lixeiras(List<LixeiraStruct> value) {
+  List<LixeiraStruct> get lixeiras => _Lixeiras;
+  set lixeiras(List<LixeiraStruct> value) {
     _Lixeiras = value;
   }
 
   void addToLixeiras(LixeiraStruct value) {
-    Lixeiras.add(value);
+    lixeiras.add(value);
   }
 
   void removeFromLixeiras(LixeiraStruct value) {
-    Lixeiras.remove(value);
+    lixeiras.remove(value);
   }
 
   void removeAtIndexFromLixeiras(int index) {
-    Lixeiras.removeAt(index);
+    lixeiras.removeAt(index);
   }
 
   void updateLixeirasAtIndex(
     int index,
     LixeiraStruct Function(LixeiraStruct) updateFn,
   ) {
-    Lixeiras[index] = updateFn(_Lixeiras[index]);
+    lixeiras[index] = updateFn(_Lixeiras[index]);
   }
 
   void insertAtIndexInLixeiras(int index, LixeiraStruct value) {
-    Lixeiras.insert(index, value);
+    lixeiras.insert(index, value);
   }
 
   VeiculoStruct _veiculo = VeiculoStruct.fromSerializableMap(jsonDecode(
