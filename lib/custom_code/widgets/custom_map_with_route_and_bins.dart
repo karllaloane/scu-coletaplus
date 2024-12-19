@@ -159,35 +159,119 @@ class _CustomMapWithRouteAndBinsState extends State<CustomMapWithRouteAndBins> {
     return polylines;
   }
 
+  // void _updateNavigationInstruction() {
+  //   if (widget.polylinePoints == null || widget.polylinePoints!.isEmpty) {
+  //     print('[ERROR] Nenhuma polyline fornecida.');
+  //     return;
+  //   }
+  //
+  //   if (widget.trashBins != null && widget.trashBins!.isNotEmpty) {
+  //     for (final bin in widget.trashBins!) {
+  //       if (bin.hasLatitude() && bin.hasLongitude()) {
+  //         final distance = _calculateDistance(
+  //           currentLocation!,
+  //           gmaps.LatLng(bin.latitude, bin.longitude),
+  //         );
+  //
+  //         logger.e("user $currentLocation - + lixeira ${bin.latitude} ${bin.longitude}");
+  //
+  //         // Se estiver a 7 metros ou menos, enviar evento de coleta
+  //         if (distance <= 7) {
+  //           bin.isVisitada = true;
+  //           FFAppState().lixeirasVisitadas.add(bin);
+  //           widget.onSendCollectionEvent(bin);
+  //         } else {
+  //         }
+  //       }
+  //     }
+  //   }
+  //
+  //   // Decodifica os pontos da rota
+  //   final routePoints = widget.polylinePoints!
+  //       .map((encoded) => _decodePolyline(encoded))
+  //       .expand((points) => points)
+  //       .toList();
+  //
+  //   if (routePoints.isEmpty) {
+  //     print('[ERROR] Nenhum ponto decodificado da rota.');
+  //     return;
+  //   }
+  //
+  //   // Localiza o ponto mais próximo na rota
+  //   final currentIndex = routePoints.indexWhere((point) {
+  //     final distance = _calculateDistance(currentLocation!, point);
+  //     print(
+  //         '[DEBUG] Distância para ponto ${point.latitude}, ${point.longitude}: $distance metros');
+  //     return distance < 50; // Define a proximidade como 50 metros
+  //   });
+  //
+  //   if (currentIndex == -1) {
+  //     print(
+  //         '[DEBUG] Nenhum ponto próximo encontrado. Talvez o usuário esteja fora da rota.');
+  //     widget.onInstructionUpdate?.call('Você está fora da rota.');
+  //     return;
+  //   }
+  //
+  //   if (currentIndex == routePoints.length - 1) {
+  //     print('[DEBUG] Último ponto alcançado. Destino atingido.');
+  //     widget.onInstructionUpdate?.call('Você chegou ao destino!');
+  //     return;
+  //   }
+  //
+  //   // Calcula o próximo ponto e a distância até ele
+  //   final nextPoint = routePoints[currentIndex + 1];
+  //   final distanceToNext = _calculateDistance(currentLocation!, nextPoint);
+  //   print(
+  //       '[DEBUG] Próximo ponto: ${nextPoint.latitude}, ${nextPoint.longitude}');
+  //   print('[DEBUG] Distância para o próximo ponto: $distanceToNext metros');
+  //
+  //   // Calcular direção (bearing) para o próximo ponto
+  //   final bearing = _calculateBearing(currentLocation!, nextPoint);
+  //   print('[DEBUG] Direção (bearing) para o próximo ponto: $bearing');
+  //
+  //   // Gera a instrução de navegação
+  //   String instruction;
+  //   if (bearing > 30 && bearing < 150) {
+  //     instruction =
+  //     'Vire à direita em ${distanceToNext.toStringAsFixed(0)} metros.';
+  //   } else if (bearing > -150 && bearing < -30) {
+  //     instruction =
+  //     'Vire à esquerda em ${distanceToNext.toStringAsFixed(0)} metros.';
+  //   } else {
+  //     instruction =
+  //     'Siga em frente por ${distanceToNext.toStringAsFixed(0)} metros.';
+  //   }
+  //
+  //   print('[DEBUG] Instrução gerada: $instruction');
+  //   widget.onInstructionUpdate?.call(instruction);
+  //
+  //   // Adicional: Calcula a distância até a próxima coleta (lixeira)
+  //   if (widget.trashBins != null && widget.trashBins!.isNotEmpty) {
+  //     final distancesToBins = widget.trashBins!
+  //         .where((bin) => bin.hasLatitude() && bin.hasLongitude())
+  //         .map((bin) => _calculateDistance(
+  //         currentLocation!, gmaps.LatLng(bin.latitude, bin.longitude)))
+  //         .toList();
+  //
+  //     // Encontra a menor distância
+  //     if (distancesToBins.isNotEmpty) {
+  //       final minDistance = distancesToBins.reduce((a, b) => a < b ? a : b);
+  //       print('[DEBUG] Próxima lixeira está a $minDistance metros.');
+  //       if (widget.onNextCollectionDistanceUpdate != null) {
+  //         widget.onNextCollectionDistanceUpdate!(minDistance);
+  //       }
+  //     }
+  //   }
+  // }
+
   void _updateNavigationInstruction() {
     if (widget.polylinePoints == null || widget.polylinePoints!.isEmpty) {
       print('[ERROR] Nenhuma polyline fornecida.');
       return;
     }
 
-    if (widget.trashBins != null && widget.trashBins!.isNotEmpty) {
-      for (final bin in widget.trashBins!) {
-        if (bin.hasLatitude() && bin.hasLongitude()) {
-          final distance = _calculateDistance(
-            currentLocation!,
-            gmaps.LatLng(bin.latitude, bin.longitude),
-          );
-
-          logger.e("user $currentLocation - + lixeira ${bin.latitude} ${bin.longitude}");
-
-          // Se estiver a 7 metros ou menos, enviar evento de coleta
-          if (distance <= 7) {
-            bin.isVisitada = true;
-            FFAppState().lixeirasVisitadas.add(bin);
-            widget.onSendCollectionEvent(bin);
-          } else {
-          }
-        }
-      }
-    }
-
-    // Decodifica os pontos da rota
-    final routePoints = widget.polylinePoints!
+    // Decodifica os pontos da rota uma vez e utiliza em todo o método
+    final List<gmaps.LatLng> routePoints = widget.polylinePoints!
         .map((encoded) => _decodePolyline(encoded))
         .expand((points) => points)
         .toList();
@@ -197,60 +281,69 @@ class _CustomMapWithRouteAndBinsState extends State<CustomMapWithRouteAndBins> {
       return;
     }
 
-    // Localiza o ponto mais próximo na rota
-    final currentIndex = routePoints.indexWhere((point) {
+    // Atualiza as lixeiras visitadas e envia evento de coleta
+    if (widget.trashBins != null && widget.trashBins!.isNotEmpty) {
+      for (final bin in widget.trashBins!) {
+        if (bin.hasLatitude() && bin.hasLongitude()) {
+          final distance = _calculateDistance(
+            currentLocation!,
+            gmaps.LatLng(bin.latitude, bin.longitude),
+          );
+
+          if (distance <= 20) {
+            if (!bin.isVisitada) {
+              bin.isVisitada = true;
+              FFAppState().lixeirasVisitadas.add(bin);
+              widget.onSendCollectionEvent(bin);
+            }
+          }
+        }
+      }
+    }
+
+    // Localiza o ponto mais próximo na polyline
+    final closestPointIndex = routePoints.indexWhere((point) {
       final distance = _calculateDistance(currentLocation!, point);
-      print(
-          '[DEBUG] Distância para ponto ${point.latitude}, ${point.longitude}: $distance metros');
       return distance < 50; // Define a proximidade como 50 metros
     });
 
-    if (currentIndex == -1) {
-      print(
-          '[DEBUG] Nenhum ponto próximo encontrado. Talvez o usuário esteja fora da rota.');
+    if (closestPointIndex == -1) {
+      print('[DEBUG] Nenhum ponto próximo encontrado. Talvez o usuário esteja fora da rota.');
       widget.onInstructionUpdate?.call('Você está fora da rota.');
       return;
     }
 
-    if (currentIndex == routePoints.length - 1) {
+    if (closestPointIndex == routePoints.length - 1) {
       print('[DEBUG] Último ponto alcançado. Destino atingido.');
       widget.onInstructionUpdate?.call('Você chegou ao destino!');
       return;
     }
 
     // Calcula o próximo ponto e a distância até ele
-    final nextPoint = routePoints[currentIndex + 1];
+    final nextPoint = routePoints[closestPointIndex + 1];
     final distanceToNext = _calculateDistance(currentLocation!, nextPoint);
-    print(
-        '[DEBUG] Próximo ponto: ${nextPoint.latitude}, ${nextPoint.longitude}');
-    print('[DEBUG] Distância para o próximo ponto: $distanceToNext metros');
 
     // Calcular direção (bearing) para o próximo ponto
-    final bearing = _calculateBearing(currentLocation!, nextPoint);
-    print('[DEBUG] Direção (bearing) para o próximo ponto: $bearing');
+    final bearing = calculateBearing(currentLocation!, nextPoint);
 
     // Gera a instrução de navegação
     String instruction;
     if (bearing > 30 && bearing < 150) {
-      instruction =
-      'Vire à direita em ${distanceToNext.toStringAsFixed(0)} metros.';
+      instruction = 'Vire à direita em ${distanceToNext.toStringAsFixed(0)} metros.';
     } else if (bearing > -150 && bearing < -30) {
-      instruction =
-      'Vire à esquerda em ${distanceToNext.toStringAsFixed(0)} metros.';
+      instruction = 'Vire à esquerda em ${distanceToNext.toStringAsFixed(0)} metros.';
     } else {
-      instruction =
-      'Siga em frente por ${distanceToNext.toStringAsFixed(0)} metros.';
+      instruction = 'Siga em frente por ${distanceToNext.toStringAsFixed(0)} metros.';
     }
 
-    print('[DEBUG] Instrução gerada: $instruction');
     widget.onInstructionUpdate?.call(instruction);
 
-    // Adicional: Calcula a distância até a próxima coleta (lixeira)
     if (widget.trashBins != null && widget.trashBins!.isNotEmpty) {
       final distancesToBins = widget.trashBins!
           .where((bin) => bin.hasLatitude() && bin.hasLongitude())
-          .map((bin) => _calculateDistance(
-          currentLocation!, gmaps.LatLng(bin.latitude, bin.longitude)))
+          .map((bin) =>
+          _calculateDistance(
+              currentLocation!, gmaps.LatLng(bin.latitude, bin.longitude)))
           .toList();
 
       // Encontra a menor distância
@@ -277,7 +370,7 @@ class _CustomMapWithRouteAndBinsState extends State<CustomMapWithRouteAndBins> {
     return earthRadius * c;
   }
 
-  double _calculateBearing(gmaps.LatLng point1, gmaps.LatLng point2) {
+  double calculateBearing(gmaps.LatLng point1, gmaps.LatLng point2) {
     final lat1 = point1.latitude * pi / 180;
     final lat2 = point2.latitude * pi / 180;
     final deltaLng = (point2.longitude - point1.longitude) * pi / 180;
@@ -286,6 +379,52 @@ class _CustomMapWithRouteAndBinsState extends State<CustomMapWithRouteAndBins> {
     final x = cos(lat1) * sin(lat2) - sin(lat1) * cos(lat2) * cos(deltaLng);
     return (atan2(y, x) * 180 / pi + 360) % 360;
   }
+
+  double _calculateAccumulatedDistance(List<gmaps.LatLng> routePoints, gmaps.LatLng start, gmaps.LatLng destination) {
+    double totalDistance = 0.0;
+    bool startCounting = false;
+
+    for (var i = 0; i < routePoints.length - 1; i++) {
+      if (!startCounting && _calculateDistance(routePoints[i], start) < 50) {
+        startCounting = true;
+      }
+
+      if (startCounting) {
+        totalDistance += _calculateDistance(routePoints[i], routePoints[i + 1]);
+        if (_calculateDistance(routePoints[i + 1], destination) < 50) {
+          break;
+        }
+      }
+    }
+
+    return totalDistance;
+  }
+
+
+
+
+  // double calculateDistance(gmaps.LatLng point1, gmaps.LatLng point2) {
+  //   const double earthRadius = 6371000;
+  //   final lat1 = point1.latitude * pi / 180;
+  //   final lat2 = point2.latitude * pi / 180;
+  //   final deltaLat = (point2.latitude - point1.latitude) * pi / 180;
+  //   final deltaLng = (point2.longitude - point1.longitude) * pi / 180;
+  //
+  //   final a = sin(deltaLat / 2) * sin(deltaLat / 2) +
+  //       cos(lat1) * cos(lat2) * sin(deltaLng / 2) * sin(deltaLng / 2);
+  //   final c = 2 * atan2(sqrt(a), sqrt(1 - a));
+  //   return earthRadius * c;
+  // }
+  //
+  // double calculateBearing(gmaps.LatLng point1, gmaps.LatLng point2) {
+  //   final lat1 = point1.latitude * pi / 180;
+  //   final lat2 = point2.latitude * pi / 180;
+  //   final deltaLng = (point2.longitude - point1.longitude) * pi / 180;
+  //
+  //   final y = sin(deltaLng) * cos(lat2);
+  //   final x = cos(lat1) * sin(lat2) - sin(lat1) * cos(lat2) * cos(deltaLng);
+  //   return (atan2(y, x) * 180 / pi + 360) % 360;
+  // }
 
   @override
   Widget build(BuildContext context) {

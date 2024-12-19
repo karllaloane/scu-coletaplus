@@ -288,53 +288,53 @@ class _ResumoRotaPageWidgetState extends State<ResumoRotaPageWidget> {
                     ),
                   ),
                    FFButtonWidget(
-                     onPressed: () async {
-                       context.pushNamed('RotaColeta');},
-                  //   onPressed: () async {
-                  //     currentUserLocationValue = await getCurrentUserLocation(
-                  //         defaultLocation: const LatLng(0.0, 0.0));
-                  //     _model.apiResult1qp = await EstadoCaminhaoAPICall.call(
-                  //       authToken: FFAppState().userAcessToken,
-                  //       idCaminhao: FFAppState().veiculo.id,
-                  //       estadoCaminhao: 'EM_ROTA',
-                  //       latitude:
-                  //           functions.getLatitude(currentUserLocationValue),
-                  //       longitude:
-                  //           functions.getLongitude(currentUserLocationValue),
-                  //     );
-                  //
-                  //     //logger.e('CODE: ${_model.apiResult1qp?.response?.statusCode}');
-                  //     //logger.e('CODE: ${_model.apiResult1qp?.response?.body}');
-                  //
-                  //     if ((_model.apiResult1qp?.succeeded ?? true)) {
-                  //       FFAppState().updateVeiculoStruct(
-                  //         (e) => e..estado = EstadoVeiculo.EM_ROTA,
-                  //       );
-                  //       safeSetState(() {});
-                  //
-                  //       context.pushNamed('RotaColeta');
-                  //     } else {
-                  //       await showDialog(
-                  //         context: context,
-                  //         builder: (alertDialogContext) {
-                  //           return AlertDialog(
-                  //             title: const Text('Falha'),
-                  //             content: const Text(
-                  //                 'Não foi possível iniciar a rota de coleta.'),
-                  //             actions: [
-                  //               TextButton(
-                  //                 onPressed: () =>
-                  //                     Navigator.pop(alertDialogContext),
-                  //                 child: const Text('Ok'),
-                  //               ),
-                  //             ],
-                  //           );
-                  //         },
-                  //       );
-                  //     }
-                  //
-                  //     safeSetState(() {});
-                  //   },
+                     // onPressed: () async {
+                     //   context.pushNamed('RotaColeta');},
+                    onPressed: () async {
+                      currentUserLocationValue = await getCurrentUserLocation(
+                          defaultLocation: const LatLng(0.0, 0.0));
+                      _model.apiResult1qp = await EstadoCaminhaoAPICall.call(
+                        authToken: FFAppState().userAcessToken,
+                        idCaminhao: FFAppState().veiculo.id,
+                        estadoCaminhao: "EM_ROTA",
+                        latitude:
+                            functions.getLatitude(currentUserLocationValue),
+                        longitude:
+                            functions.getLongitude(currentUserLocationValue),
+                      );
+
+                      logger.d('CODE: ${_model.apiResult1qp?.response?.statusCode}');
+                      logger.d('CODE: ${_model.apiResult1qp?.response?.body}');
+
+                      if ((_model.apiResult1qp?.succeeded ?? true)) {
+                        FFAppState().updateVeiculoStruct(
+                          (e) => e..estado = EstadoVeiculo.EM_ROTA,
+                        );
+                        safeSetState(() {});
+
+                        context.pushNamed('RotaColeta');
+                      } else {
+                        await showDialog(
+                          context: context,
+                          builder: (alertDialogContext) {
+                            return AlertDialog(
+                              title: const Text('Falha'),
+                              content: const Text(
+                                  'Não foi possível iniciar a rota de coleta.'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () =>
+                                      Navigator.pop(alertDialogContext),
+                                  child: const Text('Ok'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
+
+                      safeSetState(() {});
+                    },
                     text: 'Iniciar Coleta',
                     icon: Icon(
                       Icons.play_arrow,

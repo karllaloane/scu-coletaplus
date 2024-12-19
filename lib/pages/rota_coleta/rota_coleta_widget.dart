@@ -74,10 +74,10 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
       latitude: functions.getLatitude(currentUserLocationValue),
       longitude: functions.getLongitude(currentUserLocationValue),
       distanciaMaximaLixeira: 20,
-      volumeMinimoLixeira: 0.3,
+      volumeMinimoLixeira: 0.7,
     );
 
-    //logger.d('CODE: ${_model.apiResultfv1?.response?.body}');
+    logger.d('CODE: ${_model.apiResultfv1?.response?.body}');
 
     final backendStatus = getJsonField(
       _model.apiResultfv1?.jsonBody,
@@ -89,48 +89,61 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
     if ((_model.apiResultfv1?.succeeded ?? false)) {
 
       if (backendStatus != 'SEM_LIXEIRAS') {
+          // Obtém a nova rota e as novas lixeiras recebidas
+          final novaRota = (getJsonField(
+            (_model.apiResultfv1?.jsonBody ?? ''),
+            r'''$.polylines''',
+            true,
+          ) as List)
+              .map<String>((s) => s.toString())
+              .toList()
+              .cast<String>();
 
-        await _playNotificationSound();
-        ScaffoldMessenger.of(context).clearSnackBars();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              'Nova rota encontrada!',
-              style: TextStyle(
-                color: FlutterFlowTheme.of(context).primaryText,
+          final novasLixeiras = (getJsonField(
+            (_model.apiResultfv1?.jsonBody ?? ''),
+            r'''$.lixeiras''',
+            true,
+          )!
+              .toList()
+              .map<LixeiraStruct?>(LixeiraStruct.maybeFromMap)
+              .toList() as Iterable<LixeiraStruct?>)
+              .withoutNulls
+              .toList()
+              .cast<LixeiraStruct>();
+
+          //Verifica se a nova rota é diferente da
+          final rotaMudou = FFAppState().rota.toString() != novaRota.toString();
+
+          FFAppState().rota = novaRota;
+
+          FFAppState().lixeiras = novasLixeiras;
+
+          safeSetState(() {});
+
+          if (rotaMudou) {
+            ScaffoldMessenger.of(context).clearSnackBars();
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  'Nova rota encontrada!',
+                  style: TextStyle(
+                    color: FlutterFlowTheme
+                        .of(context)
+                        .primaryText,
+                  ),
+                ),
+                duration: const Duration(milliseconds: 6000),
+                backgroundColor: FlutterFlowTheme
+                    .of(context)
+                    .secondary,
               ),
-            ),
-            duration: const Duration(milliseconds: 6000),
-            backgroundColor: FlutterFlowTheme.of(context).secondary,
-          ),
-        );
+            );
 
-        FFAppState().rota = (getJsonField(
-          (_model.apiResultfv1?.jsonBody ?? ''),
-          r'''$.polylines''',
-          true,
-        ) as List)
-            .map<String>((s) => s.toString())
-            .toList()
-            .cast<String>();
+            await _playNotificationSound();
 
-        FFAppState().lixeiras = (getJsonField(
-          (_model.apiResultfv1?.jsonBody ?? ''),
-          r'''$.lixeiras''',
-          true,
-        )!
-            .toList()
-            .map<LixeiraStruct?>(LixeiraStruct.maybeFromMap)
-            .toList() as Iterable<LixeiraStruct?>)
-            .withoutNulls
-            .toList()
-            .cast<LixeiraStruct>();
+          }
+        }
 
-        FFAppState().lixeiras.addAll(FFAppState().lixeirasVisitadas);
-
-        safeSetState(() {});
-
-      }
     }
   }
 
@@ -504,11 +517,90 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                                                         5.0),
                                                             child:
                                                                 FFButtonWidget(
-                                                              onPressed: () {
-                                                                //TODO
-                                                                print(
-                                                                    'Button pressed ...');
-                                                              },
+                                                                  onPressed: () async {
+                                                                    currentUserLocationValue =
+                                                                    await getCurrentUserLocation(
+                                                                        defaultLocation:
+                                                                        const LatLng(0.0,
+                                                                            0.0));
+                                                                    _model.apiResult2qp =
+                                                                    await EstadoCaminhaoAPICall
+                                                                        .call(
+                                                                      authToken: FFAppState()
+                                                                          .userAcessToken,
+                                                                      idCaminhao:
+                                                                      FFAppState()
+                                                                          .veiculo
+                                                                          .id,
+                                                                      estadoCaminhao: "GUARDADO",
+                                                                      latitude: functions
+                                                                          .getLatitude(
+                                                                          currentUserLocationValue),
+                                                                      longitude: functions
+                                                                          .getLongitude(
+                                                                          currentUserLocationValue),
+                                                                    );
+
+                                                                    logger.e('CODE: ${_model.apiResult2qp?.response?.statusCode}');
+                                                                    logger.e('CODE: ${_model.apiResult2qp?.response?.body}');
+
+                                                                    if ((_model.apiResult2qp
+                                                                        ?.succeeded ??
+                                                                        true)) {
+                                                                      FFAppState().rota.clear();
+                                                                      FFAppState().lixeiras.clear();
+                                                                      FFAppState().lixeirasVisitadas.clear();
+                                                                      safeSetState(() {});
+                                                                      await showDialog(
+                                                                        context: context,
+                                                                        builder:
+                                                                            (alertDialogContext) {
+                                                                          return AlertDialog(
+                                                                            title: const Text(
+                                                                                'Fim do trajeto'),
+                                                                            content: const Text(
+                                                                                'Sua coleta foi finalizada com sucesso!'),
+                                                                            actions: [
+                                                                              TextButton(
+                                                                                onPressed: () =>
+                                                                                    Navigator.pop(
+                                                                                        alertDialogContext),
+                                                                                child: const Text(
+                                                                                    'Ok'),
+                                                                              ),
+                                                                            ],
+                                                                          );
+                                                                        },
+                                                                      );
+
+                                                                      context.pushReplacementNamed('BuscarRotaPage');
+
+                                                                    } else {
+                                                                      await showDialog(
+                                                                        context: context,
+                                                                        builder:
+                                                                            (alertDialogContext) {
+                                                                          return AlertDialog(
+                                                                            title: const Text(
+                                                                                'Erro'),
+                                                                            content: const Text(
+                                                                                'Não foi possível finalizar a coleta. Tente novamente mais tarde!'),
+                                                                            actions: [
+                                                                              TextButton(
+                                                                                onPressed: () =>
+                                                                                    Navigator.pop(
+                                                                                        alertDialogContext),
+                                                                                child: const Text(
+                                                                                    'Ok'),
+                                                                              ),
+                                                                            ],
+                                                                          );
+                                                                        },
+                                                                      );
+                                                                    }
+
+                                                                    safeSetState(() {});
+                                                                  },
                                                               text:
                                                                   'Finalizar rota',
                                                               options:
@@ -752,8 +844,7 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                                               FFAppState()
                                                                   .veiculo
                                                                   .id,
-                                                          estadoCaminhao:
-                                                              'GUARDADO',
+                                                          estadoCaminhao: "GUARDADO",
                                                           latitude: functions
                                                               .getLatitude(
                                                                   currentUserLocationValue),
@@ -991,12 +1082,12 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                         shrinkWrap: true,
                                         scrollDirection: Axis.vertical,
                                         itemCount: listviewLixeiras.length,
-                                        separatorBuilder: (_, __) => SizedBox(height: 12),
+                                        separatorBuilder: (_, __) => const SizedBox(height: 12),
                                         itemBuilder: (context, listviewLixeirasIndex) {
                                           final listviewLixeirasItem =
                                           listviewLixeiras[listviewLixeirasIndex];
                                           return Padding(
-                                            padding: EdgeInsetsDirectional.fromSTEB(
+                                            padding: const EdgeInsetsDirectional.fromSTEB(
                                                 12, 12, 12, 12),
                                             child: Row(
                                               mainAxisSize: MainAxisSize.max,
@@ -1009,16 +1100,16 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                                     Icon(
                                                       Icons.delete_rounded,
                                                       color: () {
-                                                        if (listviewLixeirasItem
-                                                            .volumeAtual >=
+                                                        final porcentagem = (listviewLixeirasItem.volumeAtual /
+                                                            listviewLixeirasItem.volumeMaximo) *
+                                                            100;
+                                                        if (porcentagem >=
                                                             90.0) {
                                                           return FlutterFlowTheme.of(context)
                                                               .error;
-                                                        } else if ((listviewLixeirasItem
-                                                            .volumeAtual <
+                                                        } else if ((porcentagem <
                                                             90.0) &&
-                                                            (listviewLixeirasItem
-                                                                .volumeAtual >=
+                                                            (porcentagem >=
                                                                 70.0)) {
                                                           return FlutterFlowTheme.of(context)
                                                               .tertiary;
@@ -1086,17 +1177,17 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                                                       fontFamily:
                                                                       'Readex Pro',
                                                                       color: () {
-                                                                        if (listviewLixeirasItem
-                                                                            .volumeAtual >=
+                                                                        final porcentagem = (listviewLixeirasItem.volumeAtual /
+                                                                            listviewLixeirasItem.volumeMaximo) *
+                                                                            100;
+                                                                        if (porcentagem >=
                                                                             90.0) {
                                                                           return FlutterFlowTheme.of(
                                                                               context)
                                                                               .error;
-                                                                        } else if ((listviewLixeirasItem
-                                                                            .volumeAtual <
+                                                                        } else if ((porcentagem <
                                                                             90.0) &&
-                                                                            (listviewLixeirasItem
-                                                                                .volumeAtual >=
+                                                                            (porcentagem >=
                                                                                 70.0)) {
                                                                           return FlutterFlowTheme.of(
                                                                               context)
@@ -1111,9 +1202,7 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                                                     ),
                                                                   ),
                                                                   Text(
-                                                                    listviewLixeirasItem
-                                                                        .volumeAtual
-                                                                        .toString(),
+                                                                      '${((listviewLixeirasItem.volumeAtual / listviewLixeirasItem.volumeMaximo) * 100).toStringAsFixed(1)}%',
                                                                     style: FlutterFlowTheme
                                                                         .of(context)
                                                                         .labelSmall
@@ -1121,17 +1210,17 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                                                       fontFamily:
                                                                       'Readex Pro',
                                                                       color: () {
-                                                                        if (listviewLixeirasItem
-                                                                            .volumeAtual >=
+                                                                        final porcentagem = (listviewLixeirasItem.volumeAtual /
+                                                                            listviewLixeirasItem.volumeMaximo) *
+                                                                            100;
+                                                                        if (porcentagem >=
                                                                             90.0) {
                                                                           return FlutterFlowTheme.of(
                                                                               context)
                                                                               .error;
-                                                                        } else if ((listviewLixeirasItem
-                                                                            .volumeAtual <
+                                                                        } else if ((porcentagem <
                                                                             90.0) &&
-                                                                            (listviewLixeirasItem
-                                                                                .volumeAtual >=
+                                                                            (porcentagem >=
                                                                                 70.0)) {
                                                                           return FlutterFlowTheme.of(
                                                                               context)
@@ -1154,17 +1243,17 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                                                       fontFamily:
                                                                       'Readex Pro',
                                                                       color: () {
-                                                                        if (listviewLixeirasItem
-                                                                            .volumeAtual >=
+                                                                        final porcentagem = (listviewLixeirasItem.volumeAtual /
+                                                                            listviewLixeirasItem.volumeMaximo) *
+                                                                            100;
+                                                                        if (porcentagem >=
                                                                             90.0) {
                                                                           return FlutterFlowTheme.of(
                                                                               context)
                                                                               .error;
-                                                                        } else if ((listviewLixeirasItem
-                                                                            .volumeAtual <
+                                                                        } else if ((porcentagem <
                                                                             90.0) &&
-                                                                            (listviewLixeirasItem
-                                                                                .volumeAtual >=
+                                                                            (porcentagem >=
                                                                                 70.0)) {
                                                                           return FlutterFlowTheme.of(
                                                                               context)
@@ -1197,15 +1286,17 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                                                         fontFamily:
                                                                         'Readex Pro',
                                                                         color: () {
-                                                                          if (listviewLixeirasItem
-                                                                              .volumeAtual >=
+                                                                          final porcentagem = (listviewLixeirasItem.volumeAtual /
+                                                                              listviewLixeirasItem.volumeMaximo) *
+                                                                              100;
+                                                                          if (porcentagem >=
                                                                               90.0) {
                                                                             return FlutterFlowTheme.of(
                                                                                 context)
                                                                                 .error;
-                                                                          } else if ((listviewLixeirasItem.volumeAtual <
+                                                                          } else if ((porcentagem <
                                                                               90.0) &&
-                                                                              (listviewLixeirasItem.volumeAtual >=
+                                                                              (porcentagem >=
                                                                                   70.0)) {
                                                                             return FlutterFlowTheme.of(
                                                                                 context)
@@ -1232,15 +1323,17 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                                                         fontFamily:
                                                                         'Readex Pro',
                                                                         color: () {
-                                                                          if (listviewLixeirasItem
-                                                                              .volumeAtual >=
+                                                                          final porcentagem = (listviewLixeirasItem.volumeAtual /
+                                                                              listviewLixeirasItem.volumeMaximo) *
+                                                                              100;
+                                                                          if (porcentagem >=
                                                                               90.0) {
                                                                             return FlutterFlowTheme.of(
                                                                                 context)
                                                                                 .error;
-                                                                          } else if ((listviewLixeirasItem.volumeAtual <
+                                                                          } else if ((porcentagem <
                                                                               90.0) &&
-                                                                              (listviewLixeirasItem.volumeAtual >=
+                                                                              (porcentagem >=
                                                                                   70.0)) {
                                                                             return FlutterFlowTheme.of(
                                                                                 context)
@@ -1265,15 +1358,17 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                                                         fontFamily:
                                                                         'Readex Pro',
                                                                         color: () {
-                                                                          if (listviewLixeirasItem
-                                                                              .volumeAtual >=
+                                                                          final porcentagem = (listviewLixeirasItem.volumeAtual /
+                                                                              listviewLixeirasItem.volumeMaximo) *
+                                                                              100;
+                                                                          if (porcentagem >=
                                                                               90.0) {
                                                                             return FlutterFlowTheme.of(
                                                                                 context)
                                                                                 .error;
-                                                                          } else if ((listviewLixeirasItem.volumeAtual <
+                                                                          } else if ((porcentagem <
                                                                               90.0) &&
-                                                                              (listviewLixeirasItem.volumeAtual >=
+                                                                              (porcentagem >=
                                                                                   70.0)) {
                                                                             return FlutterFlowTheme.of(
                                                                                 context)

@@ -83,7 +83,7 @@ class DescobrirLixeirasAPICall {
     String? authToken = '',
     String? latitude = '',
     String? longitude = '',
-    double? volumeMinimoLixeira = 0.3,
+    double? volumeMinimoLixeira = 0.7,
     int? distanciaMaximaLixeira = 20,
   }) async {
     final ffApiRequestBody = '''
