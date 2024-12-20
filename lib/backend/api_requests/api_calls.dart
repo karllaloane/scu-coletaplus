@@ -86,13 +86,17 @@ class DescobrirLixeirasAPICall {
     String? longitude = '',
     double? volumeMinimoLixeira = 0.7,
     int? distanciaMaximaLixeira = 20,
+    int? idCaminhao = 1,
+    String? estadoCaminhao,
   }) async {
     final ffApiRequestBody = '''
 {
   "latitude": "${escapeStringForJson(latitude)}",
   "longitude": "${escapeStringForJson(longitude)}",
   "distanciaMaximaLixeira": $distanciaMaximaLixeira,
-  "volumeMinimoLixeira": $volumeMinimoLixeira
+  "volumeMinimoLixeira": $volumeMinimoLixeira,
+  "idCaminhao": $idCaminhao,
+  "estadoCaminhao": "${escapeStringForJson(estadoCaminhao)}"
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'Descobrir Lixeiras API',

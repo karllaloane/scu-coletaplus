@@ -75,9 +75,11 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
       longitude: functions.getLongitude(currentUserLocationValue),
       distanciaMaximaLixeira: 20,
       volumeMinimoLixeira: 0.7,
+      idCaminhao: FFAppState().veiculo.id,
+      estadoCaminhao: "EM_ROTA",
     );
 
-    logger.d('CODE: ${_model.apiResultfv1?.response?.body}');
+    logger.e('Buscando API: ${_model.apiResultfv1?.response?.body}');
 
     final backendStatus = getJsonField(
       _model.apiResultfv1?.jsonBody,
@@ -217,7 +219,7 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
         authToken: FFAppState().userAcessToken,
       );
 
-      logger.e('CODE: ${_model.apiResult24z?.response?.statusCode}');
+      logger.d('CODE: ${_model.apiResult24z?.response?.statusCode}');
 
       if ((_model.apiResult24z?.succeeded ?? false)) {
         logger.d('[INFO] Evento de coleta enviado com sucesso para lixeira: ${bin.id}');
@@ -872,8 +874,8 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                                                   currentUserLocationValue),
                                                         );
 
-                                                        logger.e('CODE: ${_model.apiResult2qp?.response?.statusCode}');
-                                                        logger.e('CODE: ${_model.apiResult2qp?.response?.body}');
+                                                        //logger.e('CODE: ${_model.apiResult2qp?.response?.statusCode}');
+                                                        //logger.e('CODE: ${_model.apiResult2qp?.response?.body}');
 
                                                         if ((_model.apiResult2qp
                                                                 ?.succeeded ??
