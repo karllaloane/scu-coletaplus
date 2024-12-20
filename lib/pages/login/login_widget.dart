@@ -4,6 +4,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:logger/logger.dart';
 import 'login_model.dart';
 export 'login_model.dart';
 
@@ -16,6 +17,8 @@ class LoginWidget extends StatefulWidget {
 
 class _LoginWidgetState extends State<LoginWidget> {
   late LoginModel _model;
+
+  final logger = Logger();
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -584,18 +587,28 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                     .text;
                                                 safeSetState(() {});
 
-                                                context.pushNamed(
-                                                  'BuscarRotaPage',
-                                                  extra: <String, dynamic>{
-                                                    kTransitionInfoKey:
-                                                        const TransitionInfo(
-                                                      hasTransition: true,
-                                                      transitionType:
-                                                          PageTransitionType
-                                                              .leftToRight,
-                                                    ),
-                                                  },
-                                                );
+                                                await FFAppState().initializeFirebaseSync();
+
+                                                FFAppState().onEmRotaChange = (emRota) {
+                                                  final currentRoute = GoRouter.of(context).routerDelegate.currentConfiguration.fullPath;
+
+                                                  if (emRota && currentRoute != '/rotaColeta') {
+                                                    context.pushReplacementNamed('RotaColeta');
+                                                  } else if (!emRota && currentRoute != '/buscarRotaPage') {
+                                                    context.pushReplacementNamed('BuscarRotaPage');
+                                                  }
+                                                };
+
+                                                final state = await FFAppState().firebaseService.checkInitialState(FFAppState().userName);
+
+                                                if (state != null && state['emRota'] == true) {
+
+                                                  context.pushNamed('RotaColeta');
+
+                                                } else {
+                                                  context.pushNamed('BuscarRotaPage');
+                                                }
+
                                               } else {
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(

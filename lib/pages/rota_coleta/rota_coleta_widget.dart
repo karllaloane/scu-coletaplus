@@ -118,9 +118,18 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
 
           FFAppState().lixeiras = novasLixeiras;
 
+          //uma rota e lista de lixeiras pode mudar durante a execução,
+          //deve sincronizar novamente no firestore?
+
           safeSetState(() {});
 
           if (rotaMudou) {
+
+            FFAppState().rota = novaRota;
+            FFAppState().lixeiras = novasLixeiras;
+            await FFAppState().saveCurrentState();
+
+
             ScaffoldMessenger.of(context).clearSnackBars();
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -550,28 +559,38 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                                                       FFAppState().rota.clear();
                                                                       FFAppState().lixeiras.clear();
                                                                       FFAppState().lixeirasVisitadas.clear();
-                                                                      safeSetState(() {});
-                                                                      await showDialog(
-                                                                        context: context,
-                                                                        builder:
-                                                                            (alertDialogContext) {
-                                                                          return AlertDialog(
-                                                                            title: const Text(
-                                                                                'Fim do trajeto'),
-                                                                            content: const Text(
-                                                                                'Sua coleta foi finalizada com sucesso!'),
-                                                                            actions: [
-                                                                              TextButton(
-                                                                                onPressed: () =>
-                                                                                    Navigator.pop(
-                                                                                        alertDialogContext),
-                                                                                child: const Text(
-                                                                                    'Ok'),
-                                                                              ),
-                                                                            ],
-                                                                          );
-                                                                        },
+
+                                                                      FFAppState().emRota = false;
+                                                                      await FFAppState().firebaseService.saveState(
+                                                                          username: FFAppState().userName,
+                                                                          veiculo: FFAppState().veiculo,
+                                                                          lixeiras: [],
+                                                                          rotas: [],
+                                                                          emRota: false
                                                                       );
+
+                                                                      safeSetState(() {});
+                                                                      // await showDialog(
+                                                                      //   context: context,
+                                                                      //   builder:
+                                                                      //       (alertDialogContext) {
+                                                                      //     return AlertDialog(
+                                                                      //       title: const Text(
+                                                                      //           'Fim do trajeto'),
+                                                                      //       content: const Text(
+                                                                      //           'Sua coleta foi finalizada com sucesso!'),
+                                                                      //       actions: [
+                                                                      //         TextButton(
+                                                                      //           onPressed: () =>
+                                                                      //               Navigator.pop(
+                                                                      //                   alertDialogContext),
+                                                                      //           child: const Text(
+                                                                      //               'Ok'),
+                                                                      //         ),
+                                                                      //       ],
+                                                                      //     );
+                                                                      //   },
+                                                                      // );
 
                                                                       context.pushReplacementNamed('BuscarRotaPage');
 
@@ -862,27 +881,37 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                                           FFAppState().rota.clear();
                                                           FFAppState().lixeiras.clear();
                                                           FFAppState().lixeirasVisitadas.clear();
-                                                          safeSetState(() {});
-                                                          await showDialog(
-                                                            context: context,
-                                                            builder:
-                                                                (alertDialogContext) {
-                                                              return AlertDialog(
-                                                                title: const Text(
-                                                                    'Fim do trajeto'),
-                                                                content: const Text(
-                                                                    'Sua coleta foi finalizada com sucesso!'),
-                                                                actions: [
-                                                                  TextButton(
-                                                                    onPressed: () =>
-                                                                        Navigator.pop(
-                                                                            alertDialogContext),
-                                                                    child: const Text(
-                                                                        'Ok'),
-                                                                  ),
-                                                                ],
-                                                              );
-                                                            },
+
+                                                          // safeSetState(() {});
+                                                          // await showDialog(
+                                                          //   context: context,
+                                                          //   builder:
+                                                          //       (alertDialogContext) {
+                                                          //     return AlertDialog(
+                                                          //       title: const Text(
+                                                          //           'Fim do trajeto'),
+                                                          //       content: const Text(
+                                                          //           'Sua coleta foi finalizada com sucesso!'),
+                                                          //       actions: [
+                                                          //         TextButton(
+                                                          //           onPressed: () =>
+                                                          //               Navigator.pop(
+                                                          //                   alertDialogContext),
+                                                          //           child: const Text(
+                                                          //               'Ok'),
+                                                          //         ),
+                                                          //       ],
+                                                          //     );
+                                                          //   },
+                                                          // );
+
+                                                          FFAppState().emRota = false;
+                                                          await FFAppState().firebaseService.saveState(
+                                                              username: FFAppState().userName,
+                                                              veiculo: FFAppState().veiculo,
+                                                              lixeiras: [],
+                                                              rotas: [],
+                                                              emRota: false
                                                           );
 
                                                         context.pushReplacementNamed('BuscarRotaPage');

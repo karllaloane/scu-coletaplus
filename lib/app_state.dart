@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import '/backend/schema/structs/index.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:csv/csv.dart';
 import 'package:synchronized/synchronized.dart';
+import 'firebase/FirebaseStateService.dart';
 import 'flutter_flow/flutter_flow_util.dart';
 
 class FFAppState extends ChangeNotifier {
@@ -49,7 +52,11 @@ class FFAppState extends ChangeNotifier {
     notifyListeners();
   }
 
+  void Function(bool)? onEmRotaChange;
+
   late FlutterSecureStorage secureStorage;
+
+  bool? _previousEmRota;
 
   String _userAcessToken = '';
   String get userAcessToken => _userAcessToken;
@@ -187,6 +194,83 @@ class FFAppState extends ChangeNotifier {
   void insertAtIndexInLixeirasVisitadas(int index, LixeiraStruct value) {
     lixeirasVisitadas.insert(index, value);
   }
+
+  final FirebaseStateService firebaseService = FirebaseStateService();
+
+  StreamSubscription? _stateSubscription;
+
+  bool _emRota = false;
+
+  bool get emRota => _emRota;
+  set emRota(bool value) {
+    if (_emRota == value) return; // Evita redundância
+    _emRota = value;
+    if (_userName.isNotEmpty) {
+      firebaseService.updateField(_userName, 'emRota', value);
+    }
+    if (_previousEmRota != value && onEmRotaChange != null) {
+      _previousEmRota = value;
+      onEmRotaChange!(value);
+    }
+    notifyListeners(); // Notifica apenas após todas as verificações
+  }
+
+  // Método para iniciar sincronização
+  Future<void> initializeFirebaseSync() async {
+    if (_userName.isEmpty) return;
+
+    // Verificar estado inicial
+    final initialState = await firebaseService.checkInitialState(_userName);
+    if (initialState != null && initialState['emRota'] == true) {
+      // Atualizar estado local
+      _emRota = initialState['emRota'];
+      _veiculo = VeiculoStruct.fromMap(initialState['veiculo']);
+      _Lixeiras = (initialState['lixeiras'] as List)
+          .map((l) => LixeiraStruct.fromMap(l))
+          .toList();
+      _rota = List<String>.from(initialState['rotas']);
+
+      notifyListeners();
+    }
+
+    // Iniciar stream de mudanças
+    _stateSubscription = firebaseService
+        .watchState(_userName)
+        .listen(_handleStateChange);
+  }
+
+  void _handleStateChange(Map<String, dynamic>? state) {
+    if (state == null) return;
+
+    update(() {
+      emRota = state['emRota'];
+      _veiculo = VeiculoStruct.fromMap(state['veiculo']);
+      _Lixeiras = (state['lixeiras'] as List)
+          .map((l) => LixeiraStruct.fromMap(l))
+          .toList();
+      _rota = List<String>.from(state['rotas']);
+    });
+  }
+
+  // Método para salvar estado atual
+  Future<void> saveCurrentState() async {
+    if (_userName.isEmpty) return;
+
+    await firebaseService.saveState(
+      username: _userName,
+      veiculo: _veiculo,
+      lixeiras: _Lixeiras,
+      rotas: _rota,
+      emRota: _emRota,
+    );
+  }
+
+  @override
+  void dispose() {
+    _stateSubscription?.cancel();
+    super.dispose();
+  }
+
 }
 
 void _safeInit(Function() initializeField) {
