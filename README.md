@@ -64,7 +64,7 @@ flutter clean
 flutter pub get
 ```
 
-### Executando o Aplicativo
+## Executando o Aplicativo
 
 Observação: Certifique-se de que o servidor backend está em execução antes de iniciar o aplicativo.
 
