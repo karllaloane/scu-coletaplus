@@ -14,6 +14,8 @@ Este projeto faz parte do sistema de coleta de resíduos em cidades inteligentes
 
 [Clique aqui para o vídeo demonstrativo do aplicativo em um tablet](https://drive.google.com/file/d/1XwZ50HXxMYI7Eonu7OkgCxVPZUt1voKm/view?usp=sharing)
 
+[Clique aqui para o vídeo demonstrativo da continuidade do aplicativo em diferentes dispositivos](https://drive.google.com/file/d/13OzFri5UUT7kV6CBx0GSj4GkuT94U-e2/view?usp=sharing)
+
 ## Pré-requisitos
 
 ### Clonar o repositório
