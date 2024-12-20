@@ -75,9 +75,11 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
       longitude: functions.getLongitude(currentUserLocationValue),
       distanciaMaximaLixeira: 20,
       volumeMinimoLixeira: 0.7,
+      idCaminhao: FFAppState().veiculo.id,
+      estadoCaminhao: "EM_ROTA",
     );
 
-    logger.d('CODE: ${_model.apiResultfv1?.response?.body}');
+    logger.e('Buscando API: ${_model.apiResultfv1?.response?.body}');
 
     final backendStatus = getJsonField(
       _model.apiResultfv1?.jsonBody,
@@ -118,9 +120,18 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
 
           FFAppState().lixeiras = novasLixeiras;
 
+          //uma rota e lista de lixeiras pode mudar durante a execução,
+          //deve sincronizar novamente no firestore?
+
           safeSetState(() {});
 
           if (rotaMudou) {
+
+            FFAppState().rota = novaRota;
+            FFAppState().lixeiras = novasLixeiras;
+            await FFAppState().saveCurrentState();
+
+
             ScaffoldMessenger.of(context).clearSnackBars();
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -208,7 +219,7 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
         authToken: FFAppState().userAcessToken,
       );
 
-      logger.e('CODE: ${_model.apiResult24z?.response?.statusCode}');
+      logger.d('CODE: ${_model.apiResult24z?.response?.statusCode}');
 
       if ((_model.apiResult24z?.succeeded ?? false)) {
         logger.d('[INFO] Evento de coleta enviado com sucesso para lixeira: ${bin.id}');
@@ -550,28 +561,38 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                                                       FFAppState().rota.clear();
                                                                       FFAppState().lixeiras.clear();
                                                                       FFAppState().lixeirasVisitadas.clear();
-                                                                      safeSetState(() {});
-                                                                      await showDialog(
-                                                                        context: context,
-                                                                        builder:
-                                                                            (alertDialogContext) {
-                                                                          return AlertDialog(
-                                                                            title: const Text(
-                                                                                'Fim do trajeto'),
-                                                                            content: const Text(
-                                                                                'Sua coleta foi finalizada com sucesso!'),
-                                                                            actions: [
-                                                                              TextButton(
-                                                                                onPressed: () =>
-                                                                                    Navigator.pop(
-                                                                                        alertDialogContext),
-                                                                                child: const Text(
-                                                                                    'Ok'),
-                                                                              ),
-                                                                            ],
-                                                                          );
-                                                                        },
+
+                                                                      FFAppState().emRota = false;
+                                                                      await FFAppState().firebaseService.saveState(
+                                                                          username: FFAppState().userName,
+                                                                          veiculo: FFAppState().veiculo,
+                                                                          lixeiras: [],
+                                                                          rotas: [],
+                                                                          emRota: false
                                                                       );
+
+                                                                      safeSetState(() {});
+                                                                      // await showDialog(
+                                                                      //   context: context,
+                                                                      //   builder:
+                                                                      //       (alertDialogContext) {
+                                                                      //     return AlertDialog(
+                                                                      //       title: const Text(
+                                                                      //           'Fim do trajeto'),
+                                                                      //       content: const Text(
+                                                                      //           'Sua coleta foi finalizada com sucesso!'),
+                                                                      //       actions: [
+                                                                      //         TextButton(
+                                                                      //           onPressed: () =>
+                                                                      //               Navigator.pop(
+                                                                      //                   alertDialogContext),
+                                                                      //           child: const Text(
+                                                                      //               'Ok'),
+                                                                      //         ),
+                                                                      //       ],
+                                                                      //     );
+                                                                      //   },
+                                                                      // );
 
                                                                       context.pushReplacementNamed('BuscarRotaPage');
 
@@ -853,8 +874,8 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                                                   currentUserLocationValue),
                                                         );
 
-                                                        logger.e('CODE: ${_model.apiResult2qp?.response?.statusCode}');
-                                                        logger.e('CODE: ${_model.apiResult2qp?.response?.body}');
+                                                        //logger.e('CODE: ${_model.apiResult2qp?.response?.statusCode}');
+                                                        //logger.e('CODE: ${_model.apiResult2qp?.response?.body}');
 
                                                         if ((_model.apiResult2qp
                                                                 ?.succeeded ??
@@ -862,27 +883,37 @@ class _RotaColetaWidgetState extends State<RotaColetaWidget> {
                                                           FFAppState().rota.clear();
                                                           FFAppState().lixeiras.clear();
                                                           FFAppState().lixeirasVisitadas.clear();
-                                                          safeSetState(() {});
-                                                          await showDialog(
-                                                            context: context,
-                                                            builder:
-                                                                (alertDialogContext) {
-                                                              return AlertDialog(
-                                                                title: const Text(
-                                                                    'Fim do trajeto'),
-                                                                content: const Text(
-                                                                    'Sua coleta foi finalizada com sucesso!'),
-                                                                actions: [
-                                                                  TextButton(
-                                                                    onPressed: () =>
-                                                                        Navigator.pop(
-                                                                            alertDialogContext),
-                                                                    child: const Text(
-                                                                        'Ok'),
-                                                                  ),
-                                                                ],
-                                                              );
-                                                            },
+
+                                                          // safeSetState(() {});
+                                                          // await showDialog(
+                                                          //   context: context,
+                                                          //   builder:
+                                                          //       (alertDialogContext) {
+                                                          //     return AlertDialog(
+                                                          //       title: const Text(
+                                                          //           'Fim do trajeto'),
+                                                          //       content: const Text(
+                                                          //           'Sua coleta foi finalizada com sucesso!'),
+                                                          //       actions: [
+                                                          //         TextButton(
+                                                          //           onPressed: () =>
+                                                          //               Navigator.pop(
+                                                          //                   alertDialogContext),
+                                                          //           child: const Text(
+                                                          //               'Ok'),
+                                                          //         ),
+                                                          //       ],
+                                                          //     );
+                                                          //   },
+                                                          // );
+
+                                                          FFAppState().emRota = false;
+                                                          await FFAppState().firebaseService.saveState(
+                                                              username: FFAppState().userName,
+                                                              veiculo: FFAppState().veiculo,
+                                                              lixeiras: [],
+                                                              rotas: [],
+                                                              emRota: false
                                                           );
 
                                                         context.pushReplacementNamed('BuscarRotaPage');

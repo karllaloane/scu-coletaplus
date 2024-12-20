@@ -296,12 +296,14 @@ class _ResumoRotaPageWidgetState extends State<ResumoRotaPageWidget> {
                       _model.apiResult1qp = await EstadoCaminhaoAPICall.call(
                         authToken: FFAppState().userAcessToken,
                         idCaminhao: FFAppState().veiculo.id,
-                        estadoCaminhao: "EM_ROTA",
+                        estadoCaminhao: 'EM_ROTA',
                         latitude:
                             functions.getLatitude(currentUserLocationValue),
                         longitude:
                             functions.getLongitude(currentUserLocationValue),
                       );
+
+                      logger.e("${FFAppState().veiculo.id}");
 
                       logger.d('CODE: ${_model.apiResult1qp?.response?.statusCode}');
                       logger.d('CODE: ${_model.apiResult1qp?.response?.body}');
@@ -310,6 +312,11 @@ class _ResumoRotaPageWidgetState extends State<ResumoRotaPageWidget> {
                         FFAppState().updateVeiculoStruct(
                           (e) => e..estado = EstadoVeiculo.EM_ROTA,
                         );
+
+                        // deve atualizar o APPState para emRota aqui
+
+                        FFAppState().emRota = true;
+                        await FFAppState().saveCurrentState();
                         safeSetState(() {});
 
                         context.pushNamed('RotaColeta');
